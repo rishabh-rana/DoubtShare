@@ -1,0 +1,11 @@
+* {
+  font-family: "Ubuntu";
+}
+
+body {
+  margin: 0;
+}
+
+.filterFocus {
+  filter: grayscale(100%) contrast(300%) brightness(150%) saturate(0%);
+}
