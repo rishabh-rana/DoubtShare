@@ -27,7 +27,7 @@ export const askQuestion = obj => {
             displayName: obj.displayName,
             [obj.uid]: Date.now()
           },
-          reAsks: [],
+          reAsks: {},
           tags: obj.tags,
           bookmarks: {}
         });
@@ -55,7 +55,7 @@ export const askQuestion = obj => {
             uid: obj.uid,
             displayName: obj.displayName
           },
-          reAsks: [],
+          reAsks: {},
           tags: obj.tags,
           bookmarks: {}
         });

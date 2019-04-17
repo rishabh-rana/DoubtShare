@@ -55,7 +55,7 @@ const AnswersIndicatorText = styled.div`
 
 class FeedCard extends React.Component {
   state = {
-    reasked: false,
+    reasked: null,
     bookmarked: null,
     paginateAnswers: null,
     answers: [],
@@ -65,9 +65,28 @@ class FeedCard extends React.Component {
   };
 
   handlereask = (reasks, docid) => {
-    if (reasks.indexOf(this.props.auth.uid) === -1) {
-      this.props.reask([...reasks, this.props.auth.uid], docid);
-      this.setState({ reasked: true });
+    // check if a change has been made to state of reask
+    // if yes, check using state otherwise check using data from server
+    if (this.state.reasked === null) {
+      if (reasks[this.props.auth.uid] > 0) {
+        delete reasks[this.props.auth.uid];
+        this.props.reask(reasks, docid);
+        this.setState({ reasked: false });
+      } else {
+        reasks[this.props.auth.uid] = Date.now();
+        this.props.reask(reasks, docid);
+        this.setState({ reasked: true });
+      }
+    } else {
+      if (this.state.reasked) {
+        delete reasks[this.props.auth.uid];
+        this.props.reask(reasks, docid);
+        this.setState({ reasked: false });
+      } else {
+        reasks[this.props.auth.uid] = Date.now();
+        this.props.reask(reasks, docid);
+        this.setState({ reasked: true });
+      }
     }
   };
 
@@ -237,10 +256,8 @@ class FeedCard extends React.Component {
         <Row>
           <DisplayName>by {dat.uploader.displayName}</DisplayName>
           <ReaskCounter>
-            {dat.reAsks && this.state.reasked
-              ? dat.reAsks.length + 1
-              : dat.reAsks.length}{" "}
-            <DisplayName>Reasks</DisplayName>
+            {Object.keys(dat.reAsks).length}{" "}
+            <DisplayName> {" Reasks"}</DisplayName>
           </ReaskCounter>
         </Row>
 
@@ -267,11 +284,9 @@ class FeedCard extends React.Component {
           </SmallButtons>
           <SmallButtons
             active={
-              dat.reAsks.indexOf(this.props.auth.uid) === -1
+              this.state.reasked !== null
                 ? this.state.reasked
-                  ? true
-                  : false
-                : true
+                : dat.reAsks.hasOwnProperty(this.props.auth.uid)
             }
             onClick={() => this.handlereask(dat.reAsks, dat.docid)}
           >
