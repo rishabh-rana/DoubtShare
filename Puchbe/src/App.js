@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import { firestore } from "./config/firebase";
+// import { firestore } from "./config/firebase";
 
 import { connect } from "react-redux";
 
@@ -16,6 +16,7 @@ import ProfileScreen from "./components/profile/profile";
 import ErrorPopup from "./components/errorHandler/ErrorPopup";
 import SignIn from "./components/authScreens/signIn";
 import GoToFeed from "./components/ui/redirectToFeed";
+import PaddingBox from "./components/ui/paddingBox";
 
 import "./App.css";
 
@@ -40,6 +41,7 @@ class App extends Component {
           <Route path="/ask" exact component={AskScreen} />
           <Route path="/notifications" exact component={NotificationScreen} />
           <Route path="/profile" exact component={ProfileScreen} />
+          <Route path="/" component={PaddingBox} />
           <Route path="/" component={BottomNavigator} />
           <ErrorPopup />
         </div>

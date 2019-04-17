@@ -7,7 +7,6 @@ import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 
 const Taglist = styled.div`
-
   font-size: 16px;
 `;
 
@@ -162,47 +161,35 @@ class FeedCard extends React.Component {
     let { dat } = this.props;
 
     return (
-      <div
-        style={{
-          height: window.screen.height - "60",
-        }}
-      >
-      <div
-        style= {{
-          height: "auto",
-          
-          backgroundColor: "#ededed",
-          padding: "24px",
-          marginBottom: "12px"
-        }}
-      >
-         <Taglist>
-          {Object.keys(dat.tags).map(tag => {
-            if (tag.indexOf("$") === -1) return <span key={tag}>#{tag} </span>;
-          })}
-        </Taglist>
-      </div>
-       
+      <div style={{ height: window.screen.height }}>
         <div
-          style ={{
-            width: "100vws", 
-            minHeight: "60vh", 
-            display: "flex", 
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignContent: "center",
-            backgroundColor: "#333333"
+          style={{
+            height: "auto",
+            backgroundColor: "#ededed",
+            padding: "24px"
           }}
         >
+          <Taglist>
+            {Object.keys(dat.tags).map(tag => {
+              if (tag.indexOf("$") === -1)
+                return <span key={tag}>#{tag} </span>;
+            })}
+          </Taglist>
+        </div>
+
         {dat.image && (
           <img
             src={dat.image}
             alt="Loading"
-            style={{ width: "95%", height: "auto", display: "block", margin: "0 auto" }}
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block"
+            }}
             className="filterFocus"
           />
         )}
-        </div>
+
         <Row>
           <DisplayName>by {dat.uploader.displayName}</DisplayName>
           <ReaskCounter>
@@ -264,6 +251,8 @@ class FeedCard extends React.Component {
               )}
               {ans.type === "video" && (
                 <video
+                  id={ans.file}
+                  onPlay={() => this.props.handleVideoPlay(ans.file)}
                   src={ans.file}
                   controls
                   width={window.screen.width}
@@ -275,9 +264,7 @@ class FeedCard extends React.Component {
             </div>
           );
         })}
-        {this.state.loadingAnswers ? (
-          <Loader />
-        ) : this.state.feedDone ? (
+        {this.state.loadingAnswers ? null : this.state.feedDone ? (
           <div style={{ padding: "5px" }}>
             <AnswersIndicatorText>No more Answers</AnswersIndicatorText>
           </div>

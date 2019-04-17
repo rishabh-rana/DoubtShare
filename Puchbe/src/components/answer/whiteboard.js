@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../ui/button";
-import AddImageButton from "../ask/addImageButton";
+// import AddImageButton from "../ask/addImageButton";
 import SignaturePad from "signature_pad";
 
 const StopBtn = styled.button`
@@ -15,26 +15,26 @@ const StopBtn = styled.button`
 
 const StartStopHolder = styled.div`
   position: fixed;
-  bottom: 105px;
-  left: 15px;
-  right: 15px;
-`;
-
-const AddNewHolder = styled.div`
-  position: fixed;
-  bottom: 150px;
-  left: 15px;
-  right: 15px;
-`;
-
-const Row1 = styled.div`
-  display: flex;
-  justify-content: space-around;
-  position: fixed;
   bottom: 60px;
-  left: 5px;
-  right: 5px;
+  left: 15px;
+  right: 15px;
 `;
+
+// const AddNewHolder = styled.div`
+//   position: fixed;
+//   bottom: 150px;
+//   left: 15px;
+//   right: 15px;
+// `;
+
+// const Row1 = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+//   position: fixed;
+//   bottom: 60px;
+//   left: 5px;
+//   right: 5px;
+// `;
 
 class WhiteBoard extends React.Component {
   state = {
@@ -134,31 +134,31 @@ class WhiteBoard extends React.Component {
     );
   };
 
-  changeImage = forward => {
-    console.log(this.props.image.length);
-    if (forward) {
-      if (this.activeImage < this.props.image.length - 1) {
-        this.activeImage += 1;
-      } else {
-        return;
-      }
-    } else {
-      if (this.activeImage > 0) {
-        this.activeImage -= 1;
-      } else {
-        return;
-      }
-    }
-    console.log(this.activeImage);
-    var img = document.getElementById("myimg");
-    img.style.display = "block";
+  // changeImage = forward => {
+  //   console.log(this.props.image.length);
+  //   if (forward) {
+  //     if (this.activeImage < this.props.image.length - 1) {
+  //       this.activeImage += 1;
+  //     } else {
+  //       return;
+  //     }
+  //   } else {
+  //     if (this.activeImage > 0) {
+  //       this.activeImage -= 1;
+  //     } else {
+  //       return;
+  //     }
+  //   }
+  //   console.log(this.activeImage);
+  //   var img = document.getElementById("myimg");
+  //   img.style.display = "block";
 
-    img.src = this.props.image[this.activeImage];
-    this.h = img.clientHeight;
-    img.style.display = "none";
+  //   img.src = this.props.image[this.activeImage];
+  //   this.h = img.clientHeight;
+  //   img.style.display = "none";
 
-    this.resetCanvas();
-  };
+  //   this.resetCanvas();
+  // };
 
   componentDidMount() {
     this.activeImage = 0;
@@ -232,18 +232,10 @@ class WhiteBoard extends React.Component {
         <canvas
           id="sketchpad"
           width={window.screen.width}
-          height={window.screen.height}
+          height={window.screen.width * this.props.aspectRatio}
           className="filterFocus"
         />
-        {!this.state.recording && (
-          <AddNewHolder>
-            <AddImageButton
-              label="Add another Image"
-              color="secondary"
-              setImage={this.props.addNewImage}
-            />
-          </AddNewHolder>
-        )}
+
         {this.state.recording ? (
           <StartStopHolder>
             <Button
@@ -267,23 +259,6 @@ class WhiteBoard extends React.Component {
               label="Start Recording"
             />
           </StartStopHolder>
-        )}
-
-        {this.props.image.length > 1 && (
-          <Row1>
-            <Button
-              onClick={() => this.changeImage(true)}
-              label="Next Image"
-              color="secondary"
-              width="45%"
-            />
-            <Button
-              onClick={() => this.changeImage(false)}
-              label="Prev Image"
-              color="secondary"
-              width="45%"
-            />
-          </Row1>
         )}
       </React.Fragment>
     );

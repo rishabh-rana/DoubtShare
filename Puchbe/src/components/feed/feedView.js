@@ -10,7 +10,16 @@ class FeedView extends React.Component {
     cardIndex: 0,
     answerMode: false,
     answeringDoc: null,
-    answerImage: null
+    answerImage: null,
+    activeVideo: null
+  };
+
+  handleVideoPlay = id => {
+    if (this.state.activeVideo) {
+      document.getElementById(this.state.activeVideo).pause();
+    }
+
+    this.setState({ activeVideo: id });
   };
 
   changeCardIndex = i => {
@@ -42,6 +51,7 @@ class FeedView extends React.Component {
       <SwipeView
         index={this.state.cardIndex}
         changeCardIndex={this.changeCardIndex}
+        handleVideoPlay={id => this.handleVideoPlay(id)}
       >
         {this.props.feed.map((dat, index) => {
           return (
@@ -53,6 +63,7 @@ class FeedView extends React.Component {
               bookmarkques={this.props.bookmarkques}
               changeAnswerMode={this.changeAnswerMode}
               setImage={image => this.setState({ answerImage: image })}
+              handleVideoPlay={id => this.handleVideoPlay(id)}
             />
           );
         })}

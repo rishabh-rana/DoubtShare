@@ -3,7 +3,7 @@ const reducer = (
     uid:
       localStorage.getItem("uid") === null ||
       localStorage.getItem("uid") === "null"
-        ? "unauthenticatedUser"
+        ? null
         : localStorage.getItem("uid"),
     displayName:
       localStorage.getItem("name") === null ||

@@ -10,20 +10,27 @@ class AnswerBox extends React.Component {
     whiteBoardFile: null,
     submittingAnswer: false,
     display: "cropUI",
-    additionalImage: null
+    additionalImage: null,
+    aspectRatio: null
   };
   render() {
     switch (this.state.display) {
       case "cropUI":
         return (
           <CropUI
+            answerMode={true}
             image={
               this.state.additionalImage === null
                 ? this.props.answerImage
                 : this.state.additionalImage
             }
             setImage={image =>
-              this.setState({ image: [...this.state.image, image] })
+              this.setState({
+                image: [...this.state.image, image]
+              })
+            }
+            setAspect={aspectRatio =>
+              this.setState({ aspectRatio: aspectRatio })
             }
             cropDone={() => this.setState({ display: "whiteboard" })}
           />
@@ -33,14 +40,9 @@ class AnswerBox extends React.Component {
         return (
           <WhiteBoard
             image={this.state.image}
+            aspectRatio={this.state.aspectRatio}
             setFile={file =>
               this.setState({ whiteBoardFile: file, display: "final" })
-            }
-            addNewImage={img =>
-              this.setState({
-                display: "cropUI",
-                additionalImage: img
-              })
             }
           />
         );

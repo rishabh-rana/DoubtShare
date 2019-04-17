@@ -33,6 +33,10 @@ class CropUI extends React.Component {
 
   handleDone = () => {
     let img = this.refs.cropper.getCroppedCanvas().toDataURL();
+    if (this.props.answerMode) {
+      let { width, height } = this.refs.cropper.getData();
+      this.props.setAspect(height / width);
+    }
     this.props.setImage(img);
     this.props.cropDone();
   };

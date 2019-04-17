@@ -3,15 +3,18 @@ import ReactSwipe from "react-swipeable-views";
 
 const SwipeCards = props => {
   return (
-    <ReactSwipe
-      resistance={true}
-      index={props.index}
-      onChangeIndex={(ni, i) => {
-        props.changeCardIndex(ni);
-      }}
-    >
-      {props.children}
-    </ReactSwipe>
+    <div style={{ overflow: "hidden" }}>
+      <ReactSwipe
+        resistance={true}
+        index={props.index}
+        onChangeIndex={(ni, i) => {
+          props.changeCardIndex(ni);
+          props.handleVideoPlay(null);
+        }}
+      >
+        {props.children}
+      </ReactSwipe>
+    </div>
   );
 };
 export default SwipeCards;
