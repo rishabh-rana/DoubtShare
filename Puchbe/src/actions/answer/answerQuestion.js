@@ -33,7 +33,8 @@ export const answerQuestion = (obj, docid, finishLoading) => {
             displayName: obj.displayName,
             [obj.uid]: Date.now()
           },
-          upvotes: []
+          upvotes: [],
+          downvotes: []
         });
 
       console.log("ANSWERED");
@@ -61,7 +62,8 @@ export const answerQuestion = (obj, docid, finishLoading) => {
             displayName: obj.displayName,
             [obj.uid]: Date.now()
           },
-          upvotes: []
+          upvotes: [],
+          downvotes: []
         });
       finishLoading();
     }

@@ -60,7 +60,8 @@ class FeedCard extends React.Component {
     paginateAnswers: null,
     answers: [],
     loadingAnswers: false,
-    feedDone: false
+    feedDone: false,
+    upvote: null
   };
 
   handlereask = (reasks, docid) => {
@@ -68,6 +69,47 @@ class FeedCard extends React.Component {
       this.props.reask([...reasks, this.props.auth.uid], docid);
       this.setState({ reasked: true });
     }
+  };
+
+  handleUpvote = (increment, upvotes, downvotes, questionId, ansId) => {
+    var voted = false;
+
+    if (upvotes.indexOf(this.props.auth.uid) !== -1) voted = "upvoted";
+    if (downvotes.indexOf(this.props.auth.uid) !== -1) voted = "downvoted";
+
+    console.log(voted, upvotes, downvotes);
+
+    const handleVoting = (incArray, decArray) => {
+      incArray.push(this.props.auth.uid);
+      if (decArray) decArray.splice(decArray.indexOf(this.props.auth.uid), 1);
+      return { finalUpvotes: incArray, finalDownvotes: decArray };
+    };
+
+    if (voted === false) {
+      if (increment) {
+        handleVoting(upvotes, null);
+        this.setState({ upvote: true });
+      } else {
+        handleVoting(downvotes, null);
+        this.setState({ upvote: false });
+      }
+    } else if (voted === "downvoted") {
+      if (increment) {
+        handleVoting(upvotes, downvotes);
+        this.setState({ upvote: true });
+      } else {
+        return;
+      }
+    } else if (voted === "upvoted") {
+      if (!increment) {
+        handleVoting(downvotes, upvotes);
+        this.setState({ upvote: false });
+      } else {
+        return;
+      }
+    }
+
+    this.props.upvote(questionId, ansId, upvotes, downvotes);
   };
 
   handleBookmark = (bookmarks, docid) => {
@@ -178,16 +220,18 @@ class FeedCard extends React.Component {
         </div>
 
         {dat.image && (
-          <img
-            src={dat.image}
-            alt="Loading"
-            style={{
-              width: "100%",
-              height: "auto",
-              display: "block"
-            }}
-            className="filterFocus"
-          />
+          <a href={dat.image} target="_blank">
+            <img
+              src={dat.image}
+              alt="Loading"
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block"
+              }}
+              className="filterFocus"
+            />
+          </a>
         )}
 
         <Row>
@@ -259,8 +303,55 @@ class FeedCard extends React.Component {
                   className="filterFocus"
                 />
               )}
-              <div>Description : {ans.description}</div>
-              <div>answered by {ans.uploader.displayName}</div>
+              <div
+                style={{
+                  marginBottom: "5px"
+                }}
+              >
+                <Row>
+                  <div style={{ flexGrow: 6, paddingTop: "7px" }}>
+                    <DisplayName>by {ans.uploader.displayName}</DisplayName>
+                  </div>
+
+                  <SmallButtons
+                    onClick={() =>
+                      this.handleUpvote(
+                        true,
+                        ans.upvotes,
+                        ans.downvotes,
+                        dat.docid,
+                        ans.docid
+                      )
+                    }
+                    active={
+                      this.state.upvote === null
+                        ? ans.upvotes.indexOf(this.props.auth.uid) !== -1
+                        : this.state.upvote
+                    }
+                  >
+                    <i className="fas fa-arrow-up" /> {ans.upvotes.length}
+                  </SmallButtons>
+                  <SmallButtons
+                    onClick={() =>
+                      this.handleUpvote(
+                        false,
+                        ans.upvotes,
+                        ans.downvotes,
+                        dat.docid,
+                        ans.docid
+                      )
+                    }
+                    active={
+                      this.state.upvote === null
+                        ? ans.downvotes.indexOf(this.props.auth.uid) !== -1
+                        : !this.state.upvote
+                    }
+                  >
+                    <i className="fas fa-arrow-down" /> {ans.downvotes.length}
+                  </SmallButtons>
+                </Row>
+                <Description>{ans.description}</Description>
+              </div>
             </div>
           );
         })}
@@ -282,4 +373,49 @@ class FeedCard extends React.Component {
     );
   }
 }
+
+const DescriptionHolder = styled.div`
+  padding: 5px;
+`;
+
+const ShowMoreDescription = styled.div`
+  opacity: 0.8;
+  color: grey;
+  font-size: 16px;
+  margin-top: 5px;
+`;
+
+class Description extends React.Component {
+  state = {
+    open: false
+  };
+
+  render() {
+    let displayMessage;
+    let big = false;
+    let message = this.props.children;
+    if (message.length > 90) {
+      big = true;
+      displayMessage = message.slice(0, 50) + "...";
+    } else {
+      displayMessage = message;
+    }
+
+    if (this.state.open) displayMessage = message;
+
+    return (
+      <DescriptionHolder>
+        {displayMessage}
+        {big && (
+          <ShowMoreDescription
+            onClick={() => this.setState({ open: !this.state.open })}
+          >
+            {this.state.open ? "hide" : "show more"}
+          </ShowMoreDescription>
+        )}
+      </DescriptionHolder>
+    );
+  }
+}
+
 export default FeedCard;

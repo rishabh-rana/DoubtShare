@@ -74,3 +74,17 @@ export const bookmarkques = (bookmarks, docid) => {
       });
   };
 };
+
+export const upvote = (quesId, ansId, upvotearray, downvoteArray) => {
+  return dispatch => {
+    firestore
+      .collection("questions")
+      .doc(quesId)
+      .collection("answers")
+      .doc(ansId)
+      .update({
+        upvotes: upvotearray,
+        downvotes: downvoteArray
+      });
+  };
+};

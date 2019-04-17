@@ -56,6 +56,7 @@ class FeedView extends React.Component {
         {this.props.feed.map((dat, index) => {
           return (
             <FeedCard
+              upvote={this.props.upvote}
               dat={dat}
               key={index}
               reask={this.props.reask}
