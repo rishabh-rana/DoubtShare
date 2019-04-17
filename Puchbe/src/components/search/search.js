@@ -64,7 +64,7 @@ class SearchScreen extends React.Component {
 
   render() {
     let content = (
-      <div style={{ padding: "5px" }}>
+      <div style={{ padding: "16px" }}>
         <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
         <Button

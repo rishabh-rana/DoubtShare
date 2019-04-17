@@ -7,14 +7,18 @@ import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 
 const Taglist = styled.div`
-  font-size: 16px;
+  font-size: 14px;
+  padding: 8px 20px;
+  background-color: #e0e0e0;
+  display: inline-block;
+  border-radius: 4px;
 `;
 
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  padding: 8px;
+  padding: 16px;
 `;
 
 const DisplayName = styled.div`
@@ -226,8 +230,8 @@ class FeedCard extends React.Component {
         <div
           style={{
             height: "auto",
-            backgroundColor: "#ededed",
-            padding: "24px"
+            backgroundColor: "#fff",
+            padding: "16px"
           }}
         >
           <Taglist>
