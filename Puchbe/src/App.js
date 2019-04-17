@@ -9,6 +9,7 @@ import * as update from "./actions/updateApp/update";
 
 import Feed from "./components/feed/feed";
 import BottomNavigator from "./components/ui/bottomNavigator";
+import Header from "./components/ui/header";
 import SearchScreen from "./components/search/search";
 import AskScreen from "./components/ask/ask";
 import NotificationScreen from "./components/notif/notif";
@@ -35,6 +36,7 @@ class App extends Component {
           style={{ height: "100%", paddingBottom: "60px" }}
           id="getFullHeight"
         >
+          <Route path="/" component={Header} />
           <Route path="/" exact component={GoToFeed} />
           <Route path="/feed" exact component={Feed} />
           <Route path="/search" exact component={SearchScreen} />
