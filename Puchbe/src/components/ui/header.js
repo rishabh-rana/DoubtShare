@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled, { css } from "styled-components";
 
 const Bar = styled.div`
@@ -14,24 +14,19 @@ const Bar = styled.div`
   -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-}
 `;
 
 export default function header() {
   return (
     <React.Fragment>
       <Bar>
-        <h4>
-          Puchbc
-        </h4>
+        <h4>Puchbc</h4>
       </Bar>
-      <div style = {{
-        height: "64px"
-      }}>
-
-      </div>
+      <div
+        style={{
+          height: "64px"
+        }}
+      />
     </React.Fragment>
-    
-
-  )
+  );
 }

@@ -338,11 +338,6 @@ class FeedCard extends React.Component {
                         ans.docid
                       )
                     }
-                    active={
-                      this.state.upvote === null
-                        ? ans.upvotes.indexOf(this.props.auth.uid) !== -1
-                        : this.state.upvote
-                    }
                   >
                     <i className="fas fa-arrow-up" /> {ans.upvotes.length}
                   </SmallButtons>
@@ -355,11 +350,6 @@ class FeedCard extends React.Component {
                         dat.docid,
                         ans.docid
                       )
-                    }
-                    active={
-                      this.state.upvote === null
-                        ? ans.downvotes.indexOf(this.props.auth.uid) !== -1
-                        : !this.state.upvote
                     }
                   >
                     <i className="fas fa-arrow-down" /> {ans.downvotes.length}

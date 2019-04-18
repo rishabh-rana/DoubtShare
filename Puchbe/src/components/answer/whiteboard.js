@@ -253,8 +253,8 @@ class WhiteBoard extends React.Component {
               color="green"
               id="play"
               onClick={() => {
-                this.startRecording();
                 this.setState({ recording: true });
+                this.startRecording();
               }}
               label="Start Recording"
             />

@@ -15,7 +15,7 @@ class FeedView extends React.Component {
   };
 
   handleVideoPlay = id => {
-    if (this.state.activeVideo) {
+    if (this.state.activeVideo && this.state.activeVideo !== id) {
       document.getElementById(this.state.activeVideo).pause();
     }
 
