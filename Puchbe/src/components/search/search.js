@@ -62,13 +62,26 @@ class SearchScreen extends React.Component {
     });
   };
 
+  handleTagPress = tag => {
+    this.setState({ tags: [tag] }, () => {
+      this.handleSearch();
+    });
+  };
+
+  componentDidMount() {
+    if (this.props.searchFilter) {
+      this.handleTagPress(this.props.searchFilter);
+      this.props.setFilter(null);
+    }
+  }
+
   render() {
     let content = (
       <div style={{ padding: "16px" }}>
         <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
         <Button
-          label="Search"
+          label="Search by Tags"
           onClick={this.handleSearch}
           marginTop="10px"
           color="primary"
@@ -99,7 +112,7 @@ class SearchScreen extends React.Component {
               onClick={() => this.setState({ active: false })}
             />
           </div>
-          <FeedView />
+          <FeedView history={this.props.history} />
         </div>
       );
     }
@@ -107,7 +120,14 @@ class SearchScreen extends React.Component {
     return content;
   }
 }
+
+const mapstate = state => {
+  return {
+    searchFilter: state.feed.searchFilter
+  };
+};
+
 export default connect(
-  null,
+  mapstate,
   { ...actions, ...err }
 )(SearchScreen);

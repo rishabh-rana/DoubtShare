@@ -18,8 +18,8 @@ const Bar = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   border-radius: 8px 8px 0 0;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
-  
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 `;
 
 const Navigator = styled.div`
@@ -34,7 +34,6 @@ const Navigator = styled.div`
     css`
       color: ${colorParser("primary")};
     `};
-    
 `;
 
 class BottomNavigator extends React.Component {

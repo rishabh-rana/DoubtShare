@@ -6,12 +6,12 @@ import Loader from "../ui/loader/loader";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 
-const Ques = styled.h6 `
+const Ques = styled.h6`
   font-size: 16px;
   margin: 0;
   padding: 0;
   color: ${colorParser("dark")};
-`
+`;
 
 const Taglist = styled.div`
   font-size: 14px;
@@ -76,8 +76,8 @@ const ChevronDown = styled.div`
 const AnswersIndicatorText = styled.div`
   text-align: center;
   color: ${colorParser("dark")};
-  opacity: 0.8;
-  font-size: 20px;
+  opacity: 0.3;
+  font-size: 16px;
   margin-top: 25px;
 `;
 
@@ -124,8 +124,6 @@ class FeedCard extends React.Component {
     if (upvotes.indexOf(this.props.auth.uid) !== -1) voted = "upvoted";
     if (downvotes.indexOf(this.props.auth.uid) !== -1) voted = "downvoted";
 
-    console.log(voted, upvotes, downvotes);
-
     const handleVoting = (incArray, decArray) => {
       incArray.push(this.props.auth.uid);
       if (decArray) decArray.splice(decArray.indexOf(this.props.auth.uid), 1);
@@ -163,7 +161,6 @@ class FeedCard extends React.Component {
     // check if a change has been made to state of bookmark
     // if yes, check using state otherwise check using data from server
     if (this.state.bookmarked === null) {
-      console.log("heyyyyyyy");
       if (bookmarks[this.props.auth.uid] > 0) {
         let newmarks = { ...bookmarks };
         delete newmarks[this.props.auth.uid];
@@ -237,8 +234,13 @@ class FeedCard extends React.Component {
         });
       }
     } else {
-      console.log("Loaded all answers");
+      // do something
     }
+  };
+
+  handleTagPress = tag => {
+    this.props.history.push("/search");
+    this.props.setFilter(tag);
   };
 
   componentDidMount() {
@@ -246,11 +248,16 @@ class FeedCard extends React.Component {
   }
 
   render() {
-    console.log(this.state.bookmarked);
     let { dat } = this.props;
 
     return (
-      <div style={{ height: window.screen.height, backgroundColor: "#ffffff", borderRadius: "8px" }}>
+      <div
+        style={{
+          height: window.screen.height,
+          backgroundColor: "#ffffff",
+          borderRadius: "8px"
+        }}
+      >
         <div
           style={{
             height: "auto",
@@ -258,11 +265,15 @@ class FeedCard extends React.Component {
             padding: "16px"
           }}
         >
-         <Ques>Question: </Ques>
+          <Ques>Question: </Ques>
           <Taglist>
             {Object.keys(dat.tags).map(tag => {
               if (tag.indexOf("$") === -1)
-                return <span key={tag}>#{tag} </span>;
+                return (
+                  <span key={tag} onClick={() => this.handleTagPress(tag)}>
+                    #{tag}{" "}
+                  </span>
+                );
             })}
           </Taglist>
         </div>
@@ -382,27 +393,27 @@ class FeedCard extends React.Component {
                     }
                   >
                     <i className="fas fa-arrow-down" /> {ans.downvotes.length}
-                    </DownVoteButton>
+                  </DownVoteButton>
                 </Row>
                 <Description>{ans.description}</Description>
               </div>
             </div>
           );
         })}
-        {this.state.loadingAnswers ? null : this.state.feedDone ? (
+        {this.state.feedDone ? (
           <div style={{ padding: "5px" }}>
             <AnswersIndicatorText>No more Answers</AnswersIndicatorText>
           </div>
         ) : (
-          <div style={{ padding: "5px" }}>
+          <div style={{ padding: "5px 25px" }}>
             <Button
               onClick={this.getAnswers}
               label="Load more Answers"
-              color="primary"
-              inverted
+              color="dark"
             />
           </div>
         )}
+        <div style={{ height: "60px" }} />
       </div>
     );
   }

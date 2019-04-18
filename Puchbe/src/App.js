@@ -27,15 +27,12 @@ class App extends Component {
   };
 
   render() {
- //   if (this.props.auth === null) {
- //     return <SignIn />;
- //   }
+    //   if (this.props.auth === null) {
+    //     return <SignIn />;
+    //   }
     return (
       <BrowserRouter>
-        <div
-          style={{ height: "100%", paddingBottom: "60px" }}
-          id="getFullHeight"
-        >
+        <div style={{ height: window.screen.height }} id="getFullHeight">
           <Route path="/" component={Header} />
           <Route path="/" exact component={GoToFeed} />
           <Route path="/feed" exact component={Feed} />

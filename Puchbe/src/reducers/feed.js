@@ -4,7 +4,8 @@ const reducer = (
     paginate: {
       lastDoc: null,
       filter: null
-    }
+    },
+    searchFilter: null
   },
   action
 ) => {
@@ -17,6 +18,9 @@ const reducer = (
   }
   if (action.type === "getNewFeed") {
     return { ...state, data: action.payload };
+  }
+  if (action.type === "setFilter") {
+    return { ...state, searchFilter: action.payload };
   }
   return state;
 };

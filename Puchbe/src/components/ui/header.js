@@ -23,7 +23,7 @@ const Bar = styled.div`
 export default function header() {
   return (
     <React.Fragment>
-      <Bar>
+      {/* <Bar>
         <h4
           style={{
             margin: "20px auto",
@@ -38,7 +38,7 @@ export default function header() {
           height: "58px",
           color: "null"
         }}
-      />
+      /> */}
     </React.Fragment>
   );
 }

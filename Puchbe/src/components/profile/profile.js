@@ -21,11 +21,26 @@ class ProfileScreen extends React.Component {
     }
     switch (selected) {
       case "FOL":
-        return <FullMessage message="Coming Soon" />;
+        return (
+          <FeedView
+            filter={"reAsks." + this.props.auth.uid}
+            history={this.props.history}
+          />
+        );
       case "ASK":
-        return <FeedView filter={"uploader." + this.props.auth.uid} />;
+        return (
+          <FeedView
+            filter={"uploader." + this.props.auth.uid}
+            history={this.props.history}
+          />
+        );
       case "BKM":
-        return <FeedView filter={"bookmarks." + this.props.auth.uid} />;
+        return (
+          <FeedView
+            filter={"bookmarks." + this.props.auth.uid}
+            history={this.props.history}
+          />
+        );
       default:
         return null;
     }
@@ -49,10 +64,20 @@ class ProfileScreen extends React.Component {
     this.setState({ loading: false });
   };
 
+  getFollowed = async () => {
+    this.setState({ loading: true });
+    await this.props.getFeed("reAsks." + this.props.auth.uid);
+    if (this.props.feed.length === 0) {
+      this.setState({ showMessage: true });
+    }
+    this.setState({ loading: false });
+  };
+
   selectSection = section => {
     this.setState({ showMessage: false });
     if (section === "BKM") this.getBookmarks();
     if (section === "ASK") this.getAsked();
+    if (section === "FOL") this.getFollowed();
     this.setState({
       selected: section
     });

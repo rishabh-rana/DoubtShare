@@ -88,3 +88,9 @@ export const upvote = (quesId, ansId, upvotearray, downvoteArray) => {
       });
   };
 };
+
+export const setFilter = tag => {
+  return dispatch => {
+    dispatch({ type: "setFilter", payload: tag });
+  };
+};
