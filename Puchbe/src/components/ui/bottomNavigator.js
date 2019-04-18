@@ -6,8 +6,8 @@ import colorParser from "./color/colorParser";
 const Bar = styled.div`
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 4px;
+  right: 4px;
   height: 55px;
   background: #ffffff;
   display: flex;
@@ -17,20 +17,24 @@ const Bar = styled.div`
   align-items: center;
   padding-left: 5%;
   padding-right: 5%;
+  border-radius: 8px 8px 0 0;
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  
 `;
 
 const Navigator = styled.div`
-  height: 30px;
-  width: 15%;
-
+  height: 24px;
+  width: auto;
+  min-width: 15%;
   text-align: center;
-  font-size: 27px;
+  font-size: 20px;
+  color: ${colorParser("lessdark")};
   ${props =>
     props.active &&
     css`
       color: ${colorParser("primary")};
-    `}
+    `};
+    
 `;
 
 class BottomNavigator extends React.Component {
@@ -74,7 +78,7 @@ class BottomNavigator extends React.Component {
           {this.props.uploadingImage ? (
             <i className="fas fa-cloud-upload-alt" />
           ) : (
-            <i className="fas fa-plus" />
+            "Pucho"
           )}
         </Navigator>
         <Navigator

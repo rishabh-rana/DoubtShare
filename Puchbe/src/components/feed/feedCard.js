@@ -6,12 +6,20 @@ import Loader from "../ui/loader/loader";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 
+const Ques = styled.h6 `
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  color: ${colorParser("dark")};
+`
+
 const Taglist = styled.div`
   font-size: 14px;
   padding: 8px 20px;
   background-color: #e0e0e0;
   display: inline-block;
   border-radius: 4px;
+  margin: 16px 0 0 0;
 `;
 
 const Row = styled.div`
@@ -41,6 +49,22 @@ const SmallButtons = styled.div`
   color: ${props => (props.active ? colorParser("primary") : "black")};
 `;
 
+const UpVoteButton = styled.div`
+  font-size: 18px;
+  padding: 5px;
+  flex-grow: 1;
+  text-align: center;
+  color: ${props => (props.active ? colorParser("green") : "black")};
+`;
+
+const DownVoteButton = styled.div`
+  font-size: 18px;
+  padding: 5px;
+  flex-grow: 1;
+  text-align: center;
+  color: ${props => (props.active ? colorParser("red") : "black")};
+`;
+
 const ChevronDown = styled.div`
   text-align: center;
   color: grey;
@@ -51,9 +75,9 @@ const ChevronDown = styled.div`
 
 const AnswersIndicatorText = styled.div`
   text-align: center;
-  color: grey;
+  color: ${colorParser("dark")};
   opacity: 0.8;
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 25px;
 `;
 
@@ -226,14 +250,15 @@ class FeedCard extends React.Component {
     let { dat } = this.props;
 
     return (
-      <div style={{ height: window.screen.height }}>
+      <div style={{ height: window.screen.height, backgroundColor: "#ffffff", borderRadius: "8px" }}>
         <div
           style={{
             height: "auto",
-            backgroundColor: "#fff",
+            backgroundColor: "null",
             padding: "16px"
           }}
         >
+         <Ques>Question: </Ques>
           <Taglist>
             {Object.keys(dat.tags).map(tag => {
               if (tag.indexOf("$") === -1)
@@ -332,7 +357,7 @@ class FeedCard extends React.Component {
                     <DisplayName>by {ans.uploader.displayName}</DisplayName>
                   </div>
 
-                  <SmallButtons
+                  <UpVoteButton
                     onClick={() =>
                       this.handleUpvote(
                         true,
@@ -349,8 +374,8 @@ class FeedCard extends React.Component {
                     }
                   >
                     <i className="fas fa-arrow-up" /> {ans.upvotes.length}
-                  </SmallButtons>
-                  <SmallButtons
+                  </UpVoteButton>
+                  <DownVoteButton
                     onClick={() =>
                       this.handleUpvote(
                         false,
@@ -367,7 +392,7 @@ class FeedCard extends React.Component {
                     }
                   >
                     <i className="fas fa-arrow-down" /> {ans.downvotes.length}
-                  </SmallButtons>
+                    </DownVoteButton>
                 </Row>
                 <Description>{ans.description}</Description>
               </div>

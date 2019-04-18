@@ -28,6 +28,7 @@ const OptionsBar = styled.div`
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid ${colorParser("dark")};
+  border-top: 1px solid ${colorParser("dark")};
 `;
 
 const Options = styled.div`
@@ -36,16 +37,6 @@ const Options = styled.div`
   text-align: center;
   padding: 20px 0;
   font-size: 18px;
-  padding-bottom: ${props => (props.active ? "0px" : "15px")};
-`;
-
-const HighlightBar = styled.div`
-  width: 100%;
-  height: 2px;
-  background: ${colorParser("primary")};
-  
-  margin-top: 12px;
-  display: ${props => (props.active ? "block" : "none")};
 `;
 
 const OptionsButton = styled.div`
@@ -54,7 +45,7 @@ const OptionsButton = styled.div`
   top: 10px;
   width: 50px;
   height: 30px;
-  padding-top: 10px;
+  padding: 10px 0;
   font-size: 25px;
   text-align: center;
 `;
@@ -96,21 +87,21 @@ const ProfileHeader = props => {
           onClick={() => props.selectSection("FOL")}
         >
           Followed
-          <HighlightBar active={props.selected === "FOL" ? true : false} />
+          
         </Options>
         <Options
           active={props.selected === "ASK" ? true : false}
           onClick={() => props.selectSection("ASK")}
         >
           Asked
-          <HighlightBar active={props.selected === "ASK" ? true : false} />
+          
         </Options>
         <Options
           active={props.selected === "BKM" ? true : false}
           onClick={() => props.selectSection("BKM")}
         >
           Bookmarked
-          <HighlightBar active={props.selected === "BKM" ? true : false} />
+          
         </Options>
       </OptionsBar>
     </Container>

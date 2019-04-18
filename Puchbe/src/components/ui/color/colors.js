@@ -4,7 +4,8 @@ const colors = {
   red: "#E94F37",
   light: "#FFFFFF",
   secondary: "#4472CA",
-  dark: "#082949"
+  dark: "#082949",
+  lessdark: "#666666"
 };
 
 export default colors;

@@ -8,7 +8,7 @@ const Bar = styled.div`
   left: 0;
   right: 0;
   height: auto;
-  background: #fff;
+  background: ${colorParser("primary")};
   margin: 0 auto;
   z-index: 1;
   display: flex;
@@ -26,13 +26,14 @@ export default function header() {
       <Bar>
         <h4 style= {{
           margin: "20px auto",
-          color: `${colorParser("dark")}`
+          color: `${colorParser("light")}`
         }}>
-          PuchBe
+          Pucho App
         </h4>
       </Bar>
       <div style = {{
-        height: "64px"
+        height: "58px",
+        color: "null"
       }}>
 
       </div>

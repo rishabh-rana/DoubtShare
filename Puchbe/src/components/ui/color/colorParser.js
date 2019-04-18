@@ -22,6 +22,9 @@ const parseColor = color => {
     case "dark":
       color = pallete.dark;
       break;
+    case "lessdark":
+      color = pallete.lessdark;
+      break;
   }
 
   return color;
