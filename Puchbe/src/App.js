@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-// import { firestore } from "./config/firebase";
+import { firestore } from "./config/firebase";
+import mixpanel from "./config/mixpanel";
 
 import { connect } from "react-redux";
 
@@ -19,6 +20,8 @@ import SignIn from "./components/authScreens/signIn";
 import GoToFeed from "./components/ui/redirectToFeed";
 import PaddingBox from "./components/ui/paddingBox";
 
+import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
+
 import "./App.css";
 
 class App extends Component {
@@ -27,31 +30,34 @@ class App extends Component {
   };
 
   render() {
-    //   if (this.props.auth === null) {
-    //     return <SignIn />;
-    //   }
+    if (this.props.auth === null) {
+      return <SignIn />;
+    }
     return (
-      <BrowserRouter>
-        <div style={{ height: window.screen.height }} id="getFullHeight">
-          <Route path="/" component={Header} />
-          <Route path="/" exact component={GoToFeed} />
-          <Route path="/feed" exact component={Feed} />
-          <Route path="/search" exact component={SearchScreen} />
-          <Route path="/ask" exact component={AskScreen} />
-          <Route path="/notifications" exact component={NotificationScreen} />
-          <Route path="/profile" exact component={ProfileScreen} />
-          <Route path="/" component={PaddingBox} />
-          <Route path="/" component={BottomNavigator} />
-          <ErrorPopup />
-        </div>
-      </BrowserRouter>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <div style={{ height: window.screen.height }}>
+            <Route path="/" component={Header} />
+            <Route path="/" exact component={GoToFeed} />
+            <Route path="/feed" exact component={Feed} />
+            <Route path="/search" exact component={SearchScreen} />
+            <Route path="/ask" exact component={AskScreen} />
+            <Route path="/notifications" exact component={NotificationScreen} />
+            <Route path="/profile" exact component={ProfileScreen} />
+            <Route path="/" component={PaddingBox} />
+            <Route path="/" component={BottomNavigator} />
+            <ErrorPopup />
+          </div>
+        </BrowserRouter>
+      </ErrorBoundary>
     );
   }
 }
 
 const mapstate = state => {
   return {
-    auth: state.auth.uid
+    auth: state.auth.uid,
+    authentication: state.auth
   };
 };
 

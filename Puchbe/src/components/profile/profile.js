@@ -6,6 +6,7 @@ import Loader from "../ui/loader/loader";
 import ProfileHeader from "./profileHeader";
 import FeedView from "../../components/feed/feedView";
 import FullMessage from "./Fullmessage";
+import mixpanel from "../../config/mixpanel";
 
 class ProfileScreen extends React.Component {
   state = {
@@ -74,6 +75,7 @@ class ProfileScreen extends React.Component {
   };
 
   selectSection = section => {
+    mixpanel.track("selected " + section + " section on Profile Screen");
     this.setState({ showMessage: false });
     if (section === "BKM") this.getBookmarks();
     if (section === "ASK") this.getAsked();

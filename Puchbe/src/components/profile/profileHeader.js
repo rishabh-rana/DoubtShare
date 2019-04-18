@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
+import mixpanel from "../../config/mixpanel";
 
 const Container = styled.div`
   width: 100%;
@@ -74,8 +75,13 @@ const MenuOptions = styled.div`
 const ProfileHeader = props => {
   return (
     <Container>
-      <OptionDropDown signout={props.signout} />
-      <ProfilePic>
+      <OptionDropDown
+        signout={props.signout}
+        onClick={() => mixpanel.track("pressed3DotsOnProfile")}
+      />
+      <ProfilePic
+        onClick={() => mixpanel.track("pressedProfileHeaderNonClickableArea")}
+      >
         <i className="fas fa-user" />
       </ProfilePic>
 
@@ -87,21 +93,18 @@ const ProfileHeader = props => {
           onClick={() => props.selectSection("FOL")}
         >
           Followed
-          
         </Options>
         <Options
           active={props.selected === "ASK" ? true : false}
           onClick={() => props.selectSection("ASK")}
         >
           Asked
-          
         </Options>
         <Options
           active={props.selected === "BKM" ? true : false}
           onClick={() => props.selectSection("BKM")}
         >
           Bookmarked
-          
         </Options>
       </OptionsBar>
     </Container>

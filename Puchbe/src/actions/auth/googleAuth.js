@@ -2,21 +2,21 @@ import { auth } from "../../config/firebase";
 import { provider } from "../../config/firebase";
 import { per } from "../../config/firebase";
 
-// import mixpanel from "../../config/mixpanel";
+import mixpanel from "../../config/mixpanel";
 import { firestore } from "../../config/firebase";
 
 export const signin = () => {
   return async dispatch => {
     await auth.setPersistence(per);
     var result = await auth.signInWithPopup(provider);
-    //   console.log(result.user);
-    //   mixpanel.identify(result.user.uid);
-    //   mixpanel.people.set({
-    //     $email: result.user.email,
-    //     $name: result.user.displayName,
-    //     $creationtime: result.user.metadata.creationTime
-    //   });
-    //   mixpanel.track("Signed In");
+
+    mixpanel.identify(result.user.uid);
+    mixpanel.people.set({
+      $email: result.user.email,
+      $name: result.user.displayName,
+      $creationtime: result.user.metadata.creationTime
+    });
+    mixpanel.track("Signed In");
 
     var isreg = await firestore
       .collection("users")
@@ -50,6 +50,7 @@ export const signin = () => {
 
 export const signout = () => {
   return dispatch => {
+    mixpanel.track("signedOutOfApp");
     auth.signOut();
     dispatch({ type: "syncusers", payload: null });
   };
@@ -69,5 +70,11 @@ export const syncusers = () => {
         dispatch({ type: "syncusers", payload: null });
       }
     });
+  };
+};
+
+export const setPhoneNumber = num => {
+  return dispatch => {
+    dispatch({ type: "setPhoneNumber", payload: num });
   };
 };

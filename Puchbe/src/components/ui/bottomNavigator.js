@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
 import colorParser from "./color/colorParser";
+import mixpanel from "../../config/mixpanel";
 
 const Bar = styled.div`
   position: fixed;
@@ -50,6 +51,7 @@ class BottomNavigator extends React.Component {
   }
 
   handleClick = identifier => {
+    mixpanel.track("navigateTo" + identifier);
     this.props.history.push("/" + identifier);
     this.setState({
       active: identifier

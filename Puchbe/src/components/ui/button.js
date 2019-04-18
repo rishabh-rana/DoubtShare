@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import colorParser from "./color/colorParser";
 import propTypes from "prop-types";
+import mixpanel from "../../config/mixpanel";
 
 const BtnTemplate = styled.button`
   border: none;
@@ -25,7 +26,17 @@ const BtnTemplate = styled.button`
 
 const Button = props => {
   // pull basic props
-  let { color, label, width, inverted, marginTop, onClick } = props;
+  let {
+    color,
+    label,
+    width,
+    inverted,
+    marginTop,
+    onClick,
+    mixpanelLabel
+  } = props;
+
+  if (!mixpanelLabel) mixpanelLabel = label;
 
   // parse standard colors to hex values
   color = colorParser(color);
@@ -36,7 +47,10 @@ const Button = props => {
       inverted={inverted}
       width={width}
       marginTop={marginTop}
-      onClick={onClick}
+      onClick={() => {
+        mixpanel.track(mixpanelLabel);
+        onClick();
+      }}
     >
       {label}
     </BtnTemplate>

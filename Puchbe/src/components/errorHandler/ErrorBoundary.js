@@ -1,6 +1,6 @@
 import React from "react";
 import ErrorBoundaryTemplate from "./ErrorBoundaryTemplate";
-import { mixpanel } from "../../config/mixpanel";
+import mixpanel from "../../config/mixpanel";
 
 class ErrorBoundary extends React.Component {
   state = {
@@ -8,7 +8,7 @@ class ErrorBoundary extends React.Component {
   };
   //catch error from children
   componentDidCatch(error, info) {
-    mixpanel.track("Crashed");
+    mixpanel.track("CrashedApplication");
     this.setState({
       hasError: true
     });

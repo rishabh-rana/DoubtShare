@@ -1,6 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as action from "../../actions/answer/answerQuestion";
+import styled from "styled-components";
+import Button from "../ui/button";
+
+const DescriptionInput = styled.input`
+  border: 1px solid grey;
+  padding: 5px;
+  padding-left: 10px;
+  border-radius: 5px;
+`;
 
 class FinalScreen extends React.Component {
   state = {
@@ -26,13 +35,19 @@ class FinalScreen extends React.Component {
   render() {
     return (
       <div>
-        <video src={this.props.file} controls className="filterFocus" />
-        <input
+        <video
+          src={this.props.file}
+          controls
+          className="filterFocus"
+          width="100%"
+        />
+
+        <DescriptionInput
           value={this.state.description}
           onChange={e => this.setState({ description: e.target.value })}
           placeholder="description"
         />
-        <button onClick={this.answer}>Answer</button>
+        <Button onClick={this.answer} label="Answer" />
       </div>
     );
   }

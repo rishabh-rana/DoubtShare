@@ -4,6 +4,8 @@ import Loader from "../ui/loader/loader";
 import FinalScreen from "./finalScreen";
 import CropUI from "../ask/cropper";
 
+import mixpanel from "../../config/mixpanel";
+
 class AnswerBox extends React.Component {
   state = {
     image: [],
@@ -32,7 +34,10 @@ class AnswerBox extends React.Component {
             setAspect={aspectRatio =>
               this.setState({ aspectRatio: aspectRatio })
             }
-            cropDone={() => this.setState({ display: "whiteboard" })}
+            cropDone={() => {
+              this.setState({ display: "whiteboard" });
+              mixpanel.track("croppingImageCompleted");
+            }}
           />
         );
 
@@ -41,9 +46,10 @@ class AnswerBox extends React.Component {
           <WhiteBoard
             image={this.state.image}
             aspectRatio={this.state.aspectRatio}
-            setFile={file =>
-              this.setState({ whiteBoardFile: file, display: "final" })
-            }
+            setFile={file => {
+              this.setState({ whiteBoardFile: file, display: "final" });
+              mixpanel.track("completed whiteboard recording");
+            }}
           />
         );
 

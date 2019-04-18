@@ -9,7 +9,8 @@ const reducer = (
       localStorage.getItem("name") === null ||
       localStorage.getItem("name") === "null"
         ? "User"
-        : localStorage.getItem("name")
+        : localStorage.getItem("name"),
+    phoneNumber: null
   },
   action
 ) => {
@@ -31,6 +32,10 @@ const reducer = (
         displayName: "User"
       };
     }
+  }
+
+  if (action.type === "setPhoneNumber") {
+    return { ...state, phoneNumber: action.payload };
   }
   return state;
 };

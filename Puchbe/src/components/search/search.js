@@ -7,6 +7,8 @@ import FeedView from "../feed/feedView";
 import Loader from "../ui/loader/loader";
 import Button from "../ui/button";
 
+import mixpanel from "../../config/mixpanel";
+
 class SearchScreen extends React.Component {
   state = {
     tags: [],
@@ -50,6 +52,7 @@ class SearchScreen extends React.Component {
   };
 
   handleSearch = async () => {
+    mixpanel.track("pressedSearchButtonOnSearchScreen");
     if (!this.validateSubmission()) return;
     this.setState({
       loading: true

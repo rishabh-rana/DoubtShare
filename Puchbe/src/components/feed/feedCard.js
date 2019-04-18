@@ -5,6 +5,7 @@ import Button from "../ui/button";
 import Loader from "../ui/loader/loader";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
+import mixpanel from "../../config/mixpanel";
 
 const Ques = styled.h6`
   font-size: 16px;
@@ -95,6 +96,7 @@ class FeedCard extends React.Component {
   handlereask = (reasks, docid) => {
     // check if a change has been made to state of reask
     // if yes, check using state otherwise check using data from server
+    mixpanel.track("presedReaskedQuestionButton");
     if (this.state.reasked === null) {
       if (reasks[this.props.auth.uid] > 0) {
         delete reasks[this.props.auth.uid];
@@ -158,6 +160,7 @@ class FeedCard extends React.Component {
   };
 
   handleBookmark = (bookmarks, docid) => {
+    mixpanel.track("presedBookmarkButton");
     // check if a change has been made to state of bookmark
     // if yes, check using state otherwise check using data from server
     if (this.state.bookmarked === null) {
@@ -239,6 +242,7 @@ class FeedCard extends React.Component {
   };
 
   handleTagPress = tag => {
+    mixpanel.track("pressedTagButtonOnFeedCard");
     this.props.history.push("/search");
     this.props.setFilter(tag);
   };
@@ -254,8 +258,7 @@ class FeedCard extends React.Component {
       <div
         style={{
           height: window.screen.height,
-          backgroundColor: "#ffffff",
-          borderRadius: "8px"
+          backgroundColor: "#ffffff"
         }}
       >
         <div
@@ -265,7 +268,11 @@ class FeedCard extends React.Component {
             padding: "16px"
           }}
         >
-          <Ques>Question: </Ques>
+          <Ques
+            onClick={() => mixpanel.track("clickedOnQuestionNonClickableArea")}
+          >
+            Question:{" "}
+          </Ques>
           <Taglist>
             {Object.keys(dat.tags).map(tag => {
               if (tag.indexOf("$") === -1)
@@ -279,23 +286,44 @@ class FeedCard extends React.Component {
         </div>
 
         {dat.image && (
-          <a href={dat.image} target="_blank">
-            <img
-              src={dat.image}
-              alt="Loading"
-              style={{
-                width: "100%",
-                height: "auto",
-                display: "block"
-              }}
-              className="filterFocus"
-            />
-          </a>
+          <div
+            style={{
+              minHeight: "160px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <a
+              href={dat.image}
+              target="_blank"
+              onClick={() => mixpanel.track("pressedOnImageInFeedCard")}
+            >
+              <img
+                src={dat.image}
+                alt="Loading"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block"
+                }}
+                className="filterFocus"
+              />
+            </a>
+          </div>
         )}
 
         <Row>
-          <DisplayName>by {dat.uploader.displayName}</DisplayName>
-          <ReaskCounter>
+          <DisplayName
+            onClick={() => mixpanel.track("pressedDisplayNameNonClickableArea")}
+          >
+            by {dat.uploader.displayName}
+          </DisplayName>
+          <ReaskCounter
+            onClick={() =>
+              mixpanel.track("pressedNumberOfReasksNonClickableArea")
+            }
+          >
             {Object.keys(dat.reAsks).length}{" "}
             <DisplayName> {" Reasks"}</DisplayName>
           </ReaskCounter>
@@ -307,9 +335,10 @@ class FeedCard extends React.Component {
               label="Answer"
               color="dark"
               setImage={this.props.setImage}
-              onChangeHandler={() =>
-                this.props.changeAnswerMode(true, dat.docid)
-              }
+              onChangeHandler={() => {
+                mixpanel.track("startedAnsweringQuestion");
+                this.props.changeAnswerMode(true, dat.docid);
+              }}
             />
           </div>
           <SmallButtons
@@ -333,31 +362,38 @@ class FeedCard extends React.Component {
             <i className="fas fa-sync-alt" />
           </SmallButtons>
         </Row>
-        <AnswersIndicatorText>Answers</AnswersIndicatorText>
-        <ChevronDown>
+        <AnswersIndicatorText
+          onClick={() =>
+            mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+          }
+        >
+          Answers
+        </AnswersIndicatorText>
+        <ChevronDown
+          onClick={() =>
+            mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+          }
+        >
           <i className="fas fa-chevron-down" />
         </ChevronDown>
 
         {this.state.answers.map((ans, i) => {
           return (
             <div key={i} style={{ marginBottom: "20px" }}>
-              {ans.type === "image" && (
-                <img
-                  src={ans.file}
-                  width={window.screen.width}
-                  className="filterFocus"
-                />
-              )}
-              {ans.type === "video" && (
+              {
                 <video
                   id={ans.file}
-                  onPlay={() => this.props.handleVideoPlay(ans.file)}
+                  onPlay={() => {
+                    this.props.handleVideoPlay(ans.file);
+                    mixpanel.track("playedAnswerVideo");
+                  }}
                   src={ans.file}
+                  onPause={() => mixpanel.track("pausedAnswerVideo")}
                   controls
                   width={window.screen.width}
                   className="filterFocus"
                 />
-              )}
+              }
               <div
                 style={{
                   marginBottom: "5px"
@@ -365,7 +401,15 @@ class FeedCard extends React.Component {
               >
                 <Row>
                   <div style={{ flexGrow: 6, paddingTop: "7px" }}>
-                    <DisplayName>by {ans.uploader.displayName}</DisplayName>
+                    <DisplayName
+                      onClick={() =>
+                        mixpanel.track(
+                          "pressedDisplayNameInAnswerNonClickableArea"
+                        )
+                      }
+                    >
+                      by {ans.uploader.displayName}
+                    </DisplayName>
                   </div>
 
                   <UpVoteButton
@@ -395,7 +439,13 @@ class FeedCard extends React.Component {
                     <i className="fas fa-arrow-down" /> {ans.downvotes.length}
                   </DownVoteButton>
                 </Row>
-                <Description>{ans.description}</Description>
+                <Description
+                  onClick={() =>
+                    mixpanel.track("pressedDescriptionBoxInAnswers")
+                  }
+                >
+                  {ans.description}
+                </Description>
               </div>
             </div>
           );
