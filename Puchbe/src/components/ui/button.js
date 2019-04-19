@@ -63,7 +63,8 @@ Button.propTypes = {
   width: propTypes.string,
   inverted: propTypes.bool,
   marginTop: propTypes.string,
-  onClick: propTypes.func
+  onClick: propTypes.func,
+  mixpanelLabel: propTypes.string
 };
 
 Button.defaultProps = {

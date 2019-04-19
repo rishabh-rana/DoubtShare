@@ -4,6 +4,7 @@ import "cropperjs/dist/cropper.css";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 import Button from "../ui/button";
+import Loader from "../ui/loader/loader";
 
 // const TickButton = styled.div`
 //   border-radius: 50%;
@@ -17,6 +18,24 @@ import Button from "../ui/button";
 //   background: ${colorParser("primary")};
 // `;
 
+const Overlay = styled.div`
+  background: black;
+  opacity: 0.8;
+  color: white;
+  font-size: 50px;
+  padding: 20px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
 const PositionButtons = styled.div`
   position: fixed;
   bottom: 60px;
@@ -27,25 +46,29 @@ const PositionButtons = styled.div`
 `;
 
 class CropUI extends React.Component {
+  state = {
+    cropLoading: false
+  };
+
   handleRotate = () => {
     this.refs.cropper.rotate(90);
   };
 
   handleDone = () => {
-    let a = Date.now();
-    console.log("Start", Date.now() - a);
-    let img = this.refs.cropper.getCroppedCanvas().toDataURL();
-    console.log("got URL", Date.now() - a);
-    if (this.props.answerMode) {
-      let { width, height } = this.refs.cropper.getData();
-      console.log("got aspect data", Date.now() - a);
-      this.props.setAspect(height / width);
-      console.log("setState on aspect", Date.now() - a);
-    }
-    this.props.setImage(img);
-    console.log("setState on image", Date.now() - a);
-    this.props.cropDone();
-    console.log("setSTate on migration", Date.now() - a);
+    this.setState({ cropLoading: true });
+
+    setTimeout(() => {
+      let img = this.refs.cropper.getCroppedCanvas().toDataURL();
+
+      if (this.props.answerMode) {
+        let { width, height } = this.refs.cropper.getData();
+
+        this.props.setAspect(height / width);
+      }
+      this.props.setImage(img);
+      console.log(Date.now());
+      this.props.cropDone();
+    }, 5);
   };
 
   render() {
@@ -62,20 +85,31 @@ class CropUI extends React.Component {
           style={{ height: window.innerHeight, width: "100%" }}
         />
 
-        <PositionButtons>
-          <Button
-            label={<i class="fas fa-sync-alt" />}
-            width="45%"
-            color="secondary"
-            onClick={this.handleRotate}
-          />
-          <Button
-            label={<i className="fas fa-check" />}
-            width="45%"
-            color="green"
-            onClick={this.handleDone}
-          />
-        </PositionButtons>
+        {this.state.cropLoading && (
+          <Overlay>
+            <Loader className="overrideWhiteColor" />Preparing Whiteboard
+            Experience
+          </Overlay>
+        )}
+
+        {!this.state.cropLoading && (
+          <PositionButtons>
+            <Button
+              label={<i class="fas fa-sync-alt" />}
+              width="45%"
+              color="secondary"
+              onClick={this.handleRotate}
+              mixpanelLabel="PressRotateCropperButton"
+            />
+            <Button
+              label={<i className="fas fa-check" />}
+              width="45%"
+              color="green"
+              onClick={this.handleDone}
+              mixpanelLabel="pressDoneCropperButton"
+            />
+          </PositionButtons>
+        )}
       </React.Fragment>
     );
   }

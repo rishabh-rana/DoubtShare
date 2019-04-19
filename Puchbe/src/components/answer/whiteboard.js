@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../ui/button";
 // import AddImageButton from "../ask/addImageButton";
 import SignaturePad from "signature_pad";
+import Loader from "../ui/loader/loader";
 
 const StopBtn = styled.button`
   border: none;
@@ -15,9 +16,17 @@ const StopBtn = styled.button`
 
 const StartStopHolder = styled.div`
   position: fixed;
-  bottom: 60px;
+  bottom: 80px;
   left: 15px;
   right: 15px;
+`;
+
+const CenterBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 `;
 
 // const AddNewHolder = styled.div`
@@ -39,7 +48,8 @@ const StartStopHolder = styled.div`
 class WhiteBoard extends React.Component {
   state = {
     URLFINAL: null,
-    recording: false
+    recording: false,
+    startingRecording: false
   };
 
   mediaRecorder = null;
@@ -120,6 +130,7 @@ class WhiteBoard extends React.Component {
     this.mediaRecorder.onstop = this.handleStop;
     this.mediaRecorder.ondataavailable = this.handleDataAvailable;
     this.mediaRecorder.start(100); // collect 100ms of data
+    this.setState({ startingRecording: false });
     console.log("MediaRecorder started", this.mediaRecorder);
   };
 
@@ -219,9 +230,6 @@ class WhiteBoard extends React.Component {
             loop
             className="filterFocus"
           />
-          <StopBtn onClick={() => document.querySelector("video").play()}>
-            Play
-          </StopBtn>
         </div>
       );
     }
@@ -229,12 +237,14 @@ class WhiteBoard extends React.Component {
     return (
       <React.Fragment>
         <img src={this.props.image[0]} id={"myimg"} style={{ width: "100%" }} />
-        <canvas
-          id="sketchpad"
-          width={window.screen.width}
-          height={window.screen.width * this.props.aspectRatio}
-          className="filterFocus"
-        />
+        <CenterBox>
+          <canvas
+            id="sketchpad"
+            width={window.screen.width}
+            height={window.screen.width * this.props.aspectRatio}
+            className="filterFocus"
+          />
+        </CenterBox>
 
         {this.state.recording ? (
           <StartStopHolder>
@@ -253,10 +263,12 @@ class WhiteBoard extends React.Component {
               color="green"
               id="play"
               onClick={() => {
-                this.setState({ recording: true });
+                this.setState({ recording: true, startingRecording: true });
                 this.startRecording();
               }}
-              label="Start Recording"
+              label={
+                this.state.startingRecording ? <Loader /> : "Start Recording"
+              }
             />
           </StartStopHolder>
         )}

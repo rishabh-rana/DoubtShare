@@ -11,6 +11,20 @@ import CropUI from "./cropper";
 
 import { scaleImage } from "./resizeUpload";
 
+const Holder = styled.div`
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const Description = styled.textarea`
+  border: 1px solid rgba(200, 200, 200, 0.8);
+  width: 97%;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  font-size: 18px;
+`;
+
 const TaggingMessage = styled.div`
   margin-top: 30px;
   margin-bottom: 10px;
@@ -34,7 +48,6 @@ const ImageFiller = styled.div`
 class AskQuestion extends React.Component {
   state = {
     title: "",
-    description: "",
     image: null,
     tags: [],
     croppingDone: true,
@@ -114,7 +127,6 @@ class AskQuestion extends React.Component {
 
     this.props.askQuestion({
       title: stt.title,
-      description: stt.description,
       image: img,
       type: stt.type,
       uid: this.props.uid,
@@ -155,7 +167,7 @@ class AskQuestion extends React.Component {
     }
 
     return (
-      <div style={{ padding: "10px" }}>
+      <div style={{ padding: "10px", paddingBottom: "60px" }}>
         {this.state.image && (
           <img
             src={this.state.image}
@@ -180,6 +192,13 @@ class AskQuestion extends React.Component {
           label={this.state.image ? "Change Image" : "Add Image"}
           setImage={image => this.setState({ image, croppingDone: false })}
         />
+        <Holder>
+          <Description
+            placeholder="Enter Question Description"
+            value={this.state.title}
+            onChange={e => this.setState({ title: e.target.value })}
+          />
+        </Holder>
 
         <TaggingMessage>Add upto 3 tags</TaggingMessage>
 

@@ -31,6 +31,10 @@
   }
 }
 
+.overrideWhiteColor {
+  border: 4px solid rgb(255, 255, 255) !important;
+}
+
 .abs-center-x {
   position: absolute;
   left: 50%;

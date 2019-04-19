@@ -3,12 +3,23 @@ import { connect } from "react-redux";
 import * as action from "../../actions/answer/answerQuestion";
 import styled from "styled-components";
 import Button from "../ui/button";
+import ImageButton from "../ask/addImageButton";
+import mixpanel from "../../config/mixpanel";
 
-const DescriptionInput = styled.input`
-  border: 1px solid grey;
+const DescriptionInput = styled.textarea`
+  border: 1px solid rgba(200, 200, 200, 0.8);
   padding: 5px;
-  padding-left: 10px;
   border-radius: 5px;
+  width: 97%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  outline: none;
+`;
+
+const Container = styled.div`
+  padding: 10px;
+  padding-bottom: 60px;
 `;
 
 class FinalScreen extends React.Component {
@@ -34,21 +45,31 @@ class FinalScreen extends React.Component {
   };
   render() {
     return (
-      <div>
+      <Container>
         <video
           src={this.props.file}
           controls
           className="filterFocus"
           width="100%"
         />
+        <ImageButton
+          label="Retake Video"
+          color="primary"
+          setImage={this.props.setImage}
+          onChangeHandler={() => {
+            mixpanel.track("REstartedAnsweringQuestion");
+            this.props.changeAnswerMode(true, this.props.docid);
+            this.props.handleRetake();
+          }}
+        />
 
         <DescriptionInput
           value={this.state.description}
           onChange={e => this.setState({ description: e.target.value })}
-          placeholder="description"
+          placeholder="enter description/ hints for answer"
         />
-        <Button onClick={this.answer} label="Answer" />
-      </div>
+        <Button onClick={this.answer} label="Post Answer" color="dark" />
+      </Container>
     );
   }
 }

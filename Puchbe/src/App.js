@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import { firestore } from "./config/firebase";
-import mixpanel from "./config/mixpanel";
-
 import { connect } from "react-redux";
 
 import * as update from "./actions/updateApp/update";

@@ -3,6 +3,8 @@ import SwipeView from "./swipeView";
 import FeedCard from "./feedCard";
 import { connect } from "react-redux";
 import * as action from "../../actions/feed/getFeedChron";
+import { deleteAnswer } from "../../actions/answer/answerQuestion";
+import { deleteQuestion } from "../../actions/ask/askQuestion";
 import AnswerBox from "../answer/answerBox";
 
 class FeedView extends React.Component {
@@ -44,6 +46,7 @@ class FeedView extends React.Component {
           changeAnswerMode={this.changeAnswerMode}
           answeringDoc={this.state.answeringDoc}
           answerImage={this.state.answerImage}
+          setImage={image => this.setState({ answerImage: image })}
         />
       );
     }
@@ -56,6 +59,8 @@ class FeedView extends React.Component {
         {this.props.feed.map((dat, index) => {
           return (
             <FeedCard
+              deleteAnswer={this.props.deleteAnswer}
+              deleteQuestion={this.props.deleteQuestion}
               history={this.props.history}
               setFilter={this.props.setFilter}
               upvote={this.props.upvote}
@@ -85,5 +90,5 @@ const mapstate = state => {
 
 export default connect(
   mapstate,
-  action
+  { ...action, deleteAnswer, deleteQuestion }
 )(FeedView);

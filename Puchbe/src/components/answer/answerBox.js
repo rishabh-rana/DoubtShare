@@ -15,6 +15,18 @@ class AnswerBox extends React.Component {
     additionalImage: null,
     aspectRatio: null
   };
+
+  handleRetake = () => {
+    this.setState({
+      image: [],
+      whiteBoardFile: null,
+      submittingAnswer: false,
+      display: "cropUI",
+      additionalImage: null,
+      aspectRatio: null
+    });
+  };
+
   render() {
     switch (this.state.display) {
       case "cropUI":
@@ -35,8 +47,8 @@ class AnswerBox extends React.Component {
               this.setState({ aspectRatio: aspectRatio })
             }
             cropDone={() => {
-              this.setState({ display: "whiteboard" });
               mixpanel.track("croppingImageCompleted");
+              this.setState({ display: "whiteboard" });
             }}
           />
         );
@@ -47,8 +59,8 @@ class AnswerBox extends React.Component {
             image={this.state.image}
             aspectRatio={this.state.aspectRatio}
             setFile={file => {
-              this.setState({ whiteBoardFile: file, display: "final" });
               mixpanel.track("completed whiteboard recording");
+              this.setState({ whiteBoardFile: file, display: "final" });
             }}
           />
         );
@@ -56,6 +68,8 @@ class AnswerBox extends React.Component {
       case "final":
         return (
           <FinalScreen
+            handleRetake={this.handleRetake}
+            setImage={this.props.setImage}
             type="video"
             file={this.state.whiteBoardFile}
             images={this.state.image}

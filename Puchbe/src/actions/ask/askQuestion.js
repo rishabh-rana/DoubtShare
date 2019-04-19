@@ -19,41 +19,13 @@ export const askQuestion = obj => {
         .doc(docid)
         .set({
           title: obj.title,
-          description: obj.description,
           timestamp: Date.now(),
           image: url,
+          deletePath: name,
           uploader: {
             uid: obj.uid,
             displayName: obj.displayName,
             [obj.uid]: Date.now()
-          },
-          reAsks: {},
-          tags: obj.tags,
-          bookmarks: {}
-        });
-      firestore
-        .collection("users")
-        .doc(obj.uid)
-        .collection("questions")
-        .doc(docid)
-        .set({ exist: true });
-
-      dispatch({ type: "uploaded" });
-    } else {
-      let ref = firestore.collection("questions").doc();
-      const docid = ref.id;
-
-      firestore
-        .collection("questions")
-        .doc(docid)
-        .set({
-          title: obj.title,
-          description: obj.description,
-          timestamp: Date.now(),
-          image: null,
-          uploader: {
-            uid: obj.uid,
-            displayName: obj.displayName
           },
           reAsks: {},
           tags: obj.tags,
@@ -80,5 +52,35 @@ export const uploaded = () => {
 export const uploading = () => {
   return dispatch => {
     dispatch({ type: "uploading" });
+  };
+};
+
+export const deleteQuestion = (quesObj, quesId) => {
+  return async dispatch => {
+    const answers = await firestore
+      .collection("questions")
+      .doc(quesId)
+      .collection("answers")
+      .get();
+
+    answers.forEach(ans => {
+      firestore
+        .collection("questions")
+        .doc(quesId)
+        .collection("answers")
+        .doc(ans.id)
+        .delete();
+
+      storage.child("images/" + ans.data().deletePath).delete();
+
+      console.log(ans.data().deletePath);
+    });
+
+    storage.child("images/" + quesObj.deletePath).delete();
+    firestore
+      .collection("questions")
+      .doc(quesId)
+      .delete();
+    console.log(quesObj.deletePath);
   };
 };

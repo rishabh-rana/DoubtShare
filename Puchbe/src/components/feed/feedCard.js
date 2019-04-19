@@ -7,6 +7,8 @@ import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 import mixpanel from "../../config/mixpanel";
 
+import { admins } from "../../admins";
+
 const Ques = styled.h6`
   font-size: 16px;
   margin: 0;
@@ -271,7 +273,7 @@ class FeedCard extends React.Component {
           <Ques
             onClick={() => mixpanel.track("clickedOnQuestionNonClickableArea")}
           >
-            Question:{" "}
+            Question: {dat.title}
           </Ques>
           <Taglist>
             {Object.keys(dat.tags).map(tag => {
@@ -362,6 +364,17 @@ class FeedCard extends React.Component {
             <i className="fas fa-sync-alt" />
           </SmallButtons>
         </Row>
+
+        {admins.indexOf(this.props.auth.uid) !== -1 && (
+          <Row>
+            <Button
+              label="Delete Question"
+              onClick={() => this.props.deleteQuestion(dat, dat.docid)}
+              color="red"
+            />
+          </Row>
+        )}
+
         <AnswersIndicatorText
           onClick={() =>
             mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
@@ -439,6 +452,19 @@ class FeedCard extends React.Component {
                     <i className="fas fa-arrow-down" /> {ans.downvotes.length}
                   </DownVoteButton>
                 </Row>
+
+                {admins.indexOf(this.props.auth.uid) !== 1 && (
+                  <Row>
+                    <Button
+                      label="Delete Answer"
+                      onClick={() =>
+                        this.props.deleteAnswer(ans, dat.docid, ans.docid)
+                      }
+                      color="red"
+                    />
+                  </Row>
+                )}
+
                 <Description
                   onClick={() =>
                     mixpanel.track("pressedDescriptionBoxInAnswers")
