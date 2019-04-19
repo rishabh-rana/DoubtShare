@@ -45,8 +45,6 @@ const Navigator = styled.div`
     `};
   display: flex;
   flex-direction: column;
-  
-
 `;
 
 class BottomNavigator extends React.Component {

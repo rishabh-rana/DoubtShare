@@ -10,14 +10,14 @@ import mixpanel from "../../config/mixpanel";
 import { admins } from "../../admins";
 
 const Ques = styled.h6`
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   padding: 0;
   color: ${colorParser("dark")};
 `;
 
 const Taglist = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   padding: 8px 20px;
   background-color: #e0e0e0;
   display: inline-block;
@@ -33,19 +33,19 @@ const Row = styled.div`
 `;
 
 const DisplayName = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   color: grey;
   opacity: 0.8;
   display: inline-block;
 `;
 
 const ReaskCounter = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   text-align: right;
 `;
 
 const SmallButtons = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   padding: 5px;
   flex-grow: 1;
   text-align: center;
@@ -53,7 +53,7 @@ const SmallButtons = styled.div`
 `;
 
 const UpVoteButton = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   padding: 5px;
   flex-grow: 1;
   text-align: center;
@@ -61,7 +61,7 @@ const UpVoteButton = styled.div`
 `;
 
 const DownVoteButton = styled.div`
-  font-size: 18px;
+  font-size: 14px;
   padding: 5px;
   flex-grow: 1;
   text-align: center;
@@ -80,7 +80,7 @@ const AnswersIndicatorText = styled.div`
   text-align: center;
   color: ${colorParser("dark")};
   opacity: 0.3;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 25px;
 `;
 
