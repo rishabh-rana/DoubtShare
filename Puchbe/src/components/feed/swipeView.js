@@ -1,10 +1,11 @@
 import React from "react";
 import ReactSwipe from "react-swipeable-views";
 import mixpanel from "../../config/mixpanel";
+import colorParser from "../ui/color/colorParser";
 
 const SwipeCards = props => {
   return (
-    <div style={{ overflow: "hidden" }}>
+    <div style={{ overflow: "hidden", backgroundColor : colorParser("dark") }}>
       <ReactSwipe
         resistance={true}
         index={props.index}

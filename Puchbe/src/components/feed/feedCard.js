@@ -259,15 +259,21 @@ class FeedCard extends React.Component {
     return (
       <div
         style={{
-          height: window.screen.height,
-          backgroundColor: "#ffffff"
+          overflow: "auto",
+          backgroundColor: "#fcfcfc",
+          width: "92vw",
+          margin: "2vh auto 2vh auto",
+          borderRadius: "12px",
+          boxShadow: "0px 0px 12px -6px rgba(0, 0, 0, 0.2)"
+
         }}
       >
         <div
           style={{
-            height: "auto",
+            overflow: "auto",
             backgroundColor: "null",
-            padding: "16px"
+            padding: "16px",
+            paddingTop: "32px"
           }}
         >
           <Ques
@@ -403,7 +409,7 @@ class FeedCard extends React.Component {
                   src={ans.file}
                   onPause={() => mixpanel.track("pausedAnswerVideo")}
                   controls
-                  width={window.screen.width}
+                  width= "100%"
                   className="filterFocus"
                 />
               }
