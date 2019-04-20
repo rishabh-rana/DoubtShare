@@ -23,6 +23,14 @@ const Bar = styled.div`
     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 `;
 
+const NameText = styled.h6 `
+  padding: 0;
+  margin: 4px 0 0 0;
+  font-size: 8px;
+  font-weight: 400;
+  
+`
+
 const Navigator = styled.div`
   height: 24px;
   width: auto;
@@ -35,6 +43,8 @@ const Navigator = styled.div`
     css`
       color: ${colorParser("primary")};
     `};
+  display: flex;
+  flex-direction: column;
 `;
 
 class BottomNavigator extends React.Component {
@@ -65,12 +75,14 @@ class BottomNavigator extends React.Component {
           onClick={() => this.handleClick("feed")}
         >
           <i className="fas fa-home" />
+          <NameText>Home</NameText>
         </Navigator>
         <Navigator
           active={this.state.active === "search" ? true : false}
           onClick={() => this.handleClick("search")}
         >
           <i className="fas fa-search" />
+          <NameText>Search</NameText>
         </Navigator>
         <Navigator
           active={this.state.active === "ask" ? true : false}
@@ -79,20 +91,23 @@ class BottomNavigator extends React.Component {
           {this.props.uploadingImage ? (
             <i className="fas fa-cloud-upload-alt" />
           ) : (
-            "Pucho"
+            <i className="fas fa-plus" />
           )}
+          <NameText>Ask</NameText>
         </Navigator>
         <Navigator
           active={this.state.active === "notifications" ? true : false}
           onClick={() => this.handleClick("notifications")}
         >
           <i className="fas fa-bell" />
+          <NameText>Notify</NameText>
         </Navigator>
         <Navigator
           active={this.state.active === "profile" ? true : false}
           onClick={() => this.handleClick("profile")}
         >
           <i className="fas fa-user" />
+          <NameText>Profile</NameText>
         </Navigator>
       </Bar>
     );
