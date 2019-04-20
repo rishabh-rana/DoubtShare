@@ -85,6 +85,10 @@ class ProfileScreen extends React.Component {
     });
   };
 
+  componentDidMount() {
+    this.selectSection("FOL");
+  }
+
   render() {
     return (
       <React.Fragment>
