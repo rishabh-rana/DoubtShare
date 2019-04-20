@@ -161,13 +161,20 @@ class AskQuestion extends React.Component {
         <CropUI
           image={this.state.image}
           setImage={this.setImage}
+          cropUIMessage="Preparing Image"
           cropDone={() => this.setState({ croppingDone: true })}
         />
       );
     }
 
     return (
-      <div style={{ padding: "10px", paddingBottom: "60px" }}>
+      <div
+        style={{
+          padding: "10px",
+          overflowY: "scroll",
+          height: window.screen.height
+        }}
+      >
         {this.state.image && (
           <img
             src={this.state.image}
@@ -205,6 +212,7 @@ class AskQuestion extends React.Component {
         <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
         {loaderSetup}
+        <div style={{ height: "120px" }} />
       </div>
     );
   }

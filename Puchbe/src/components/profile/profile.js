@@ -91,7 +91,7 @@ class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div style={{ overflowY: "scroll", height: window.screen.height }}>
         <ProfileHeader
           selectSection={this.selectSection}
           selected={this.state.selected}
@@ -100,7 +100,7 @@ class ProfileScreen extends React.Component {
         />
 
         {this.getContent(this.state.selected)}
-      </React.Fragment>
+      </div>
     );
   }
 }

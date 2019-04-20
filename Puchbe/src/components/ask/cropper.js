@@ -87,8 +87,8 @@ class CropUI extends React.Component {
 
         {this.state.cropLoading && (
           <Overlay>
-            <Loader className="overrideWhiteColor" />Preparing Whiteboard
-            Experience
+            <Loader className="overrideWhiteColor" />
+            {this.props.cropUIMessage || "Preparing Whiteboard Experience"}
           </Overlay>
         )}
 

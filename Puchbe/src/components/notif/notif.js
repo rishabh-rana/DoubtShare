@@ -8,6 +8,8 @@ import Fullmessage from "../profile/Fullmessage";
 
 const Container = styled.div`
   padding: 10px;
+  overflow-y: scroll;
+  height: ${window.screen.height};
 `;
 
 class NotificationScreen extends React.Component {
@@ -53,6 +55,7 @@ class NotificationScreen extends React.Component {
         {!this.state.loading && this.state.notifs.length === 0 && (
           <Fullmessage message="No notifications" />
         )}
+        <div style={{ height: "80px" }} />
       </Container>
     );
   }

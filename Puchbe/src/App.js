@@ -104,7 +104,7 @@ class App extends Component {
     return (
       <ErrorBoundary>
         <BrowserRouter>
-          <div style={{ height: window.screen.height }}>
+          <React.Fragment>
             <Route path="/" component={Header} />
             <Route path="/" exact component={GoToFeed} />
             <Route path="/feed" exact component={Feed} />
@@ -115,7 +115,7 @@ class App extends Component {
             <Route path="/" component={PaddingBox} />
             <Route path="/" component={BottomNavigator} />
             <ErrorPopup />
-          </div>
+          </React.Fragment>
         </BrowserRouter>
       </ErrorBoundary>
     );

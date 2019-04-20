@@ -25,7 +25,7 @@ const CenterBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: ${window.screen.height + "px"};
   background: rgba(0, 0, 0, 0.6);
 `;
 

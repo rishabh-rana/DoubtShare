@@ -10,13 +10,15 @@ function sendNotificationToDB(
   description: string,
   data: any
 ) {
+  console.log("saving noti to db");
   db.collection("users")
     .doc(userId)
     .collection("notifications")
     .add({
       title: notifTitle,
       description: description,
-      questionId: data.questionId
+      questionId: data.questionId,
+      timestamp: Date.now()
     });
 
   return true;

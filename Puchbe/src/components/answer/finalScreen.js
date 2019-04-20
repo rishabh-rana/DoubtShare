@@ -19,7 +19,8 @@ const DescriptionInput = styled.textarea`
 
 const Container = styled.div`
   padding: 10px;
-  padding-bottom: 60px;
+  overflow-y: scroll;
+  height: ${window.screen.height};
 `;
 
 class FinalScreen extends React.Component {
@@ -69,6 +70,7 @@ class FinalScreen extends React.Component {
           placeholder="enter description/ hints for answer"
         />
         <Button onClick={this.answer} label="Post Answer" color="dark" />
+        <div style={{ height: "80px" }} />
       </Container>
     );
   }

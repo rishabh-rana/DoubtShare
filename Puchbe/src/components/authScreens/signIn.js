@@ -36,6 +36,7 @@ const ErrorValidation = styled.div`
 
 const Container = styled.div`
   text-align: center;
+  overflow-y: scroll;
   padding: 30px;
   height: ${window.screen.height + "px"};
   background: #f4dc59;
@@ -90,6 +91,7 @@ class SignIn extends React.Component {
           <ErrorValidation>Please enter valid mobile number</ErrorValidation>
         )}
         <Google onClick={this.handleSignin} src="./googleSigninButton.png" />
+        <div style={{ height: "80px" }} />
       </Container>
     );
   }

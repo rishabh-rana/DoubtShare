@@ -80,7 +80,13 @@ class SearchScreen extends React.Component {
 
   render() {
     let content = (
-      <div style={{ padding: "16px" }}>
+      <div
+        style={{
+          padding: "16px",
+          overflowY: "scroll",
+          height: window.screen.height
+        }}
+      >
         <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
         <Button
@@ -100,7 +106,7 @@ class SearchScreen extends React.Component {
       );
     } else if (!this.state.loading && this.state.active) {
       content = (
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           <div
             style={{
               position: "absolute",

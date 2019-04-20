@@ -259,243 +259,252 @@ class FeedCard extends React.Component {
     return (
       <div
         style={{
-          overflow: "auto",
-          backgroundColor: "#fcfcfc",
-          width: "92vw",
-          margin: "2vh auto 2vh auto",
-          borderRadius: "12px",
-          boxShadow: "0px 0px 12px -6px rgba(0, 0, 0, 0.2)"
-
+          height: parseInt(window.screen.height) + "px"
         }}
       >
         <div
           style={{
             overflow: "auto",
-            backgroundColor: "null",
-            padding: "16px",
-            paddingTop: "32px"
+            backgroundColor: "#fcfcfc",
+            width: "92vw",
+            margin: "2vh auto 2vh auto",
+            borderRadius: "12px",
+            boxShadow: "0px 0px 12px -6px rgba(0, 0, 0, 0.2)"
           }}
         >
-          <Ques
-            onClick={() => mixpanel.track("clickedOnQuestionNonClickableArea")}
-          >
-            Question: {dat.title}
-          </Ques>
-          <Taglist>
-            {Object.keys(dat.tags).map(tag => {
-              if (tag.indexOf("$") === -1)
-                return (
-                  <span key={tag} onClick={() => this.handleTagPress(tag)}>
-                    #{tag}{" "}
-                  </span>
-                );
-            })}
-          </Taglist>
-        </div>
-
-        {dat.image && (
           <div
             style={{
-              minHeight: "160px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
+              overflow: "auto",
+              backgroundColor: "null",
+              padding: "16px",
+              paddingTop: "32px"
             }}
           >
-            <a
-              href={dat.image}
-              target="_blank"
-              onClick={() => mixpanel.track("pressedOnImageInFeedCard")}
+            <Ques
+              onClick={() =>
+                mixpanel.track("clickedOnQuestionNonClickableArea")
+              }
             >
-              <img
-                src={dat.image}
-                alt="Loading"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block"
-                }}
-                className="filterFocus"
-              />
-            </a>
+              Question: {dat.title}
+            </Ques>
+            <Taglist>
+              {Object.keys(dat.tags).map(tag => {
+                if (tag.indexOf("$") === -1)
+                  return (
+                    <span key={tag} onClick={() => this.handleTagPress(tag)}>
+                      #{tag}{" "}
+                    </span>
+                  );
+              })}
+            </Taglist>
           </div>
-        )}
 
-        <Row>
-          <DisplayName
-            onClick={() => mixpanel.track("pressedDisplayNameNonClickableArea")}
-          >
-            by {dat.uploader.displayName}
-          </DisplayName>
-          <ReaskCounter
-            onClick={() =>
-              mixpanel.track("pressedNumberOfReasksNonClickableArea")
-            }
-          >
-            {Object.keys(dat.reAsks).length}{" "}
-            <DisplayName> {" Reasks"}</DisplayName>
-          </ReaskCounter>
-        </Row>
-
-        <Row>
-          <div style={{ flexGrow: 9 }}>
-            <ImageButton
-              label="Answer"
-              color="dark"
-              setImage={this.props.setImage}
-              onChangeHandler={() => {
-                mixpanel.track("startedAnsweringQuestion");
-                this.props.changeAnswerMode(true, dat.docid);
+          {dat.image && (
+            <div
+              style={{
+                minHeight: "160px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
-            />
-          </div>
-          <SmallButtons
-            active={
-              this.state.bookmarked !== null
-                ? this.state.bookmarked
-                : dat.bookmarks.hasOwnProperty(this.props.auth.uid)
-            }
-            onClick={() => this.handleBookmark(dat.bookmarks, dat.docid)}
-          >
-            <i className="fas fa-bookmark" />
-          </SmallButtons>
-          <SmallButtons
-            active={
-              this.state.reasked !== null
-                ? this.state.reasked
-                : dat.reAsks.hasOwnProperty(this.props.auth.uid)
-            }
-            onClick={() => this.handlereask(dat.reAsks, dat.docid)}
-          >
-            <i className="fas fa-sync-alt" />
-          </SmallButtons>
-        </Row>
-
-        {admins.indexOf(this.props.auth.uid) !== -1 && (
-          <Row>
-            <Button
-              label="Delete Question"
-              onClick={() => this.props.deleteQuestion(dat, dat.docid)}
-              color="red"
-            />
-          </Row>
-        )}
-
-        <AnswersIndicatorText
-          onClick={() =>
-            mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
-          }
-        >
-          Answers
-        </AnswersIndicatorText>
-        <ChevronDown
-          onClick={() =>
-            mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
-          }
-        >
-          <i className="fas fa-chevron-down" />
-        </ChevronDown>
-
-        {this.state.answers.map((ans, i) => {
-          return (
-            <div key={i} style={{ marginBottom: "20px" }}>
-              {
-                <video
-                  id={ans.file}
-                  onPlay={() => {
-                    this.props.handleVideoPlay(ans.file);
-                    mixpanel.track("playedAnswerVideo");
+            >
+              <a
+                href={dat.image}
+                target="_blank"
+                onClick={() => mixpanel.track("pressedOnImageInFeedCard")}
+              >
+                <img
+                  src={dat.image}
+                  alt="Loading"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block"
                   }}
-                  src={ans.file}
-                  onPause={() => mixpanel.track("pausedAnswerVideo")}
-                  controls
-                  width= "100%"
                   className="filterFocus"
                 />
+              </a>
+            </div>
+          )}
+
+          <Row>
+            <DisplayName
+              onClick={() =>
+                mixpanel.track("pressedDisplayNameNonClickableArea")
               }
-              <div
-                style={{
-                  marginBottom: "5px"
+            >
+              by {dat.uploader.displayName}
+            </DisplayName>
+            <ReaskCounter
+              onClick={() =>
+                mixpanel.track("pressedNumberOfReasksNonClickableArea")
+              }
+            >
+              {Object.keys(dat.reAsks).length}{" "}
+              <DisplayName> {" Reasks"}</DisplayName>
+            </ReaskCounter>
+          </Row>
+
+          <Row>
+            <div style={{ flexGrow: 9 }}>
+              <ImageButton
+                label="Answer"
+                color="dark"
+                setImage={this.props.setImage}
+                onChangeHandler={() => {
+                  mixpanel.track("startedAnsweringQuestion");
+                  this.props.changeAnswerMode(true, dat.docid);
                 }}
-              >
-                <Row>
-                  <div style={{ flexGrow: 6, paddingTop: "7px" }}>
-                    <DisplayName
+              />
+            </div>
+            <SmallButtons
+              active={
+                this.state.bookmarked !== null
+                  ? this.state.bookmarked
+                  : dat.bookmarks.hasOwnProperty(this.props.auth.uid)
+              }
+              onClick={() => this.handleBookmark(dat.bookmarks, dat.docid)}
+            >
+              <i className="fas fa-bookmark" />
+            </SmallButtons>
+            <SmallButtons
+              active={
+                this.state.reasked !== null
+                  ? this.state.reasked
+                  : dat.reAsks.hasOwnProperty(this.props.auth.uid)
+              }
+              onClick={() => this.handlereask(dat.reAsks, dat.docid)}
+            >
+              <i className="fas fa-sync-alt" />
+            </SmallButtons>
+          </Row>
+
+          {admins.indexOf(this.props.auth.uid) !== -1 && (
+            <Row>
+              <Button
+                label="Delete Question"
+                onClick={() => this.props.deleteQuestion(dat, dat.docid)}
+                color="red"
+              />
+            </Row>
+          )}
+
+          <AnswersIndicatorText
+            onClick={() =>
+              mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+            }
+          >
+            Answers
+          </AnswersIndicatorText>
+          <ChevronDown
+            onClick={() =>
+              mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+            }
+          >
+            <i className="fas fa-chevron-down" />
+          </ChevronDown>
+
+          {this.state.answers.map((ans, i) => {
+            return (
+              <div key={i} style={{ marginBottom: "20px" }}>
+                {
+                  <video
+                    id={ans.file}
+                    onPlay={() => {
+                      this.props.handleVideoPlay(ans.file);
+                      mixpanel.track("playedAnswerVideo");
+                    }}
+                    src={ans.file}
+                    onPause={() => mixpanel.track("pausedAnswerVideo")}
+                    controls
+                    width="100%"
+                    className="filterFocus"
+                  />
+                }
+                <div
+                  style={{
+                    marginBottom: "5px"
+                  }}
+                >
+                  <Row>
+                    <div style={{ flexGrow: 6, paddingTop: "7px" }}>
+                      <DisplayName
+                        onClick={() =>
+                          mixpanel.track(
+                            "pressedDisplayNameInAnswerNonClickableArea"
+                          )
+                        }
+                      >
+                        by {ans.uploader.displayName}
+                      </DisplayName>
+                    </div>
+
+                    <UpVoteButton
                       onClick={() =>
-                        mixpanel.track(
-                          "pressedDisplayNameInAnswerNonClickableArea"
+                        this.handleUpvote(
+                          true,
+                          ans.upvotes,
+                          ans.downvotes,
+                          dat.docid,
+                          ans.docid
                         )
                       }
                     >
-                      by {ans.uploader.displayName}
-                    </DisplayName>
-                  </div>
-
-                  <UpVoteButton
-                    onClick={() =>
-                      this.handleUpvote(
-                        true,
-                        ans.upvotes,
-                        ans.downvotes,
-                        dat.docid,
-                        ans.docid
-                      )
-                    }
-                  >
-                    <i className="fas fa-arrow-up" /> {ans.upvotes.length}
-                  </UpVoteButton>
-                  <DownVoteButton
-                    onClick={() =>
-                      this.handleUpvote(
-                        false,
-                        ans.upvotes,
-                        ans.downvotes,
-                        dat.docid,
-                        ans.docid
-                      )
-                    }
-                  >
-                    <i className="fas fa-arrow-down" /> {ans.downvotes.length}
-                  </DownVoteButton>
-                </Row>
-
-                {admins.indexOf(this.props.auth.uid) !== 1 && (
-                  <Row>
-                    <Button
-                      label="Delete Answer"
+                      <i className="fas fa-arrow-up" /> {ans.upvotes.length}
+                    </UpVoteButton>
+                    <DownVoteButton
                       onClick={() =>
-                        this.props.deleteAnswer(ans, dat.docid, ans.docid)
+                        this.handleUpvote(
+                          false,
+                          ans.upvotes,
+                          ans.downvotes,
+                          dat.docid,
+                          ans.docid
+                        )
                       }
-                      color="red"
-                    />
+                    >
+                      <i className="fas fa-arrow-down" /> {ans.downvotes.length}
+                    </DownVoteButton>
                   </Row>
-                )}
 
-                <Description
-                  onClick={() =>
-                    mixpanel.track("pressedDescriptionBoxInAnswers")
-                  }
-                >
-                  {ans.description}
-                </Description>
+                  {admins.indexOf(this.props.auth.uid) !== 1 && (
+                    <Row>
+                      <Button
+                        label="Delete Answer"
+                        onClick={() =>
+                          this.props.deleteAnswer(ans, dat.docid, ans.docid)
+                        }
+                        color="red"
+                      />
+                    </Row>
+                  )}
+
+                  <Description
+                    onClick={() =>
+                      mixpanel.track("pressedDescriptionBoxInAnswers")
+                    }
+                  >
+                    {ans.description}
+                  </Description>
+                </div>
               </div>
+            );
+          })}
+          {this.state.feedDone ? (
+            <div style={{ padding: "5px" }}>
+              <AnswersIndicatorText>No more Answers</AnswersIndicatorText>
             </div>
-          );
-        })}
-        {this.state.feedDone ? (
-          <div style={{ padding: "5px" }}>
-            <AnswersIndicatorText>No more Answers</AnswersIndicatorText>
-          </div>
-        ) : (
-          <div style={{ padding: "5px 25px" }}>
-            <Button
-              onClick={this.getAnswers}
-              label="Load more Answers"
-              color="dark"
-            />
-          </div>
-        )}
-        <div style={{ height: "60px" }} />
+          ) : (
+            <div style={{ padding: "5px 25px" }}>
+              <Button
+                onClick={this.getAnswers}
+                label="Load more Answers"
+                color="dark"
+              />
+            </div>
+          )}
+          <div style={{ height: "100px" }} />
+        </div>
       </div>
     );
   }
