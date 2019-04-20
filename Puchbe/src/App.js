@@ -98,9 +98,9 @@ class App extends Component {
   };
 
   render() {
-    //if (this.props.auth === null) {
-    //  return <SignIn />;
-    //}
+    if (this.props.auth === null) {
+      return <SignIn />;
+    }
     return (
       <ErrorBoundary>
         <BrowserRouter>
