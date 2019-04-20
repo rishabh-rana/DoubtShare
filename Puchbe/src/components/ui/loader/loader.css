@@ -3,6 +3,7 @@
   position: relative;
   width: 64px;
   height: 64px;
+  z-index: 100000000;
 }
 .lds-ripple div {
   position: absolute;

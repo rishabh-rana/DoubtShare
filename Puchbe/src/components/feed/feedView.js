@@ -6,10 +6,11 @@ import * as action from "../../actions/feed/getFeedChron";
 import { deleteAnswer } from "../../actions/answer/answerQuestion";
 import { deleteQuestion } from "../../actions/ask/askQuestion";
 import AnswerBox from "../answer/answerBox";
+import GhostUIFeedCard from "./ghostUI";
 
 class FeedView extends React.Component {
   state = {
-    cardIndex: 0,
+    cardIndex: 1,
     answerMode: false,
     answeringDoc: null,
     answerImage: null,
@@ -25,7 +26,8 @@ class FeedView extends React.Component {
   };
 
   changeCardIndex = i => {
-    if (i === this.props.feed.length - 1) {
+    if (i === this.props.feed.length) {
+      console.log("hey");
       this.props.getFeed(this.props.filter, this.props.paginate);
     }
     this.setState({
@@ -53,9 +55,12 @@ class FeedView extends React.Component {
     return (
       <SwipeView
         index={this.state.cardIndex}
+        getFeed={this.props.getFeed}
+        flushFeed={this.props.flushFeed}
         changeCardIndex={this.changeCardIndex}
         handleVideoPlay={id => this.handleVideoPlay(id)}
       >
+        <GhostUIFeedCard />
         {this.props.feed.map((dat, index) => {
           return (
             <FeedCard
@@ -75,6 +80,7 @@ class FeedView extends React.Component {
             />
           );
         })}
+        <GhostUIFeedCard />
       </SwipeView>
     );
   }

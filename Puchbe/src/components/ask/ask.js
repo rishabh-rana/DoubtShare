@@ -10,6 +10,7 @@ import styled from "styled-components";
 import CropUI from "./cropper";
 
 import { scaleImage } from "./resizeUpload";
+import ErrorBoundary from "../errorHandler/ErrorBoundary";
 
 const Holder = styled.div`
   width: 100%;
@@ -168,52 +169,54 @@ class AskQuestion extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          padding: "10px",
-          overflowY: "scroll",
-          height: window.screen.height
-        }}
-      >
-        {this.state.image && (
-          <img
-            src={this.state.image}
-            style={{
-              display: "block",
-              width: "100%",
-              margin: "0 auto",
-              marginBottom: "20px"
-            }}
-            className="filterFocus"
+      <ErrorBoundary>
+        <div
+          style={{
+            padding: "10px",
+            overflowY: "scroll",
+            height: window.screen.height
+          }}
+        >
+          {this.state.image && (
+            <img
+              src={this.state.image}
+              style={{
+                display: "block",
+                width: "100%",
+                margin: "0 auto",
+                marginBottom: "20px"
+              }}
+              className="filterFocus"
+            />
+          )}
+
+          {!this.state.image && (
+            <ImageFiller>
+              <i className="fas fa-camera" />
+            </ImageFiller>
+          )}
+
+          <ImageButton
+            color="secondary"
+            label={this.state.image ? "Change Image" : "Add Image"}
+            setImage={image => this.setState({ image, croppingDone: false })}
           />
-        )}
+          <Holder>
+            <Description
+              placeholder="Enter Question Description"
+              value={this.state.title}
+              onChange={e => this.setState({ title: e.target.value })}
+            />
+          </Holder>
 
-        {!this.state.image && (
-          <ImageFiller>
-            <i className="fas fa-camera" />
-          </ImageFiller>
-        )}
+          <TaggingMessage>Add upto 3 tags</TaggingMessage>
 
-        <ImageButton
-          color="secondary"
-          label={this.state.image ? "Change Image" : "Add Image"}
-          setImage={image => this.setState({ image, croppingDone: false })}
-        />
-        <Holder>
-          <Description
-            placeholder="Enter Question Description"
-            value={this.state.title}
-            onChange={e => this.setState({ title: e.target.value })}
-          />
-        </Holder>
+          <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
-        <TaggingMessage>Add upto 3 tags</TaggingMessage>
-
-        <Tagging syncTags={this.syncTags} tags={this.state.tags} />
-
-        {loaderSetup}
-        <div style={{ height: "120px" }} />
-      </div>
+          {loaderSetup}
+          <div style={{ height: "120px" }} />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

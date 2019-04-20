@@ -7,6 +7,8 @@ import ProfileHeader from "./profileHeader";
 import FeedView from "../../components/feed/feedView";
 import FullMessage from "./Fullmessage";
 import mixpanel from "../../config/mixpanel";
+import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import GhostUIFeedCard from "../feed/ghostUI";
 
 class ProfileScreen extends React.Component {
   state = {
@@ -16,7 +18,7 @@ class ProfileScreen extends React.Component {
   };
 
   getContent(selected) {
-    if (this.state.loading) return <Loader />;
+    if (this.state.loading) return <GhostUIFeedCard />;
     if (this.state.showMessage) {
       return <FullMessage message="No items to show" />;
     }
@@ -49,6 +51,7 @@ class ProfileScreen extends React.Component {
 
   getBookmarks = async () => {
     this.setState({ loading: true });
+    this.props.flushFeed();
     await this.props.getFeed("bookmarks." + this.props.auth.uid);
     if (this.props.feed.length === 0) {
       this.setState({ showMessage: true });
@@ -58,6 +61,7 @@ class ProfileScreen extends React.Component {
 
   getAsked = async () => {
     this.setState({ loading: true });
+    this.props.flushFeed();
     await this.props.getFeed("uploader." + this.props.auth.uid);
     if (this.props.feed.length === 0) {
       this.setState({ showMessage: true });
@@ -67,6 +71,7 @@ class ProfileScreen extends React.Component {
 
   getFollowed = async () => {
     this.setState({ loading: true });
+    this.props.flushFeed();
     await this.props.getFeed("reAsks." + this.props.auth.uid);
     if (this.props.feed.length === 0) {
       this.setState({ showMessage: true });
@@ -91,16 +96,18 @@ class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <div style={{ overflowY: "scroll", height: window.screen.height }}>
-        <ProfileHeader
-          selectSection={this.selectSection}
-          selected={this.state.selected}
-          auth={this.props.auth}
-          signout={this.props.signout}
-        />
+      <ErrorBoundary>
+        <div style={{ overflowY: "scroll", height: window.screen.height }}>
+          <ProfileHeader
+            selectSection={this.selectSection}
+            selected={this.state.selected}
+            auth={this.props.auth}
+            signout={this.props.signout}
+          />
 
-        {this.getContent(this.state.selected)}
-      </div>
+          {this.getContent(this.state.selected)}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

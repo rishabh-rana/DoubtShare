@@ -5,6 +5,7 @@ import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 import Button from "../ui/button";
 import Loader from "../ui/loader/loader";
+import ErrorBoundary from "../errorHandler/ErrorBoundary";
 
 // const TickButton = styled.div`
 //   border-radius: 50%;
@@ -74,42 +75,44 @@ class CropUI extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Cropper
-          ref="cropper"
-          src={this.props.image}
-          viewMode={2}
-          movable={false}
-          rotatable={true}
-          scalable={true}
-          zoomable={true}
-          style={{ height: window.innerHeight, width: "100%" }}
-        />
+        <ErrorBoundary>
+          <Cropper
+            ref="cropper"
+            src={this.props.image}
+            viewMode={2}
+            movable={false}
+            rotatable={true}
+            scalable={true}
+            zoomable={true}
+            style={{ height: window.innerHeight, width: "100%" }}
+          />
 
-        {this.state.cropLoading && (
-          <Overlay>
-            <Loader className="overrideWhiteColor" />
-            {this.props.cropUIMessage || "Preparing Whiteboard Experience"}
-          </Overlay>
-        )}
+          {this.state.cropLoading && (
+            <Overlay>
+              <Loader className="overrideWhiteColor" />
+              {this.props.cropUIMessage || "Preparing Whiteboard Experience"}
+            </Overlay>
+          )}
 
-        {!this.state.cropLoading && (
-          <PositionButtons>
-            <Button
-              label={<i class="fas fa-sync-alt" />}
-              width="45%"
-              color="secondary"
-              onClick={this.handleRotate}
-              mixpanelLabel="PressRotateCropperButton"
-            />
-            <Button
-              label={<i className="fas fa-check" />}
-              width="45%"
-              color="green"
-              onClick={this.handleDone}
-              mixpanelLabel="pressDoneCropperButton"
-            />
-          </PositionButtons>
-        )}
+          {!this.state.cropLoading && (
+            <PositionButtons>
+              <Button
+                label={<i class="fas fa-sync-alt" />}
+                width="45%"
+                color="secondary"
+                onClick={this.handleRotate}
+                mixpanelLabel="PressRotateCropperButton"
+              />
+              <Button
+                label={<i className="fas fa-check" />}
+                width="45%"
+                color="green"
+                onClick={this.handleDone}
+                mixpanelLabel="pressDoneCropperButton"
+              />
+            </PositionButtons>
+          )}
+        </ErrorBoundary>
       </React.Fragment>
     );
   }

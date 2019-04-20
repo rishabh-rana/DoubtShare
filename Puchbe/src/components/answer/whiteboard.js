@@ -5,6 +5,8 @@ import Button from "../ui/button";
 import SignaturePad from "signature_pad";
 import Loader from "../ui/loader/loader";
 
+import ErrorBoundary from "../../components/errorHandler/ErrorBoundary";
+
 const StopBtn = styled.button`
   border: none;
   border-radius: 100%;
@@ -236,42 +238,48 @@ class WhiteBoard extends React.Component {
 
     return (
       <React.Fragment>
-        <img src={this.props.image[0]} id={"myimg"} style={{ width: "100%" }} />
-        <CenterBox>
-          <canvas
-            id="sketchpad"
-            width={window.screen.width}
-            height={window.screen.width * this.props.aspectRatio}
-            className="filterFocus"
+        <ErrorBoundary>
+          <img
+            src={this.props.image[0]}
+            id={"myimg"}
+            style={{ width: "100%" }}
           />
-        </CenterBox>
+          <CenterBox>
+            <canvas
+              id="sketchpad"
+              width={window.screen.width}
+              height={window.screen.width * this.props.aspectRatio}
+              className="filterFocus"
+            />
+          </CenterBox>
 
-        {this.state.recording ? (
-          <StartStopHolder>
-            <Button
-              color="red"
-              id="record"
-              onClick={() => {
-                this.stopRecording();
-              }}
-              label="Stop Recording"
-            />
-          </StartStopHolder>
-        ) : (
-          <StartStopHolder>
-            <Button
-              color="green"
-              id="play"
-              onClick={() => {
-                this.setState({ recording: true, startingRecording: true });
-                this.startRecording();
-              }}
-              label={
-                this.state.startingRecording ? <Loader /> : "Start Recording"
-              }
-            />
-          </StartStopHolder>
-        )}
+          {this.state.recording ? (
+            <StartStopHolder>
+              <Button
+                color="red"
+                id="record"
+                onClick={() => {
+                  this.stopRecording();
+                }}
+                label="Stop Recording"
+              />
+            </StartStopHolder>
+          ) : (
+            <StartStopHolder>
+              <Button
+                color="green"
+                id="play"
+                onClick={() => {
+                  this.setState({ recording: true, startingRecording: true });
+                  this.startRecording();
+                }}
+                label={
+                  this.state.startingRecording ? <Loader /> : "Start Recording"
+                }
+              />
+            </StartStopHolder>
+          )}
+        </ErrorBoundary>
       </React.Fragment>
     );
   }

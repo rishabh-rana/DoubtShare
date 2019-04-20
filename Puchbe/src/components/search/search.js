@@ -8,6 +8,8 @@ import Loader from "../ui/loader/loader";
 import Button from "../ui/button";
 
 import mixpanel from "../../config/mixpanel";
+import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import GhostUIFeedCard from "../feed/ghostUI";
 
 class SearchScreen extends React.Component {
   state = {
@@ -57,6 +59,7 @@ class SearchScreen extends React.Component {
     this.setState({
       loading: true
     });
+    this.props.flushFeed();
     await this.props.getFeed("tags." + this.prepTags());
     this.setState({
       active: true,
@@ -80,30 +83,28 @@ class SearchScreen extends React.Component {
 
   render() {
     let content = (
-      <div
-        style={{
-          padding: "16px",
-          overflowY: "scroll",
-          height: window.screen.height
-        }}
-      >
-        <Tagging syncTags={this.syncTags} tags={this.state.tags} />
+      <ErrorBoundary>
+        <div
+          style={{
+            padding: "16px",
+            overflowY: "scroll",
+            height: window.screen.height
+          }}
+        >
+          <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
-        <Button
-          label="Search by Tags"
-          onClick={this.handleSearch}
-          marginTop="10px"
-          color="primary"
-        />
-      </div>
+          <Button
+            label="Search by Tags"
+            onClick={this.handleSearch}
+            marginTop="10px"
+            color="primary"
+          />
+        </div>
+      </ErrorBoundary>
     );
 
     if (this.state.loading) {
-      content = (
-        <div style={{ paddingTop: "50px" }}>
-          <Loader />;
-        </div>
-      );
+      content = <GhostUIFeedCard />;
     } else if (!this.state.loading && this.state.active) {
       content = (
         <div style={{ overflowY: "scroll" }}>

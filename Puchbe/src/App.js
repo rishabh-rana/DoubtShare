@@ -33,10 +33,12 @@ class App extends Component {
     this.setupPushNotifications();
   };
 
-  requestPermissionForPush = () => {
+  requestPermissionForPush = async () => {
     // check if permission is granted
-    const permission = localStorage.getItem("pushPermission");
-    if (permission) return;
+    const doc = await firestore
+      .collection("users")
+      .doc(this.props.auth)
+      .get();
 
     const uid = this.props.auth;
 
@@ -46,8 +48,7 @@ class App extends Component {
         messaging
           .getToken()
           .then(function(currentToken) {
-            if (currentToken) {
-              localStorage.setItem("pushPermission", currentToken);
+            if (currentToken && currentToken !== doc.data().gcm_token) {
               firestore
                 .collection("users")
                 .doc(uid)
@@ -90,9 +91,11 @@ class App extends Component {
         });
     });
 
+    const handleForegroundNotif = this.props.handleForegroundNotif;
+
     // handle foreground notifs
     messaging.onMessage(function(payload) {
-      this.props.handleForegroundNotif(payload);
+      handleForegroundNotif(payload);
       // ...
     });
   };

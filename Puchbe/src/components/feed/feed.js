@@ -9,6 +9,7 @@ import { firestore } from "../../config/firebase";
 import * as actions from "../../actions/feed/getFeedChron";
 import * as authee from "../../actions/auth/googleAuth";
 import FeedView from "./feedView";
+import GhostUIFeedCard from "./ghostUI";
 
 class Feed extends React.Component {
   componentDidMount() {
@@ -26,21 +27,22 @@ class Feed extends React.Component {
       });
       this.props.setPhoneNumber(null);
     }
+    this.props.flushFeed();
     this.props.getFeed();
   }
 
   render() {
     if (this.props.feed.length === 0) {
-      return (
-        <div style={{ marginTop: "50%" }}>
-          <Loader />
-        </div>
-      );
+      return <GhostUIFeedCard />;
     }
 
     return (
       <React.Fragment>
-        <FeedView history={this.props.history} />
+        <FeedView
+          history={this.props.history}
+          getFeed={this.props.getFeed}
+          flushFeed={this.props.flushFeed}
+        />
       </React.Fragment>
     );
   }

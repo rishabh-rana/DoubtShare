@@ -10,7 +10,6 @@ function sendNotificationToDB(
   description: string,
   data: any
 ) {
-  console.log("saving noti to db");
   db.collection("users")
     .doc(userId)
     .collection("notifications")
@@ -55,13 +54,11 @@ async function sendNotification(
             .messaging()
             .send(message)
             .then((response: any) => {
-              console.log("Send notification successfully: ", response);
               return new Promise((resolve, reject) => {
                 resolve(true);
               });
             })
             .catch((err: any) => {
-              console.log("Unable to send notification: ", err);
               return new Promise((resolve, reject) => {
                 resolve(false);
               });
@@ -74,7 +71,6 @@ async function sendNotification(
       });
     })
     .catch(err => {
-      console.error("Got error while sending notification: " + err);
       return new Promise((resolve, reject) => {
         resolve(false);
       });
@@ -84,18 +80,12 @@ async function sendNotification(
 exports.onChangeNotify = functions.firestore
   .document("/questions/{questionId}/answers/{answerId}")
   .onCreate(async (snap, context) => {
-    console.log("Entered into function onChangeNotify");
-
-    console.log(context.params.questionId);
-
     const doc = await db
       .collection("questions")
       .doc(context.params.questionId)
       .get();
 
     const data = doc.data();
-
-    console.log(data);
 
     let receivers: any[] = [];
     if (data) {

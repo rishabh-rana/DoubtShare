@@ -5,6 +5,7 @@ import Loader from "../../components/ui/loader/loader";
 import { firestore } from "../../config/firebase";
 import NotifDiv from "./notifDiv";
 import Fullmessage from "../profile/Fullmessage";
+import ErrorBoundary from "../errorHandler/ErrorBoundary";
 
 const Container = styled.div`
   padding: 10px;
@@ -46,17 +47,19 @@ class NotificationScreen extends React.Component {
 
   render() {
     return (
-      <Container>
-        {this.state.loading && <Loader />}
-        {!this.state.loading &&
-          this.state.notifs.map(notif => {
-            return <NotifDiv message={notif.description} />;
-          })}
-        {!this.state.loading && this.state.notifs.length === 0 && (
-          <Fullmessage message="No notifications" />
-        )}
-        <div style={{ height: "80px" }} />
-      </Container>
+      <ErrorBoundary>
+        <Container>
+          {this.state.loading && <Loader />}
+          {!this.state.loading &&
+            this.state.notifs.map(notif => {
+              return <NotifDiv message={notif.description} />;
+            })}
+          {!this.state.loading && this.state.notifs.length === 0 && (
+            <Fullmessage message="No notifications" />
+          )}
+          <div style={{ height: "80px" }} />
+        </Container>
+      </ErrorBoundary>
     );
   }
 }
