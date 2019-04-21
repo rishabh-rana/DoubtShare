@@ -18,11 +18,19 @@ const reducer = (
 ) => {
   if (action.type === "throwerror") {
     if (action.payload) {
-      let { message, duration, color, code, moreinfo } = action.payload;
+      let {
+        message,
+        duration,
+        color,
+        code,
+        moreinfo,
+        onClick
+      } = action.payload;
       let msg = message ? message : "Oops something went wrong..";
-      let dur = duration ? duration : 2500;
+      let dur = duration ? duration : 3500;
       let clr = color ? color : "yellow";
       let cde = code ? code : "404";
+      let onclk = onClick ? onClick : () => {};
       let moreinf = moreinfo ? moreinfo : null;
 
       return {
@@ -32,7 +40,8 @@ const reducer = (
           duration: dur,
           color: clr,
           code: cde,
-          moreinfo: moreinf
+          moreinfo: moreinf,
+          onClick: onclk
         }
       };
     } else {

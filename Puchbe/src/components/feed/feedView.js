@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as action from "../../actions/feed/getFeedChron";
 import { deleteAnswer } from "../../actions/answer/answerQuestion";
 import { deleteQuestion } from "../../actions/ask/askQuestion";
+import Fullmessage from "../profile/Fullmessage";
 import AnswerBox from "../answer/answerBox";
 import GhostUIFeedCard from "./ghostUI";
 
@@ -41,6 +42,17 @@ class FeedView extends React.Component {
       answeringDoc: docid
     });
   };
+
+  componentDidMount() {
+    document.querySelector("html").scrollTop = 0;
+    document.querySelector("body").style.overflowY = "hidden";
+  }
+
+  componentWillUnmount() {
+    document.querySelector("html").scrollTop = 0;
+    document.querySelector("body").style.overflowY = "scroll";
+  }
+
   render() {
     if (this.state.answerMode) {
       return (
@@ -59,8 +71,9 @@ class FeedView extends React.Component {
         flushFeed={this.props.flushFeed}
         changeCardIndex={this.changeCardIndex}
         handleVideoPlay={id => this.handleVideoPlay(id)}
+        singleQues={this.props.singleQues}
       >
-        <GhostUIFeedCard />
+        {<GhostUIFeedCard />}
         {this.props.feed.map((dat, index) => {
           return (
             <FeedCard
@@ -80,7 +93,11 @@ class FeedView extends React.Component {
             />
           );
         })}
-        <GhostUIFeedCard />
+        {!this.props.feedDone ? (
+          <GhostUIFeedCard />
+        ) : (
+          <Fullmessage message="Feed is Over" />
+        )}
       </SwipeView>
     );
   }
@@ -90,7 +107,8 @@ const mapstate = state => {
   return {
     feed: state.feed.data,
     auth: state.auth,
-    paginate: state.feed.paginate
+    paginate: state.feed.paginate,
+    feedDone: state.feed.paginate.feedDone
   };
 };
 

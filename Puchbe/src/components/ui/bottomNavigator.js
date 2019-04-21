@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
+import * as actions from "../../actions/feed/getFeedChron";
 import colorParser from "./color/colorParser";
 import mixpanel from "../../config/mixpanel";
 
@@ -23,13 +24,12 @@ const Bar = styled.div`
     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 `;
 
-const NameText = styled.h6 `
+const NameText = styled.h6`
   padding: 0;
   margin: 4px 0 0 0;
   font-size: 8px;
   font-weight: 400;
-  
-`
+`;
 
 const Navigator = styled.div`
   height: 24px;
@@ -72,7 +72,11 @@ class BottomNavigator extends React.Component {
       <Bar>
         <Navigator
           active={this.state.active === "feed" ? true : false}
-          onClick={() => this.handleClick("feed")}
+          onClick={() => {
+            this.props.flushFeed();
+            this.props.getFeed();
+            this.handleClick("feed");
+          }}
         >
           <i className="fas fa-home" />
           <NameText>Home</NameText>
@@ -120,4 +124,7 @@ const mapstate = state => {
   };
 };
 
-export default connect(mapstate)(BottomNavigator);
+export default connect(
+  mapstate,
+  actions
+)(BottomNavigator);

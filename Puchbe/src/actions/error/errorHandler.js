@@ -1,5 +1,6 @@
 export const resolveError = () => {
   return dispatch => {
+    console.log("resolved");
     dispatch({ type: "throwerror", payload: null });
   };
 };

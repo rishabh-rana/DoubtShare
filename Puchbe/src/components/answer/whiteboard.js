@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../ui/button";
 // import AddImageButton from "../ask/addImageButton";
 import SignaturePad from "signature_pad";
+import Help from "../ui/overlayHelp";
 import Loader from "../ui/loader/loader";
 
 import ErrorBoundary from "../../components/errorHandler/ErrorBoundary";
@@ -51,7 +52,8 @@ class WhiteBoard extends React.Component {
   state = {
     URLFINAL: null,
     recording: false,
-    startingRecording: false
+    startingRecording: false,
+    showHelp: false
   };
 
   mediaRecorder = null;
@@ -174,6 +176,14 @@ class WhiteBoard extends React.Component {
   // };
 
   componentDidMount() {
+    const firstTime = localStorage.getItem("help2");
+    if (firstTime !== "shown") {
+      localStorage.setItem("help2", "shown");
+      this.setState({
+        showHelp: true
+      });
+    }
+
     this.activeImage = 0;
 
     var canvas = document.querySelector("#sketchpad");
@@ -239,6 +249,16 @@ class WhiteBoard extends React.Component {
     return (
       <React.Fragment>
         <ErrorBoundary>
+          {this.state.showHelp && (
+            <Help
+              message={
+                <span>
+                  <div>Use finger as pointer to explain.</div> Press Start
+                  Recording when ready
+                </span>
+              }
+            />
+          )}
           <img
             src={this.props.image[0]}
             id={"myimg"}
@@ -251,34 +271,38 @@ class WhiteBoard extends React.Component {
               height={window.screen.width * this.props.aspectRatio}
               className="filterFocus"
             />
-          </CenterBox>
 
-          {this.state.recording ? (
-            <StartStopHolder>
-              <Button
-                color="red"
-                id="record"
-                onClick={() => {
-                  this.stopRecording();
-                }}
-                label="Stop Recording"
-              />
-            </StartStopHolder>
-          ) : (
-            <StartStopHolder>
-              <Button
-                color="green"
-                id="play"
-                onClick={() => {
-                  this.setState({ recording: true, startingRecording: true });
-                  this.startRecording();
-                }}
-                label={
-                  this.state.startingRecording ? <Loader /> : "Start Recording"
-                }
-              />
-            </StartStopHolder>
-          )}
+            {this.state.recording ? (
+              <StartStopHolder>
+                <Button
+                  color="red"
+                  id="record"
+                  onClick={() => {
+                    this.stopRecording();
+                  }}
+                  label="Stop Recording"
+                />
+              </StartStopHolder>
+            ) : (
+              <StartStopHolder>
+                <Button
+                  color="green"
+                  id="play"
+                  onClick={() => {
+                    this.setState({ recording: true, startingRecording: true });
+                    this.startRecording();
+                  }}
+                  label={
+                    this.state.startingRecording ? (
+                      <Loader />
+                    ) : (
+                      "Start Recording"
+                    )
+                  }
+                />
+              </StartStopHolder>
+            )}
+          </CenterBox>
         </ErrorBoundary>
       </React.Fragment>
     );

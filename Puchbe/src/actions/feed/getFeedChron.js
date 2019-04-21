@@ -6,6 +6,27 @@ export const flushFeed = () => {
   };
 };
 
+export const getSingleQuestion = id => {
+  return async dispatch => {
+    try {
+      const doc = await firestore
+        .collection("questions")
+        .doc(id)
+        .get();
+      const feed = [{ ...doc.data(), docid: doc.id }];
+      dispatch({ type: "getNewFeed", payload: feed });
+    } catch (error) {
+      dispatch({
+        type: "throwerror",
+        payload: {
+          message: "Cannot load the question. Try again later",
+          color: "red"
+        }
+      });
+    }
+  };
+};
+
 export const getFeed = (filter, paginate) => {
   return async dispatch => {
     try {
@@ -52,7 +73,11 @@ export const getFeed = (filter, paginate) => {
         if (feed.length === 0)
           dispatch({
             type: "throwerror",
-            payload: { message: "The feed is over" }
+            payload: {
+              message: "The feed is over. Tap to reload",
+              duration: 7000,
+              onClick: "reloadFeed"
+            }
           });
 
         if (newFeed) {

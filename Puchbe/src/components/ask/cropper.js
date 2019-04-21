@@ -84,6 +84,7 @@ class CropUI extends React.Component {
             rotatable={true}
             scalable={true}
             zoomable={true}
+            autoCropArea={0.6}
             style={{ height: window.innerHeight, width: "100%" }}
           />
 

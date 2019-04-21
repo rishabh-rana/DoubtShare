@@ -23,6 +23,7 @@ import PaddingBox from "./components/ui/paddingBox";
 import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
 
 import "./App.css";
+import SingleQuesFeed from "./components/feed/singleQuesFeed";
 
 class App extends Component {
   componentDidMount = async () => {
@@ -116,8 +117,9 @@ class App extends Component {
             <Route path="/notifications" exact component={NotificationScreen} />
             <Route path="/profile" exact component={ProfileScreen} />
             <Route path="/" component={PaddingBox} />
+            <Route path="/single_question" component={SingleQuesFeed} />
             <Route path="/" component={BottomNavigator} />
-            <ErrorPopup />
+            <Route path="/" component={ErrorPopup} />
           </React.Fragment>
         </BrowserRouter>
       </ErrorBoundary>

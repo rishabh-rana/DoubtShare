@@ -442,6 +442,7 @@ class FeedCard extends React.Component {
                 <div key={i} style={{ marginBottom: "20px" }}>
                   {
                     <video
+                      type="video/webm"
                       id={ans.file}
                       onPlay={() => {
                         this.props.handleVideoPlay(ans.file);
@@ -502,7 +503,7 @@ class FeedCard extends React.Component {
                     </Row>
 
                     {admins.indexOf(this.props.auth && this.props.auth.uid) !==
-                      1 && (
+                      -1 && (
                       <Row>
                         <Button
                           label="Delete Answer"
@@ -538,7 +539,7 @@ class FeedCard extends React.Component {
                 />
               </div>
             )}
-            <div style={{ height: "100px" }} />
+            <div style={{ height: "150px" }} />
           </div>
         </div>
       </ErrorBoundary>

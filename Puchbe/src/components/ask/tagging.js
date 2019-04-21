@@ -189,7 +189,7 @@ class Tagging extends React.Component {
           onChange={e => this.handleChange(e)}
           onFocus={this.handleFirstType}
           onBlur={this.handleBlur}
-          placeholder="search tags"
+          placeholder="search topics"
         />
 
         {this.state.inFocus && (

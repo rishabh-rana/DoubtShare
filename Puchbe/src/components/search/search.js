@@ -6,16 +6,37 @@ import * as err from "../../actions/error/errorHandler";
 import FeedView from "../feed/feedView";
 import Loader from "../ui/loader/loader";
 import Button from "../ui/button";
-
+import styled from "styled-components";
 import mixpanel from "../../config/mixpanel";
 import ErrorBoundary from "../errorHandler/ErrorBoundary";
 import GhostUIFeedCard from "../feed/ghostUI";
+
+const Taglist = styled.div`
+  margin-top: 20px;
+`;
+
+const Headertag = styled.div`
+  font-size: 25px;
+  margin-top: 40px;
+`;
+
+const Tags = styled.div`
+  font-size: 12px;
+  padding: 8px 20px;
+  background-color: #e0e0e0;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 10px;
+`;
 
 class SearchScreen extends React.Component {
   state = {
     tags: [],
     active: false
   };
+
+  taglist = ["mechanics", "Electrostatics"];
+
   validateSubmission = () => {
     if (this.state.tags.length === 0) {
       this.props.throwerror({
@@ -86,19 +107,29 @@ class SearchScreen extends React.Component {
       <ErrorBoundary>
         <div
           style={{
-            padding: "16px",
-            overflowY: "scroll",
-            height: window.screen.height
+            padding: "16px"
           }}
         >
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
           <Button
-            label="Search by Tags"
+            label="Search by Topics"
             onClick={this.handleSearch}
             marginTop="10px"
             color="primary"
           />
+
+          <Headertag>Popular Topics</Headertag>
+
+          <Taglist>
+            {this.taglist.map(tag => {
+              return (
+                <Tags key={tag} onClick={() => this.handleTagPress(tag)}>
+                  #{tag}{" "}
+                </Tags>
+              );
+            })}
+          </Taglist>
         </div>
       </ErrorBoundary>
     );
