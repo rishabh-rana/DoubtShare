@@ -14,7 +14,8 @@ const ImageButton = props => {
         }}
         type="file"
         multiple={false}
-        accept="image/png, image/jpeg, image/jpg"
+        accept="image/*"
+        capture="camera"
         onChange={e => {
           props.setImage(URL.createObjectURL(e.target.files[0]));
           if (props.onChangeHandler) props.onChangeHandler();

@@ -14,6 +14,14 @@ import GhostUIFeedCard from "../feed/ghostUI";
 const Taglist = styled.div`
   margin-top: 20px;
 `;
+const Header = styled.div`
+  font-size: 22px;
+  text-align: center;
+  margin-top: 20px;
+  color: grey;
+  opacity: 0.8;
+  margin-bottom: 20px;
+`;
 
 const Headertag = styled.div`
   font-size: 25px;
@@ -110,6 +118,7 @@ class SearchScreen extends React.Component {
             padding: "16px"
           }}
         >
+          <Header>Search Topics</Header>
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
           <Button

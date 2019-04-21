@@ -47,6 +47,12 @@ async function sendNotification(
               title: notifTitle,
               body: description
             },
+            webpush: {
+              notification: {
+                body: description,
+                badge: "/logo.png"
+              }
+            },
             data: data,
             token: gcm_token
           };
@@ -94,6 +100,11 @@ exports.onChangeNotify = functions.firestore
         receivers.push(data.uploader.uid);
     }
 
+    let topic: any = "a topic";
+    if (data && data.tags) {
+      topic = Object.keys(data.tags)[0];
+    }
+
     const ansData = snap.data();
 
     let answerer: String = "Someone";
@@ -104,7 +115,7 @@ exports.onChangeNotify = functions.firestore
     receivers.forEach(async id => {
       const title = "Your question was just answered!";
       const description =
-        answerer + " just answered your question. Tap to go to answer.";
+        answerer + " just answered your question on " + topic + ".";
       const data = { questionId: context.params.questionId };
 
       await sendNotification(id, title, description, data);

@@ -46,6 +46,14 @@ const ImageFiller = styled.div`
   padding-top: 100px;
 `;
 
+const Header = styled.div`
+  font-size: 22px;
+  text-align: center;
+  margin-top: 20px;
+  color: grey;
+  opacity: 0.8;
+`;
+
 class AskQuestion extends React.Component {
   state = {
     title: "",
@@ -181,6 +189,7 @@ class AskQuestion extends React.Component {
             padding: "10px"
           }}
         >
+          <Header>Ask a Question</Header>
           <TaggingMessage>
             Add a topic to the question (e.g. vectors)
           </TaggingMessage>

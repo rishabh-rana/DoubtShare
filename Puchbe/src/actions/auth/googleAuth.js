@@ -14,7 +14,8 @@ export const signin = () => {
     mixpanel.people.set({
       $email: result.user.email,
       $name: result.user.displayName,
-      $creationtime: result.user.metadata.creationTime
+      $creationtime: result.user.metadata.creationTime,
+      $actualUser: true
     });
     mixpanel.track("Signed In");
 

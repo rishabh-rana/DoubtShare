@@ -11,6 +11,14 @@ import ErrorBoundary from "../errorHandler/ErrorBoundary";
 const Container = styled.div`
   padding: 10px;
 `;
+const Header = styled.div`
+  font-size: 22px;
+  text-align: center;
+  margin-top: 20px;
+  color: grey;
+  opacity: 0.8;
+  margin-bottom: 20px;
+`;
 
 class NotificationScreen extends React.Component {
   state = {
@@ -31,7 +39,7 @@ class NotificationScreen extends React.Component {
     const notifications = [];
 
     notifs.forEach(doc => {
-      notifications.push(doc.data());
+      notifications.push({ ...doc.data(), docid: doc.id });
     });
 
     this.setState({
@@ -48,11 +56,15 @@ class NotificationScreen extends React.Component {
     return (
       <ErrorBoundary>
         <Container id="abcd">
+          <Header>Notifications</Header>
           {this.state.loading && <Loader />}
           {!this.state.loading &&
             this.state.notifs.map(notif => {
               return (
                 <NotifDiv
+                  auth={this.props.uid}
+                  id={notif.docid}
+                  active={notif.read || false}
                   message={notif.description}
                   onClick={() => {
                     this.props.flushFeed();

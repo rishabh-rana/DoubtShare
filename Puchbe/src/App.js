@@ -36,37 +36,39 @@ class App extends Component {
 
   requestPermissionForPush = async () => {
     // check if permission is granted
-    const doc = await firestore
-      .collection("users")
-      .doc(this.props.auth)
-      .get();
+    if (this.props.auth) {
+      const doc = await firestore
+        .collection("users")
+        .doc(this.props.auth)
+        .get();
 
-    const uid = this.props.auth;
+      const uid = this.props.auth;
 
-    messaging
-      .requestPermission()
-      .then(function() {
-        messaging
-          .getToken()
-          .then(function(currentToken) {
-            if (currentToken && currentToken !== doc.data().gcm_token) {
-              firestore
-                .collection("users")
-                .doc(uid)
-                .update({
-                  gcm_token: currentToken
-                });
-            } else {
-              // do something
-            }
-          })
-          .catch(function(err) {
-            console.log("An error occurred while retrieving token. ", err);
-          });
-      })
-      .catch(function(err) {
-        console.log("Unable to get permission to notify.", err);
-      });
+      messaging
+        .requestPermission()
+        .then(function() {
+          messaging
+            .getToken()
+            .then(function(currentToken) {
+              if (currentToken && currentToken !== doc.data().gcm_token) {
+                firestore
+                  .collection("users")
+                  .doc(uid)
+                  .update({
+                    gcm_token: currentToken
+                  });
+              } else {
+                // do something
+              }
+            })
+            .catch(function(err) {
+              console.log("An error occurred while retrieving token. ", err);
+            });
+        })
+        .catch(function(err) {
+          console.log("Unable to get permission to notify.", err);
+        });
+    }
   };
 
   setupPushNotifications = () => {

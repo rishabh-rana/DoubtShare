@@ -74,9 +74,8 @@ export const getFeed = (filter, paginate) => {
           dispatch({
             type: "throwerror",
             payload: {
-              message: "The feed is over. Tap to reload",
-              duration: 7000,
-              onClick: "reloadFeed"
+              message: "The feed is over. Tap the home icon to refresh feed",
+              duration: 3000
             }
           });
 
@@ -86,10 +85,6 @@ export const getFeed = (filter, paginate) => {
           dispatch({ type: "getContinuedFeed", payload: feed });
         }
       } else {
-        dispatch({
-          type: "throwerror",
-          payload: { message: "The feed is over" }
-        });
         console.log("feed over");
       }
     } catch (error) {
