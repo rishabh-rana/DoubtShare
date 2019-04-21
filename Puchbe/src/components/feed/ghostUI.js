@@ -13,7 +13,7 @@ class GhostUIFeedCard extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div style={{ background: colorParser("dark"), filter: "blur(1px)" }}>
+        <div style={{ background: colorParser("dark") }}>
           <FeedCard ghostUI={true} />
         </div>
       </React.Fragment>

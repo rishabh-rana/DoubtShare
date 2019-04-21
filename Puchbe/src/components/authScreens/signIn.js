@@ -4,7 +4,7 @@ import * as googleAuth from "../../actions/auth/googleAuth";
 import styled from "styled-components";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input/basic-input";
-import { NONAME } from "dns";
+import Loader from "../ui/loader/loader";
 
 const Logo = styled.div`
   background: url("./logo.png");
@@ -55,12 +55,14 @@ const EnterNumber = styled.div`
 class SignIn extends React.Component {
   state = {
     number: null,
-    error: false
+    error: false,
+    loading: false
   };
 
   handleSignin = () => {
     if (this.state.number) {
       console.log(this.state.number);
+      this.setState({ loading: true });
       this.props.setPhoneNumber(this.state.number);
       this.props.signin();
     } else {
@@ -95,6 +97,7 @@ class SignIn extends React.Component {
           <ErrorValidation>Please enter valid mobile number</ErrorValidation>
         )}
         <EnterNumber>Step 2) Click the button below</EnterNumber>
+        {this.state.loading && <Loader />}
         <Google onClick={this.handleSignin} src="./googleSigninButton.png" />
         <div style={{ height: "80px" }} />
       </Container>

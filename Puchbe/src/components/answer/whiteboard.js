@@ -283,6 +283,8 @@ class WhiteBoard extends React.Component {
                   label="Stop Recording"
                 />
               </StartStopHolder>
+            ) : this.state.startingRecording ? (
+              <Loader />
             ) : (
               <StartStopHolder>
                 <Button
@@ -290,15 +292,11 @@ class WhiteBoard extends React.Component {
                   id="play"
                   onClick={() => {
                     this.setState({ recording: true, startingRecording: true });
-                    this.startRecording();
+                    setTimeout(() => {
+                      this.startRecording();
+                    }, 50);
                   }}
-                  label={
-                    this.state.startingRecording ? (
-                      <Loader />
-                    ) : (
-                      "Start Recording"
-                    )
-                  }
+                  label={"Start Recording"}
                 />
               </StartStopHolder>
             )}
