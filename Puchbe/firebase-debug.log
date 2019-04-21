@@ -1,0 +1,35 @@
+[debug] [2019-04-20T12:54:46.369Z] ----------------------------------------------------------------------
+[debug] [2019-04-20T12:54:46.371Z] Command:       /usr/local/bin/node /Users/tanmayjoshi/.npm-global/bin/firebase deploy
+[debug] [2019-04-20T12:54:46.371Z] CLI Version:   6.7.0
+[debug] [2019-04-20T12:54:46.371Z] Platform:      darwin
+[debug] [2019-04-20T12:54:46.371Z] Node Version:  v10.13.0
+[debug] [2019-04-20T12:54:46.404Z] Time:          Sat Apr 20 2019 18:24:46 GMT+0530 (India Standard Time)
+[debug] [2019-04-20T12:54:46.404Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-04-20T12:54:46.480Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-20T12:54:46.480Z] > authorizing via signed-in user
+[debug] [2019-04-20T12:54:46.480Z] [iam] checking project ed-v1-4c4db for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2019-04-20T12:54:46.482Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-04-20T12:54:46.482Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-04-20T12:54:47.103Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T12:54:47.138Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ed-v1-4c4db:testIamPermissions  
+
+[debug] [2019-04-20T12:54:49.029Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T12:54:49.030Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ed-v1-4c4db  
+ 
+[debug] [2019-04-20T12:54:49.896Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'ed-v1-4c4db'...
+[info] 
+[info] i  deploying storage, firestore, functions, hosting
+[debug] [2019-04-20T12:54:49.901Z] TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received type undefined
+    at assertPath (path.js:39:11)
+    at Object.join (path.js:1155:7)
+    at Config.path (/Users/tanmayjoshi/.npm-global/lib/node_modules/firebase-tools/lib/config.js:142:39)
+    at getChildEnvironment (/Users/tanmayjoshi/.npm-global/lib/node_modules/firebase-tools/lib/deploy/lifecycleHooks.js:50:49)
+    at runTargetCommands (/Users/tanmayjoshi/.npm-global/lib/node_modules/firebase-tools/lib/deploy/lifecycleHooks.js:71:14)
+    at /Users/tanmayjoshi/.npm-global/lib/node_modules/firebase-tools/lib/deploy/lifecycleHooks.js:122:24
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+[error] 
+[error] Error: An unexpected error has occurred.
