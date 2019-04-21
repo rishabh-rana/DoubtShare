@@ -36,11 +36,13 @@ class App extends Component {
 
   requestPermissionForPush = async () => {
     // check if permission is granted
-    const doc = await firestore
+    const doc = "";
+    if (this.props.auth) {
+       doc = await firestore
       .collection("users")
       .doc(this.props.auth)
       .get();
-
+    }
     const uid = this.props.auth;
 
     messaging
