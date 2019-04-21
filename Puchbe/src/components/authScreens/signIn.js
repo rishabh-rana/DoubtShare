@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import * as googleAuth from "../../actions/auth/googleAuth";
 import styled from "styled-components";
-import OtpInput from "react-otp-input";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 
 const Logo = styled.div`
   background: url("./logo.png");
@@ -70,26 +72,16 @@ class SignIn extends React.Component {
     return (
       <Container>
         <Logo />
-        <EnterNumber>Enter Mobile Number</EnterNumber>
-        <OtpInput
-          inputStyle={{
-            fontSize: "22px",
-            border: "1px solid grey",
-            borderRadius: "5px",
-            marginRight: "6px",
-            lineHeight: "1.5",
-            outline: "none"
-          }}
-          onChange={otp => this.setState({ number: otp, error: false })}
-          numInputs={10}
-          separator={<span> </span>}
-          isInputNum={true}
-          hasErrored={this.state.error}
-          errorStyle={{ border: "1px solid red" }}
-        />
+        <EnterNumber>Step 1) Enter Mobile Number</EnterNumber>
+        <PhoneInput
+          placeholder="Enter phone number"
+          value={ this.state.phone }
+          onChange={ otp => this.setState({ number: otp, error: false })}
+          country="IN" />
         {this.state.error && (
           <ErrorValidation>Please enter valid mobile number</ErrorValidation>
         )}
+        <EnterNumber>Step 2) Click Below button</EnterNumber>
         <Google onClick={this.handleSignin} src="./googleSigninButton.png" />
         <div style={{ height: "80px" }} />
       </Container>
