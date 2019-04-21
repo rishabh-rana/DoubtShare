@@ -2,21 +2,23 @@ import React from "react";
 import { connect } from "react-redux";
 import * as googleAuth from "../../actions/auth/googleAuth";
 import styled from "styled-components";
-import OtpInput from "react-otp-input";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input/basic-input";
+import { NONAME } from "dns";
 
 const Logo = styled.div`
   background: url("./logo.png");
   width: 60%;
   height: 100px;
-  margin: 0 auto;
+  margin: 80px auto;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
 `;
 
 const Google = styled.img`
   width: 80%;
-  margin-top: 100px;
+  max-width: 240px;
 `;
 
 const ErrorValidation = styled.div`
@@ -39,15 +41,15 @@ const Container = styled.div`
   overflow-y: scroll;
   padding: 30px;
   height: ${window.screen.height + "px"};
-  background: #f4dc59;
+  background: #ffffff;
 `;
 
 const EnterNumber = styled.div`
   text-align: center;
-  font-size: 18px;
-  margin-bottom: 16px;
-  margin-top: 100px;
-  opacity: 0.8;
+  font-size: 16px;
+  margin-bottom: 32px;
+  margin-top: 32px;
+  color: #232323;
 `;
 
 class SignIn extends React.Component {
@@ -57,7 +59,7 @@ class SignIn extends React.Component {
   };
 
   handleSignin = () => {
-    if (/^\d{10}$/.test(this.state.number)) {
+    if (this.state.number) {
       console.log(this.state.number);
       this.props.setPhoneNumber(this.state.number);
       this.props.signin();
@@ -70,26 +72,29 @@ class SignIn extends React.Component {
     return (
       <Container>
         <Logo />
-        <EnterNumber>Enter Mobile Number</EnterNumber>
-        <OtpInput
-          inputStyle={{
-            fontSize: "22px",
+        <EnterNumber>Step 1) Enter Mobile Number</EnterNumber>
+        <PhoneInput
+          style={{
+            height: "40px",
+            width: "80%",
+            maxWidth: "320px",
+            backgroundColor: "#fdfdfd",
+            padding: "0",
+            textAlign: "center",
+            outline: "none",
             border: "1px solid grey",
-            borderRadius: "5px",
-            marginRight: "6px",
-            lineHeight: "1.5",
-            outline: "none"
+            borderRadius: "8px"
           }}
+          placeholder="Enter phone number"
+          value={this.state.number}
           onChange={otp => this.setState({ number: otp, error: false })}
-          numInputs={10}
-          separator={<span> </span>}
-          isInputNum={true}
-          hasErrored={this.state.error}
-          errorStyle={{ border: "1px solid red" }}
+          maxLength="11"
+          country="IN"
         />
         {this.state.error && (
           <ErrorValidation>Please enter valid mobile number</ErrorValidation>
         )}
+        <EnterNumber>Step 2) Click the button below</EnterNumber>
         <Google onClick={this.handleSignin} src="./googleSigninButton.png" />
         <div style={{ height: "80px" }} />
       </Container>
