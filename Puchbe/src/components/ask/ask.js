@@ -29,7 +29,7 @@ const Description = styled.textarea`
 const TaggingMessage = styled.div`
   margin-top: 30px;
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 const ImageFiller = styled.div`
@@ -64,9 +64,15 @@ class AskQuestion extends React.Component {
   validateSubmission = () => {
     if (this.state.tags.length === 0) {
       this.props.throwerror({
-        message: "Please add atleast one tag"
+        message: "Please add atleast one topic"
       });
       return false;
+    }
+
+    if (this.state.tags.length > 1) {
+      this.props.throwerror({
+        message: "Please use only one topic"
+      });
     }
 
     if (!this.state.image) {
@@ -172,11 +178,15 @@ class AskQuestion extends React.Component {
       <ErrorBoundary>
         <div
           style={{
-            padding: "10px",
-            overflowY: "scroll",
-            height: window.screen.height
+            padding: "10px"
           }}
         >
+          <TaggingMessage>
+            Add a topic to the question (e.g. vectors)
+          </TaggingMessage>
+
+          <Tagging syncTags={this.syncTags} tags={this.state.tags} />
+
           {this.state.image && (
             <img
               src={this.state.image}
@@ -209,12 +219,8 @@ class AskQuestion extends React.Component {
             />
           </Holder>
 
-          <TaggingMessage>Add upto 3 tags</TaggingMessage>
-
-          <Tagging syncTags={this.syncTags} tags={this.state.tags} />
-
           {loaderSetup}
-          <div style={{ height: "120px" }} />
+          <div style={{ height: "100px" }} />
         </div>
       </ErrorBoundary>
     );

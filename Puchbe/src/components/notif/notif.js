@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { getSingleQuestion, flushFeed } from "../../actions/feed/getFeedChron";
 import Loader from "../../components/ui/loader/loader";
 import { firestore } from "../../config/firebase";
 import NotifDiv from "./notifDiv";
@@ -9,8 +10,6 @@ import ErrorBoundary from "../errorHandler/ErrorBoundary";
 
 const Container = styled.div`
   padding: 10px;
-  overflow-y: scroll;
-  height: ${window.screen.height};
 `;
 
 class NotificationScreen extends React.Component {
@@ -48,11 +47,20 @@ class NotificationScreen extends React.Component {
   render() {
     return (
       <ErrorBoundary>
-        <Container>
+        <Container id="abcd">
           {this.state.loading && <Loader />}
           {!this.state.loading &&
             this.state.notifs.map(notif => {
-              return <NotifDiv message={notif.description} />;
+              return (
+                <NotifDiv
+                  message={notif.description}
+                  onClick={() => {
+                    this.props.flushFeed();
+                    this.props.getSingleQuestion(notif.questionId);
+                    this.props.history.push("/single_question");
+                  }}
+                />
+              );
             })}
           {!this.state.loading && this.state.notifs.length === 0 && (
             <Fullmessage message="No notifications" />
@@ -70,4 +78,7 @@ const mapstate = state => {
   };
 };
 
-export default connect(mapstate)(NotificationScreen);
+export default connect(
+  mapstate,
+  { getSingleQuestion, flushFeed }
+)(NotificationScreen);

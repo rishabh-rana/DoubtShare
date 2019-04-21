@@ -1,6 +1,7 @@
 import React from "react";
 import WhiteBoard from "./whiteboard";
 import Loader from "../ui/loader/loader";
+import FullMessage from "../profile/Fullmessage";
 import FinalScreen from "./finalScreen";
 import CropUI from "../ask/cropper";
 
@@ -79,7 +80,7 @@ class AnswerBox extends React.Component {
           />
         );
       case "loading":
-        return <Loader />;
+        return <FullMessage message="Uploading Answer ..." />;
     }
   }
 }

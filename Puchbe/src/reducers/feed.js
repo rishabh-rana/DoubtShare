@@ -3,7 +3,8 @@ const reducer = (
     data: [],
     paginate: {
       lastDoc: null,
-      filter: null
+      filter: null,
+      feedDone: false
     },
     searchFilter: null
   },
