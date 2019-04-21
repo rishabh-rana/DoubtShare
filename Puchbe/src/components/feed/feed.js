@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import Loader from "../ui/loader/loader";
-// import Help from "../ui/overlayHelp";
+// import Loader from "../ui/loader/loader";
+import Help from "../ui/overlayHelp";
 
 import mixpanel from "../../config/mixpanel";
 import { firestore } from "../../config/firebase";
@@ -12,6 +12,10 @@ import FeedView from "./feedView";
 import GhostUIFeedCard from "./ghostUI";
 
 class Feed extends React.Component {
+  state = {
+    showHelp: false
+  };
+
   componentDidMount() {
     if (this.props.authentication && this.props.authentication.phoneNumber) {
       console.log("kjhgfdfghj");
@@ -27,6 +31,15 @@ class Feed extends React.Component {
       });
       this.props.setPhoneNumber(null);
     }
+
+    const firstTime = localStorage.getItem("help1");
+    if (firstTime !== "shown") {
+      localStorage.setItem("help1", "shown");
+      this.setState({
+        showHelp: true
+      });
+    }
+
     this.props.flushFeed();
     this.props.getFeed();
   }
@@ -38,6 +51,9 @@ class Feed extends React.Component {
 
     return (
       <React.Fragment>
+        {this.state.showHelp && (
+          <Help message={<span>Swipe Left for more Questions</span>} />
+        )}
         <FeedView
           history={this.props.history}
           getFeed={this.props.getFeed}

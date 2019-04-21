@@ -19,11 +19,13 @@ const HolderText = styled.div`
   top: 0;
   bottom: 0;
   color: white;
-  font-size: 25px;
-  padding: 20px;
+  font-size: 35px;
+  padding: 40px;
   text-align: center;
   z-index: 10000;
   display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 class Overlay extends React.Component {
@@ -36,7 +38,7 @@ class Overlay extends React.Component {
       <React.Fragment>
         <Holder onClick={() => this.setState({ open: false })} />
         <HolderText onClick={() => this.setState({ open: false })}>
-          {this.props.text}
+          {this.props.message}
         </HolderText>
       </React.Fragment>
     ) : null;

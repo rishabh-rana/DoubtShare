@@ -187,6 +187,16 @@ class AskQuestion extends React.Component {
 
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
+          <TaggingMessage>Add some description (optional)</TaggingMessage>
+
+          <Holder>
+            <Description
+              placeholder="enter description"
+              value={this.state.title}
+              onChange={e => this.setState({ title: e.target.value })}
+            />
+          </Holder>
+
           {this.state.image && (
             <img
               src={this.state.image}
@@ -211,13 +221,6 @@ class AskQuestion extends React.Component {
             label={this.state.image ? "Change Image" : "Add Image"}
             setImage={image => this.setState({ image, croppingDone: false })}
           />
-          <Holder>
-            <Description
-              placeholder="Enter Question Description"
-              value={this.state.title}
-              onChange={e => this.setState({ title: e.target.value })}
-            />
-          </Holder>
 
           {loaderSetup}
           <div style={{ height: "100px" }} />

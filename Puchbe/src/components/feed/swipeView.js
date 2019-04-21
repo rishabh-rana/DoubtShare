@@ -10,6 +10,7 @@ const SwipeCards = props => {
       style={{ backgroundColor: colorParser("dark") }}
     >
       <ReactSwipe
+        disabled={props.singleQues}
         resistance={true}
         index={props.index}
         onChangeIndex={(ni, i) => {
