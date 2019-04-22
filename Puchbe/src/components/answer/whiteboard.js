@@ -7,6 +7,7 @@ import Help from "../ui/overlayHelp";
 import Loader from "../ui/loader/loader";
 
 import ErrorBoundary from "../../components/errorHandler/ErrorBoundary";
+import HelpBanner from "../ui/helpBanner";
 
 const StopBtn = styled.button`
   border: none;
@@ -249,6 +250,9 @@ class WhiteBoard extends React.Component {
     return (
       <React.Fragment>
         <ErrorBoundary>
+          <HelpBanner
+            message={<span>Draw using your finger to explain the answer.</span>}
+          />
           {this.state.showHelp && (
             <Help
               message={

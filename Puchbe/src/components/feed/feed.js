@@ -52,8 +52,9 @@ class Feed extends React.Component {
     return (
       <React.Fragment>
         {this.state.showHelp && (
-          <Help message={<span>Swipe Left for more Questions</span>} />
+          <Help message={<div>Swipe Left/ Right for more Questions</div>} />
         )}
+
         <FeedView
           history={this.props.history}
           getFeed={this.props.getFeed}

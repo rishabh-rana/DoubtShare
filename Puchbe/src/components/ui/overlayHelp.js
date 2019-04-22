@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Button from "../ui/button";
 
 const Holder = styled.div`
   position: absolute;
@@ -38,7 +39,10 @@ class Overlay extends React.Component {
       <React.Fragment>
         <Holder onClick={() => this.setState({ open: false })} />
         <HolderText onClick={() => this.setState({ open: false })}>
-          {this.props.message}
+          <div>
+            <div>{this.props.message}</div>
+            <Button label="Ok" color="primary" marginTop="30px" />
+          </div>
         </HolderText>
       </React.Fragment>
     ) : null;
