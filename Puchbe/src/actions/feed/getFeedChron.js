@@ -54,7 +54,7 @@ export const getFeed = (filter, paginate) => {
       }
 
       if ((paginate && paginate.feedDone !== true) || !paginate) {
-        const snap = await query.limit(4).get();
+        const snap = await query.limit(3).get();
 
         var lastDoc = snap.docs[snap.docs.length - 1];
         if (lastDoc) {

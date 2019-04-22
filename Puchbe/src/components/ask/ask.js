@@ -191,7 +191,7 @@ class AskQuestion extends React.Component {
         >
           <Header>Ask a Question</Header>
           <TaggingMessage>
-            Add a topic to the question (e.g. vectors)
+            Add a topic to the question, be specific (e.g. vectors)
           </TaggingMessage>
 
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />

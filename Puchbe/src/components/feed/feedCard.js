@@ -223,7 +223,7 @@ class FeedCard extends React.Component {
       (this.state.paginate && this.state.feedDone !== true) ||
       !this.state.paginate
     ) {
-      const snap = await query.limit(3).get();
+      const snap = await query.limit(2).get();
 
       var lastDoc = snap.docs[snap.docs.length - 1];
       if (lastDoc) {
@@ -232,7 +232,7 @@ class FeedCard extends React.Component {
         this.setState({ feedDone: true });
       }
 
-      if (snap.docs.length < 3) this.setState({ feedDone: true });
+      if (snap.docs.length < 2) this.setState({ feedDone: true });
 
       snap.forEach(doc => {
         answers.push({

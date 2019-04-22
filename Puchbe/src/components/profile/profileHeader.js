@@ -65,6 +65,8 @@ const MenuOptions = styled.div`
   width: 100%;
   font-size: 18px;
   text-align: right;
+  padding: 8px;
+  background: rgba(200, 200, 200, 0.2);
 `;
 
 // props.selectSection("ANS")

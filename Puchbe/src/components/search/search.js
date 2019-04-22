@@ -35,6 +35,7 @@ const Tags = styled.div`
   display: inline-block;
   border-radius: 4px;
   margin-right: 10px;
+  margin-top: 10px;
 `;
 
 class SearchScreen extends React.Component {
@@ -43,7 +44,14 @@ class SearchScreen extends React.Component {
     active: false
   };
 
-  taglist = ["mechanics", "Electrostatics"];
+  taglist = [
+    "mechanics",
+    "Solid State",
+    "electrostatics",
+    "Permutations and combinations",
+    "newton's laws of motion",
+    "Friction"
+  ];
 
   validateSubmission = () => {
     if (this.state.tags.length === 0) {

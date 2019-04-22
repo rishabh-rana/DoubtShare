@@ -7,6 +7,7 @@ import { firestore } from "../../config/firebase";
 import NotifDiv from "./notifDiv";
 import Fullmessage from "../profile/Fullmessage";
 import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import Button from "../ui/button";
 
 const Container = styled.div`
   padding: 10px;
@@ -23,29 +24,55 @@ const Header = styled.div`
 class NotificationScreen extends React.Component {
   state = {
     notifs: [],
-    loading: false
+    loading: false,
+    lastDoc: null,
+    feedDone: false
   };
 
   getNotifs = async () => {
     this.setState({ loading: true });
-    const notifs = await firestore
+    let newFeed = false;
+    let notifs = [];
+    let query = firestore
       .collection("users")
       .doc(this.props.uid)
       .collection("notifications")
-      .orderBy("timestamp", "desc")
-      .limit(15)
-      .get();
+      .orderBy("timestamp", "desc");
 
-    const notifications = [];
+    if (this.state.notifs.length !== 0) {
+      query = query.startAfter(this.state.lastDoc);
+    } else {
+      newFeed = true;
+    }
 
-    notifs.forEach(doc => {
-      notifications.push({ ...doc.data(), docid: doc.id });
-    });
+    if (!this.state.feedDone) {
+      const snap = await query.limit(4).get();
+      let lastDoc = snap.docs[snap.docs.length - 1];
 
-    this.setState({
-      notifs: notifications,
-      loading: false
-    });
+      if (lastDoc) {
+        this.setState({ lastDoc: lastDoc });
+      } else {
+        this.setState({ feedDone: true });
+      }
+
+      if (snap.docs.length < 4) this.setState({ feedDone: true });
+
+      snap.forEach(doc => {
+        notifs.push({
+          ...doc.data(),
+          docid: doc.id
+        });
+      });
+
+      if (newFeed) {
+        this.setState({ notifs: notifs, loading: false });
+      } else {
+        this.setState({
+          notifs: [...this.state.notifs, ...notifs],
+          loading: false
+        });
+      }
+    }
   };
 
   componentDidMount() {
@@ -57,8 +84,7 @@ class NotificationScreen extends React.Component {
       <ErrorBoundary>
         <Container id="abcd">
           <Header>Notifications</Header>
-          {this.state.loading && <Loader />}
-          {!this.state.loading &&
+          {this.state.notifs.length > 0 &&
             this.state.notifs.map(notif => {
               return (
                 <NotifDiv
@@ -74,6 +100,11 @@ class NotificationScreen extends React.Component {
                 />
               );
             })}
+          {this.state.feedDone ? null : this.state.loading ? (
+            <Loader />
+          ) : (
+            <Button label="load more" color="dark" onClick={this.getNotifs} />
+          )}
           {!this.state.loading && this.state.notifs.length === 0 && (
             <Fullmessage message="No notifications" />
           )}
