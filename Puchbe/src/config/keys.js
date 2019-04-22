@@ -8,5 +8,5 @@ export const FirebaseConfig = {
 };
 
 export const MixpanelKey = {
-  key: "71f1a4f97e8930ad812adf97111537cb"
+  key: "89499bfcd61c263d2ccb0735a0493204"
 };

@@ -23,6 +23,9 @@ const StartStopHolder = styled.div`
   bottom: 80px;
   left: 15px;
   right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 const CenterBox = styled.div`
@@ -91,8 +94,56 @@ class WhiteBoard extends React.Component {
     this.props.setFile(window.URL.createObjectURL(superBuffer));
   };
 
+  sendSynthTouchEvent(x, y, element, eventType) {
+    const touchObj = new Touch({
+      identifier: Date.now(),
+      target: element,
+      clientX: x,
+      clientY: y,
+      radiusX: 2.5,
+      radiusY: 2.5,
+      rotationAngle: 10,
+      force: 0.5
+    });
+
+    const touchEvent = new TouchEvent(eventType, {
+      cancelable: true,
+      bubbles: true,
+      touches: [touchObj],
+      targetTouches: [],
+      changedTouches: [touchObj],
+      shiftKey: true
+    });
+
+    element.dispatchEvent(touchEvent);
+  }
+
+  bundleSynthEvents = () => {
+    this.sendSynthTouchEvent(
+      10,
+      10,
+      document.getElementById("sketchpad"),
+      "touchstart"
+    );
+    this.sendSynthTouchEvent(
+      15,
+      10,
+      document.getElementById("sketchpad"),
+      "touchmove"
+    );
+    this.sendSynthTouchEvent(
+      15,
+      10,
+      document.getElementById("sketchpad"),
+      "touchend"
+    );
+  };
+
   stopRecording = () => {
-    this.mediaRecorder.stop();
+    this.bundleSynthEvents();
+    setTimeout(() => {
+      this.mediaRecorder.stop();
+    }, 50);
     //   console.log("Recorded Blobs: ", recordedBlobs);
     //   video.controls = true;
   };
@@ -276,34 +327,32 @@ class WhiteBoard extends React.Component {
               className="filterFocus"
             />
 
-            {this.state.recording ? (
-              <StartStopHolder>
-                <Button
-                  color="red"
-                  id="record"
-                  onClick={() => {
-                    this.stopRecording();
-                  }}
-                  label="Stop Recording"
-                />
-              </StartStopHolder>
-            ) : this.state.startingRecording ? (
-              <Loader />
-            ) : (
-              <StartStopHolder>
-                <Button
-                  color="green"
-                  id="play"
-                  onClick={() => {
-                    this.setState({ recording: true, startingRecording: true });
-                    setTimeout(() => {
-                      this.startRecording();
-                    }, 50);
-                  }}
-                  label={"Start Recording"}
-                />
-              </StartStopHolder>
-            )}
+            <StartStopHolder>
+              <Button
+                color="green"
+                id="play"
+                onClick={() => {
+                  this.setState({ recording: true }, () => {
+                    this.startRecording();
+                  });
+                }}
+                label={"Start Recording"}
+                width="48%"
+                disabled={this.state.recording}
+                fontSize="17px"
+              />
+              <Button
+                color="red"
+                id="record"
+                onClick={() => {
+                  this.stopRecording();
+                }}
+                label="Stop Recording"
+                width="48%"
+                disabled={!this.state.recording}
+                fontSize="17px"
+              />
+            </StartStopHolder>
           </CenterBox>
         </ErrorBoundary>
       </React.Fragment>

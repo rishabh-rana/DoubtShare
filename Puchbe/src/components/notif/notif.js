@@ -9,6 +9,8 @@ import Fullmessage from "../profile/Fullmessage";
 import ErrorBoundary from "../errorHandler/ErrorBoundary";
 import Button from "../ui/button";
 
+import mixpanel from "../../config/mixpanel";
+
 const Container = styled.div`
   padding: 10px;
 `;
@@ -93,6 +95,7 @@ class NotificationScreen extends React.Component {
                   active={notif.read || false}
                   message={notif.description}
                   onClick={() => {
+                    mixpanel.track("pressed Notification in notif tab");
                     this.props.flushFeed();
                     this.props.getSingleQuestion(notif.questionId);
                     this.props.history.push("/single_question");

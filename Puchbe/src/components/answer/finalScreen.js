@@ -32,6 +32,7 @@ class FinalScreen extends React.Component {
 
   answer = () => {
     this.props.loader();
+    mixpanel.track("Posted Answer to Question");
     this.props.answerQuestion(
       {
         description: this.state.description,

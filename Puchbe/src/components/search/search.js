@@ -45,9 +45,7 @@ class SearchScreen extends React.Component {
   };
 
   taglist = [
-    "mechanics",
-    "Solid State",
-    "electrostatics",
+    "circular motion",
     "Permutations and combinations",
     "newton's laws of motion",
     "Friction"
@@ -101,7 +99,8 @@ class SearchScreen extends React.Component {
     this.setState({
       active: true,
       loading: false,
-      tags: []
+      tags: [],
+      currentFilter: this.prepTags()
     });
   };
 
@@ -119,6 +118,7 @@ class SearchScreen extends React.Component {
   }
 
   render() {
+    console.log(this.state.tags);
     let content = (
       <ErrorBoundary>
         <div
@@ -126,11 +126,11 @@ class SearchScreen extends React.Component {
             padding: "16px"
           }}
         >
-          <Header>Search Topics</Header>
+          <Header>Select a topic from the list</Header>
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />
 
           <Button
-            label="Search by Topics"
+            label="Search by Topic"
             onClick={this.handleSearch}
             marginTop="10px"
             color="primary"
@@ -170,7 +170,11 @@ class SearchScreen extends React.Component {
               onClick={() => this.setState({ active: false })}
             />
           </div>
-          <FeedView history={this.props.history} />
+          <FeedView
+            history={this.props.history}
+            stopRefresh={true}
+            filter={"tags." + this.state.currentFilter}
+          />
         </div>
       );
     }

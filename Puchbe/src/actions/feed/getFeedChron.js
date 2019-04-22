@@ -40,6 +40,7 @@ export const getFeed = (filter, paginate) => {
       } else {
         query = query.orderBy("timestamp", "desc");
       }
+      console.log(paginate, filter);
 
       if (
         paginate &&
@@ -70,16 +71,12 @@ export const getFeed = (filter, paginate) => {
           });
         });
 
-        if (feed.length === 0)
-          dispatch({
-            type: "throwerror",
-            payload: {
-              message: "The feed is over. Tap the home icon to refresh feed",
-              duration: 3000
-            }
-          });
+        if (feed.length < 3) {
+          dispatch({ type: "paginateDoc", payload: { feedDone: true } });
+        }
 
         if (newFeed) {
+          console.log("dispatched neew feed");
           dispatch({ type: "getNewFeed", payload: feed });
         } else {
           dispatch({ type: "getContinuedFeed", payload: feed });

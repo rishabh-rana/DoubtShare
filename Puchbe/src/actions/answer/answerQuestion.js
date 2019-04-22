@@ -6,8 +6,8 @@ export const answerQuestion = (obj, docid, finishLoading) => {
     if (obj.file) {
       const name = Date.now() + obj.uid + ".webm";
       let blob = await fetch(obj.file).then(r => r.blob());
-      await storage.child("images/" + name).put(blob);
-      const url = await storage.child("images/" + name).getDownloadURL();
+      await storage.child("answers/" + name).put(blob);
+      const url = await storage.child("answers/" + name).getDownloadURL();
 
       console.log(url);
 
@@ -38,7 +38,6 @@ export const answerQuestion = (obj, docid, finishLoading) => {
           downvotes: []
         });
 
-      console.log("ANSWERED");
       finishLoading();
     }
   };
@@ -53,7 +52,6 @@ export const deleteAnswer = (ansObj, quesId, ansId) => {
       .doc(ansId)
       .delete();
 
-    storage.child("images/" + ansObj.deletePath).delete();
-    console.log(ansObj.deletePath);
+    storage.child("answers/" + ansObj.deletePath).delete();
   };
 };

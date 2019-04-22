@@ -5,17 +5,24 @@ import { per } from "../../config/firebase";
 import mixpanel from "../../config/mixpanel";
 import { firestore } from "../../config/firebase";
 
+import { admins } from "../../admins";
+
 export const signin = () => {
   return async dispatch => {
     await auth.setPersistence(per);
     var result = await auth.signInWithPopup(provider);
+
+    let isadmin = false;
+    if (admins.indexOf(result.user.uid) !== -1) {
+      isadmin = true;
+    }
 
     mixpanel.identify(result.user.uid);
     mixpanel.people.set({
       $email: result.user.email,
       $name: result.user.displayName,
       $creationtime: result.user.metadata.creationTime,
-      $actualUser: true
+      $isAdmin: isadmin
     });
     mixpanel.track("Signed In");
 

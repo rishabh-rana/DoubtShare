@@ -163,9 +163,8 @@ class AskQuestion extends React.Component {
       loaderSetup = (
         <Button
           label="Ask"
-          color="primary"
+          color="dark"
           onClick={this.handlesubmit}
-          inverted
           marginTop="60px"
         />
       );
@@ -191,7 +190,7 @@ class AskQuestion extends React.Component {
         >
           <Header>Ask a Question</Header>
           <TaggingMessage>
-            Add a topic to the question, be specific (e.g. vectors)
+            Select a topic from the list for your question (e.g. vectors)
           </TaggingMessage>
 
           <Tagging syncTags={this.syncTags} tags={this.state.tags} />

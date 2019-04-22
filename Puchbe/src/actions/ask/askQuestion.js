@@ -6,8 +6,8 @@ export const askQuestion = obj => {
     try {
       const name = Date.now() + ".jpg";
       let blob = await fetch(obj.image).then(r => r.blob());
-      await storage.child("images/" + name).put(blob);
-      const url = await storage.child("images/" + name).getDownloadURL();
+      await storage.child("questions/" + name).put(blob);
+      const url = await storage.child("questions/" + name).getDownloadURL();
 
       console.log(url);
 
@@ -80,12 +80,12 @@ export const deleteQuestion = (quesObj, quesId) => {
           .doc(ans.id)
           .delete();
 
-        storage.child("images/" + ans.data().deletePath).delete();
+        storage.child("answers/" + ans.data().deletePath).delete();
 
         console.log(ans.data().deletePath);
       });
 
-      storage.child("images/" + quesObj.deletePath).delete();
+      storage.child("questions/" + quesObj.deletePath).delete();
       firestore
         .collection("questions")
         .doc(quesId)

@@ -12,8 +12,14 @@ const BtnTemplate = styled.button`
   color: white;
   padding: 7px;
   text-align: center;
-  font-size: 20px;
+  font-size: ${props => props.fontSize};
   margin-top: ${props => props.marginTop};
+
+  ${props =>
+    props.disable &&
+    css`
+      filter: grayscale(100%);
+    `}
 
   ${props =>
     props.inverted &&
@@ -33,10 +39,12 @@ const Button = props => {
     inverted,
     marginTop,
     onClick,
-    mixpanelLabel
+    mixpanelLabel,
+    disabled,
+    fontSize
   } = props;
 
-  if (!mixpanelLabel) mixpanelLabel = label;
+  if (!mixpanelLabel) mixpanelLabel = "Pressed '" + label + "' button";
 
   // parse standard colors to hex values
   color = colorParser(color);
@@ -44,12 +52,17 @@ const Button = props => {
   return (
     <BtnTemplate
       color={color}
+      disabled={disabled}
+      disable={disabled}
       inverted={inverted}
+      fontSize={fontSize}
       width={width}
       marginTop={marginTop}
       onClick={() => {
-        mixpanel.track(mixpanelLabel);
-        onClick();
+        if (!disabled) {
+          mixpanel.track(mixpanelLabel);
+          onClick();
+        }
       }}
     >
       {label}
@@ -64,7 +77,9 @@ Button.propTypes = {
   inverted: propTypes.bool,
   marginTop: propTypes.string,
   onClick: propTypes.func,
-  mixpanelLabel: propTypes.string
+  mixpanelLabel: propTypes.string,
+  disabled: propTypes.bool,
+  fontSize: propTypes.string
 };
 
 Button.defaultProps = {
@@ -73,7 +88,9 @@ Button.defaultProps = {
   width: "100%",
   inverted: false,
   marginTop: "0px",
-  onClick: () => {}
+  onClick: () => {},
+  disabled: false,
+  fontSize: "20px"
 };
 
 export default Button;

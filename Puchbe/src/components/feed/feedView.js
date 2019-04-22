@@ -28,7 +28,6 @@ class FeedView extends React.Component {
 
   changeCardIndex = i => {
     if (i === this.props.feed.length) {
-      console.log("hey");
       this.props.getFeed(this.props.filter, this.props.paginate);
     }
     this.setState({
@@ -44,6 +43,7 @@ class FeedView extends React.Component {
   };
 
   componentDidMount() {
+    console.log(this.props.filter);
     document.querySelector("html").scrollTop = 0;
     document.querySelector("body").style.overflowY = "hidden";
   }
@@ -72,6 +72,7 @@ class FeedView extends React.Component {
         changeCardIndex={this.changeCardIndex}
         handleVideoPlay={id => this.handleVideoPlay(id)}
         singleQues={this.props.singleQues}
+        stopRefresh={this.props.stopRefresh}
       >
         {<GhostUIFeedCard />}
         {this.props.feed.map((dat, index) => {
@@ -96,7 +97,16 @@ class FeedView extends React.Component {
         {!this.props.feedDone ? (
           <GhostUIFeedCard />
         ) : (
-          <Fullmessage message="Feed is Over" />
+          <Fullmessage
+            message={
+              <div style={{ marginTop: "30px" }}>
+                <div>Feed is Over.</div>{" "}
+                <div style={{ padding: "10px", marginTop: "20px" }}>
+                  Tap Home button to go to start.
+                </div>
+              </div>
+            }
+          />
         )}
       </SwipeView>
     );

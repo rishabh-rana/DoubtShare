@@ -27,6 +27,7 @@ class ProfileScreen extends React.Component {
         return (
           <FeedView
             filter={"reAsks." + this.props.auth.uid}
+            stopRefresh={true}
             history={this.props.history}
           />
         );
@@ -34,6 +35,7 @@ class ProfileScreen extends React.Component {
         return (
           <FeedView
             filter={"uploader." + this.props.auth.uid}
+            stopRefresh={true}
             history={this.props.history}
           />
         );
@@ -41,6 +43,7 @@ class ProfileScreen extends React.Component {
         return (
           <FeedView
             filter={"bookmarks." + this.props.auth.uid}
+            stopRefresh={true}
             history={this.props.history}
           />
         );
