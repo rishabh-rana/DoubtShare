@@ -29,10 +29,8 @@ const StartStopHolder = styled.div`
 `;
 
 const CenterBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: ${window.screen.height + "px"};
+  padding-top: 80px;
+  min-height: ${parseInt(window.screen.availHeight) - 80 + "px"};
   background: rgba(0, 0, 0, 0.6);
 `;
 
@@ -94,56 +92,18 @@ class WhiteBoard extends React.Component {
     this.props.setFile(window.URL.createObjectURL(superBuffer));
   };
 
-  sendSynthTouchEvent(x, y, element, eventType) {
-    const touchObj = new Touch({
-      identifier: Date.now(),
-      target: element,
-      clientX: x,
-      clientY: y,
-      radiusX: 2.5,
-      radiusY: 2.5,
-      rotationAngle: 10,
-      force: 0.5
-    });
-
-    const touchEvent = new TouchEvent(eventType, {
-      cancelable: true,
-      bubbles: true,
-      touches: [touchObj],
-      targetTouches: [],
-      changedTouches: [touchObj],
-      shiftKey: true
-    });
-
-    element.dispatchEvent(touchEvent);
+  sendSynthTouchEvent() {
+    this.myctx.fillRect(10, 10, 1, 1);
   }
 
-  bundleSynthEvents = () => {
-    this.sendSynthTouchEvent(
-      10,
-      10,
-      document.getElementById("sketchpad"),
-      "touchstart"
-    );
-    this.sendSynthTouchEvent(
-      15,
-      10,
-      document.getElementById("sketchpad"),
-      "touchmove"
-    );
-    this.sendSynthTouchEvent(
-      15,
-      10,
-      document.getElementById("sketchpad"),
-      "touchend"
-    );
-  };
-
   stopRecording = () => {
-    this.bundleSynthEvents();
+    this.sendSynthTouchEvent();
+    this.sendSynthTouchEvent();
+    this.sendSynthTouchEvent();
+    this.sendSynthTouchEvent();
     setTimeout(() => {
       this.mediaRecorder.stop();
-    }, 50);
+    }, 200);
     //   console.log("Recorded Blobs: ", recordedBlobs);
     //   video.controls = true;
   };
@@ -300,10 +260,14 @@ class WhiteBoard extends React.Component {
 
     return (
       <React.Fragment>
-        <ErrorBoundary>
-          <HelpBanner
-            message={<span>Draw using your finger to explain the answer.</span>}
-          />
+        <ErrorBoundary type="whiteboard">
+          {!this.state.recording && (
+            <HelpBanner
+              message={
+                <span>Draw using your finger to explain the answer.</span>
+              }
+            />
+          )}
           {this.state.showHelp && (
             <Help
               message={
@@ -332,8 +296,17 @@ class WhiteBoard extends React.Component {
                 color="green"
                 id="play"
                 onClick={() => {
+                  this.sendSynthTouchEvent();
                   this.setState({ recording: true }, () => {
                     this.startRecording();
+                    this.sendSynthTouchEvent();
+                    this.sendSynthTouchEvent();
+                    setTimeout(() => {
+                      this.sendSynthTouchEvent();
+                      this.sendSynthTouchEvent();
+                      this.sendSynthTouchEvent();
+                      this.sendSynthTouchEvent();
+                    }, 1000);
                   });
                 }}
                 label={"Start Recording"}

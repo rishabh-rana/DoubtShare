@@ -12,10 +12,14 @@ const Error = styled.div`
 
 const ErrorBoundaryTemplate = props => {
   // make a grapic and put it here, it should be fluid as it will be used at many points
+  let message = "Something went wrong, please Reload the page";
+  if (props.type === "whiteboard")
+    message =
+      "Seems like your browser doesnt support WebRTC. Try updating it or contact us.";
   return (
     <React.Fragment>
       <Error>
-        Something went wrong, please Reload the page
+        {message}
         <div>
           <i className="fas fa-sync-alt" />
         </div>

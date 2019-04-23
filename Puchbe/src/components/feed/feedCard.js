@@ -17,6 +17,13 @@ const Ques = styled.h6`
   color: ${colorParser("dark")};
 `;
 
+const VerySmallText = styled.div`
+  font-size: 12px;
+  margin-top: 2px;
+  display: block;
+  text-align: center;
+`;
+
 const Taglist = styled.div`
   font-size: 12px;
   padding: 8px 20px;
@@ -96,6 +103,11 @@ const GhostUIOverlay = styled.div`
 `;
 
 class FeedCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.scrollDiv = React.createRef();
+  }
+
   state = {
     reasked: null,
     bookmarked: null,
@@ -279,6 +291,8 @@ class FeedCard extends React.Component {
           }}
         >
           <div
+            ref={this.scrollDiv}
+            className="hello1"
             style={{
               overflow: "auto",
               backgroundColor: "#fcfcfc",
@@ -396,6 +410,8 @@ class FeedCard extends React.Component {
                 onClick={() => this.handleBookmark(dat.bookmarks, dat.docid)}
               >
                 <i className="fas fa-bookmark" />
+
+                <VerySmallText>Bookmark</VerySmallText>
               </SmallButtons>
               <SmallButtons
                 active={
@@ -409,6 +425,7 @@ class FeedCard extends React.Component {
                 onClick={() => this.handlereask(dat.reAsks, dat.docid)}
               >
                 <i className="fas fa-sync-alt" />
+                <VerySmallText>Reask</VerySmallText>
               </SmallButtons>
             </Row>
 
@@ -421,21 +438,26 @@ class FeedCard extends React.Component {
                 />
               </Row>
             )}
-
-            <AnswersIndicatorText
-              onClick={() =>
-                mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
-              }
+            <div
+              onClick={() => {
+                console.log(this.scrollDiv.current.scrollTop);
+              }}
             >
-              Answers
-            </AnswersIndicatorText>
-            <ChevronDown
-              onClick={() =>
-                mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
-              }
-            >
-              <i className="fas fa-chevron-down" />
-            </ChevronDown>
+              <AnswersIndicatorText
+                onClick={() =>
+                  mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+                }
+              >
+                Answers
+              </AnswersIndicatorText>
+              <ChevronDown
+                onClick={() =>
+                  mixpanel.track("pressedAnswersIndicatorTextNonClickableArea")
+                }
+              >
+                <i className="fas fa-chevron-down" />
+              </ChevronDown>
+            </div>
 
             {this.state.answers.map((ans, i) => {
               return (

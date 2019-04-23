@@ -32,26 +32,28 @@ class AnswerBox extends React.Component {
     switch (this.state.display) {
       case "cropUI":
         return (
-          <CropUI
-            answerMode={true}
-            image={
-              this.state.additionalImage === null
-                ? this.props.answerImage
-                : this.state.additionalImage
-            }
-            setImage={image =>
-              this.setState({
-                image: [...this.state.image, image]
-              })
-            }
-            setAspect={aspectRatio =>
-              this.setState({ aspectRatio: aspectRatio })
-            }
-            cropDone={() => {
-              mixpanel.track("croppingImageCompleted");
-              this.setState({ display: "whiteboard" });
-            }}
-          />
+          <React.Fragment>
+            <CropUI
+              answerMode={true}
+              image={
+                this.state.additionalImage === null
+                  ? this.props.answerImage
+                  : this.state.additionalImage
+              }
+              setImage={image =>
+                this.setState({
+                  image: [...this.state.image, image]
+                })
+              }
+              setAspect={aspectRatio =>
+                this.setState({ aspectRatio: aspectRatio })
+              }
+              cropDone={() => {
+                mixpanel.track("croppingImageCompleted");
+                this.setState({ display: "whiteboard" });
+              }}
+            />
+          </React.Fragment>
         );
 
       case "whiteboard":

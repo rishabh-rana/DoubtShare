@@ -76,6 +76,9 @@ class CropUI extends React.Component {
     return (
       <React.Fragment>
         <ErrorBoundary>
+          <div style={{ position: "relative", zIndex: -100 }}>
+            <Loader marginTop="200px" />
+          </div>
           <Cropper
             ref="cropper"
             src={this.props.image}
