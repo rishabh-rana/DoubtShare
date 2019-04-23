@@ -91,11 +91,24 @@ class BottomNavigator extends React.Component {
         <Navigator
           active={this.state.active === "ask" ? true : false}
           onClick={() => this.handleClick("ask")}
+          style = {{
+            backgroundColor: colorParser("primary"),
+            height: "60px",
+            width: "60px",
+            marginBottom: "32px",
+            borderRadius: "60px",
+            display: "flex",
+            flexDirection: "Column",
+            justifyContent: "center",
+            color: "#fff",
+            border: "4px white solid"
+
+          }}
         >
           {this.props.uploadingImage ? (
             <i className="fas fa-cloud-upload-alt" />
           ) : (
-            <i className="fas fa-plus" />
+            <i className="fas fa-question" />
           )}
           <NameText>Ask</NameText>
         </Navigator>
