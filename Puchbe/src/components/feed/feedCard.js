@@ -375,7 +375,7 @@ class FeedCard extends React.Component {
             <Row>
               <div style={{ flexGrow: 9 }}>
                 <ImageButton
-                  label="Answer"
+                  label="Answer the ques"
                   color="dark"
                   setImage={this.props.setImage}
                   onChangeHandler={() => {
