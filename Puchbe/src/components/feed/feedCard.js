@@ -18,7 +18,7 @@ const Ques = styled.h6`
 `;
 
 const VerySmallText = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   margin-top: 2px;
   display: block;
   text-align: center;
@@ -389,7 +389,7 @@ class FeedCard extends React.Component {
             <Row>
               <div style={{ flexGrow: 9 }}>
                 <ImageButton
-                  label="Answer the ques"
+                  label="Answer Question"
                   color="dark"
                   setImage={this.props.setImage}
                   onChangeHandler={() => {
