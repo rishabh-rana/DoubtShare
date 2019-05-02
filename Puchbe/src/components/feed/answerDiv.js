@@ -37,14 +37,18 @@ const DownVoteButton = styled.div`
 
 class AnswerDiv extends React.Component {
   componentDidMount() {
-    let video = this.refs.video;
-    video.addEventListener("durationchange", async () => {
-      while (video.duration === Infinity) {
-        await new Promise(r => setTimeout(r, 100));
-        video.currentTime = 10000000 * Math.random();
-        video.currentTime = 0;
-      }
-    });
+    // let video = document.getElementById(this.props.ans.file);
+    // video.addEventListener("play", async () => {
+    //   console.log("started while loop");
+    //   while (video.duration === Infinity) {
+    //     console.log(video.classList);
+    //     await new Promise(r => setTimeout(r, 100));
+    //     video.currentTime = 10000000 * Math.random();
+    //   }
+    //   video.currentTime = 0;
+    //   video.play();
+    //   console.log("Done loading duration");
+    // });
   }
 
   render() {
@@ -55,7 +59,7 @@ class AnswerDiv extends React.Component {
           <video
             type="video/webm"
             id={ans.file}
-            ref="video"
+            className={Math.random() * 100}
             onPlay={() => {
               this.props.handleVideoPlay(ans.file);
               mixpanel.track("playedAnswerVideo");
@@ -64,7 +68,6 @@ class AnswerDiv extends React.Component {
             onPause={() => mixpanel.track("pausedAnswerVideo")}
             controls
             width="100%"
-            className="filterFocus"
           />
         }
         <div
