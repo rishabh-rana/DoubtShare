@@ -9,6 +9,7 @@ import mixpanel from "../../config/mixpanel";
 
 import { admins } from "../../admins";
 import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import AnswerDiv from "./answerDiv";
 
 const Ques = styled.h6`
   font-size: 14px;
@@ -58,22 +59,6 @@ const SmallButtons = styled.div`
   flex-grow: 1;
   text-align: center;
   color: ${props => (props.active ? colorParser("primary") : "black")};
-`;
-
-const UpVoteButton = styled.div`
-  font-size: 14px;
-  padding: 5px;
-  flex-grow: 1;
-  text-align: center;
-  color: ${props => (props.active ? colorParser("green") : "black")};
-`;
-
-const DownVoteButton = styled.div`
-  font-size: 14px;
-  padding: 5px;
-  flex-grow: 1;
-  text-align: center;
-  color: ${props => (props.active ? colorParser("red") : "black")};
 `;
 
 const ChevronDown = styled.div`
@@ -461,91 +446,15 @@ class FeedCard extends React.Component {
 
             {this.state.answers.map((ans, i) => {
               return (
-                <div key={i} style={{ marginBottom: "20px" }}>
-                  {
-                    <video
-                      type="video/webm"
-                      id={ans.file}
-                      onPlay={() => {
-                        this.props.handleVideoPlay(ans.file);
-                        mixpanel.track("playedAnswerVideo");
-                      }}
-                      src={ans.file}
-                      onPause={() => mixpanel.track("pausedAnswerVideo")}
-                      controls
-                      width="100%"
-                      className="filterFocus"
-                    />
-                  }
-                  <div
-                    style={{
-                      marginBottom: "5px"
-                    }}
-                  >
-                    <Row>
-                      <div style={{ flexGrow: 6, paddingTop: "7px" }}>
-                        <DisplayName
-                          onClick={() =>
-                            mixpanel.track(
-                              "pressedDisplayNameInAnswerNonClickableArea"
-                            )
-                          }
-                        >
-                          by {ans.uploader.displayName}
-                        </DisplayName>
-                      </div>
-
-                      <UpVoteButton
-                        onClick={() =>
-                          this.handleUpvote(
-                            true,
-                            ans.upvotes,
-                            ans.downvotes,
-                            dat.docid,
-                            ans.docid
-                          )
-                        }
-                      >
-                        <i className="fas fa-arrow-up" /> {ans.upvotes.length}
-                      </UpVoteButton>
-                      <DownVoteButton
-                        onClick={() =>
-                          this.handleUpvote(
-                            false,
-                            ans.upvotes,
-                            ans.downvotes,
-                            dat.docid,
-                            ans.docid
-                          )
-                        }
-                      >
-                        <i className="fas fa-arrow-down" />{" "}
-                        {ans.downvotes.length}
-                      </DownVoteButton>
-                    </Row>
-
-                    {admins.indexOf(this.props.auth && this.props.auth.uid) !==
-                      -1 && (
-                      <Row>
-                        <Button
-                          label="Delete Answer"
-                          onClick={() =>
-                            this.props.deleteAnswer(ans, dat.docid, ans.docid)
-                          }
-                          color="red"
-                        />
-                      </Row>
-                    )}
-
-                    <Description
-                      onClick={() =>
-                        mixpanel.track("pressedDescriptionBoxInAnswers")
-                      }
-                    >
-                      {ans.description}
-                    </Description>
-                  </div>
-                </div>
+                <AnswerDiv
+                  key={i}
+                  ans={ans}
+                  handleVideoPlay={this.props.handleVideoPlay}
+                  handleUpvote={this.handleUpvote}
+                  admins={admins}
+                  auth={this.props.auth}
+                  dat={dat}
+                />
               );
             })}
             {this.state.feedDone ? (
@@ -565,50 +474,6 @@ class FeedCard extends React.Component {
           </div>
         </div>
       </ErrorBoundary>
-    );
-  }
-}
-
-const DescriptionHolder = styled.div`
-  padding: 5px;
-`;
-
-const ShowMoreDescription = styled.div`
-  opacity: 0.8;
-  color: grey;
-  font-size: 16px;
-  margin-top: 5px;
-`;
-
-class Description extends React.Component {
-  state = {
-    open: false
-  };
-
-  render() {
-    let displayMessage;
-    let big = false;
-    let message = this.props.children;
-    if (message.length > 90) {
-      big = true;
-      displayMessage = message.slice(0, 50) + "...";
-    } else {
-      displayMessage = message;
-    }
-
-    if (this.state.open) displayMessage = message;
-
-    return (
-      <DescriptionHolder>
-        {displayMessage}
-        {big && (
-          <ShowMoreDescription
-            onClick={() => this.setState({ open: !this.state.open })}
-          >
-            {this.state.open ? "hide" : "show more"}
-          </ShowMoreDescription>
-        )}
-      </DescriptionHolder>
     );
   }
 }

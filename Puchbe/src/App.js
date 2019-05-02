@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { firestore, messaging } from "./config/firebase";
+import mixpanel from "./config/mixpanel";
 
 import { connect } from "react-redux";
 
@@ -27,6 +28,11 @@ import SingleQuesFeed from "./components/feed/singleQuesFeed";
 
 class App extends Component {
   componentDidMount = async () => {
+    console.log(this.props.auth);
+    if (this.props.auth) {
+      mixpanel.identify(this.props.auth);
+    }
+
     // check for app updates
     this.props.checkUpdates();
 

@@ -29,7 +29,6 @@ const StartStopHolder = styled.div`
 `;
 
 const CenterBox = styled.div`
-  padding-top: 80px;
   min-height: ${parseInt(window.screen.availHeight) - 80 + "px"};
   background: rgba(0, 0, 0, 0.6);
 `;

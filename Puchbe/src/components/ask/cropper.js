@@ -1,6 +1,6 @@
 import React from "react";
 import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import "./cropper.css";
 import styled from "styled-components";
 import colorParser from "../ui/color/colorParser";
 import Button from "../ui/button";
