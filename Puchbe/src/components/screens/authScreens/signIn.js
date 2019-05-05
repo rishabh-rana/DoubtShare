@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as googleAuth from "../../actions/auth/googleAuth";
+import * as googleAuth from "../../../actions/auth/googleAuth";
 import styled from "styled-components";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input/basic-input";
-import Loader from "../ui/loader/loader";
+import Loader from "../../ui/loader/loader";
 
 const Logo = styled.div`
   background: url("./logo.png");

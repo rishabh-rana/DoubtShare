@@ -1,11 +1,9 @@
 import React from "react";
-import WhiteBoard from "./whiteboard";
-import Loader from "../ui/loader/loader";
-import FullMessage from "../profile/Fullmessage";
-import FinalScreen from "./finalScreen";
-import CropUI from "../ask/cropper";
-
-import mixpanel from "../../config/mixpanel";
+import WhiteBoard from "../../whiteboard/whiteboard";
+import FullMessage from "../../ui/fullScreenMessage";
+import FinalScreen from "./finalAnswerScreen";
+import CropUI from "../../cropper/cropper";
+import mixpanel from "../../../config/mixpanel";
 
 class AnswerBox extends React.Component {
   state = {

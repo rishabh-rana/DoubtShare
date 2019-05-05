@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import mixpanel from "../../config/mixpanel";
-import Button from "../ui/button";
+import mixpanel from "../../../config/mixpanel";
+import Button from "../../ui/button";
 
-import colorParser from "../ui/color/colorParser";
+import colorParser from "../../ui/color/colorParser";
 
 const DisplayName = styled.div`
   font-size: 14px;
@@ -78,9 +78,14 @@ class AnswerDiv extends React.Component {
           <Row>
             <div style={{ flexGrow: 6, paddingTop: "7px" }}>
               <DisplayName
-                onClick={() =>
-                  mixpanel.track("pressedDisplayNameInAnswerNonClickableArea")
-                }
+                onClick={() => {
+                  mixpanel.track("pressedDisplayNameInAnswerNonClickableArea");
+                  if (ans.uploader.uid !== this.props.auth.uid) {
+                    this.props.history.push(
+                      "/view_profile/" + ans.uploader.uid
+                    );
+                  }
+                }}
               >
                 by {ans.uploader.displayName}
               </DisplayName>

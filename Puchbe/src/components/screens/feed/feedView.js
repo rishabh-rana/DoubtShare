@@ -2,11 +2,11 @@ import React from "react";
 import SwipeView from "./swipeView";
 import FeedCard from "./feedCard";
 import { connect } from "react-redux";
-import * as action from "../../actions/feed/getFeedChron";
-import { deleteAnswer } from "../../actions/answer/answerQuestion";
-import { deleteQuestion } from "../../actions/ask/askQuestion";
-import Fullmessage from "../profile/Fullmessage";
-import AnswerBox from "../answer/answerBox";
+import * as action from "../../../actions/feed/getFeedChron";
+import { deleteAnswer } from "../../../actions/answer/answerQuestion";
+import { deleteQuestion } from "../../../actions/ask/askQuestion";
+import Fullmessage from "../../ui/fullScreenMessage";
+import AnswerScreen from "../answer/answerScreen";
 import GhostUIFeedCard from "./ghostUI";
 
 class FeedView extends React.Component {
@@ -56,7 +56,7 @@ class FeedView extends React.Component {
   render() {
     if (this.state.answerMode) {
       return (
-        <AnswerBox
+        <AnswerScreen
           changeAnswerMode={this.changeAnswerMode}
           answeringDoc={this.state.answeringDoc}
           answerImage={this.state.answerImage}

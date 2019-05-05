@@ -1,7 +1,7 @@
 import React from "react";
 import ReactSwipe from "react-swipeable-views";
-import mixpanel from "../../config/mixpanel";
-import colorParser from "../ui/color/colorParser";
+import mixpanel from "../../../config/mixpanel";
+import colorParser from "../../ui/color/colorParser";
 
 const SwipeCards = props => {
   return (

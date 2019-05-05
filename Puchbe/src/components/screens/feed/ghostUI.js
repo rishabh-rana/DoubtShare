@@ -1,6 +1,6 @@
 import React from "react";
 import FeedCard from "./feedCard";
-import colorParser from "../ui/color/colorParser";
+import colorParser from "../../ui/color/colorParser";
 
 class GhostUIFeedCard extends React.Component {
   componentDidMount() {

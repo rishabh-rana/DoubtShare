@@ -1,13 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-// import Loader from "../ui/loader/loader";
-import Help from "../ui/overlayHelp";
-
-import mixpanel from "../../config/mixpanel";
-import { firestore } from "../../config/firebase";
-
-import * as actions from "../../actions/feed/getFeedChron";
-import * as authee from "../../actions/auth/googleAuth";
+import Help from "../../ui/overlayHelp";
+import mixpanel from "../../../config/mixpanel";
+import { firestore } from "../../../config/firebase";
+import * as actions from "../../../actions/feed/getFeedChron";
+import * as authee from "../../../actions/auth/googleAuth";
 import FeedView from "./feedView";
 import GhostUIFeedCard from "./ghostUI";
 

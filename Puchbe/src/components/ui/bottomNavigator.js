@@ -9,6 +9,7 @@ const Bar = styled.div`
   position: fixed;
   bottom: 0;
   left: 4px;
+  z-index: 1000000;
   right: 4px;
   height: 55px;
   background: #ffffff;
@@ -91,7 +92,7 @@ class BottomNavigator extends React.Component {
         <Navigator
           active={this.state.active === "ask" ? true : false}
           onClick={() => this.handleClick("ask")}
-          style = {{
+          style={{
             backgroundColor: colorParser("primary"),
             height: "60px",
             width: "60px",
@@ -102,7 +103,6 @@ class BottomNavigator extends React.Component {
             justifyContent: "center",
             color: "#fff",
             border: "4px white solid"
-
           }}
         >
           {this.props.uploadingImage ? (

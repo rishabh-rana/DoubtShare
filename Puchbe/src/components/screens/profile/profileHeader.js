@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import colorParser from "../ui/color/colorParser";
-import mixpanel from "../../config/mixpanel";
+import colorParser from "../../ui/color/colorParser";
+import mixpanel from "../../../config/mixpanel";
+import Button from "../../ui/button";
 
 const Container = styled.div`
   width: 100%;
@@ -69,6 +70,28 @@ const MenuOptions = styled.div`
   background: rgba(200, 200, 200, 0.2);
 `;
 
+const FollowBar = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const DisplayFollowerNumber = styled.div`
+  color: ${colorParser("primary")};
+  font-size: 20px;
+  text-align: center;
+  display: block;
+`;
+
+const DisplayFollowerLabel = styled.div`
+  font-size: 18px;
+  text-align: center;
+  display: block;
+`;
+
 // props.selectSection("ANS")
 // props.selected
 // props.auth.displayName
@@ -87,27 +110,72 @@ const ProfileHeader = props => {
         <i className="fas fa-user" />
       </ProfilePic>
 
-      <NameLabel>{props.auth.displayName}</NameLabel>
+      <NameLabel>
+        {props.otherPersonProfile
+          ? props.data
+            ? props.data.name
+            : "User"
+          : props.auth.displayName}
+      </NameLabel>
+
+      <FollowBar>
+        <div onClick={() => props.changeDisplay("followers")}>
+          <DisplayFollowerNumber>
+            {props.data && props.data.followers
+              ? Object.keys(props.data.followers).length
+              : 0}
+          </DisplayFollowerNumber>
+          <DisplayFollowerLabel>Followers</DisplayFollowerLabel>
+        </div>
+        <div onClick={() => props.changeDisplay("followed")}>
+          <DisplayFollowerNumber>
+            {props.data && props.data.followed
+              ? Object.keys(props.data.followed).length
+              : 0}
+          </DisplayFollowerNumber>
+          <DisplayFollowerLabel>Followed</DisplayFollowerLabel>
+        </div>
+        {props.otherPersonProfile && (
+          <Button
+            label={props.isFollower ? "UnFollow" : "Follow"}
+            color="dark"
+            onClick={props.handleFollow}
+            width="35%"
+          />
+        )}
+      </FollowBar>
 
       <OptionsBar>
-        <Options
-          active={props.selected === "FOL" ? true : false}
-          onClick={() => props.selectSection("FOL")}
-        >
-          Followed
-        </Options>
+        {!props.otherPersonProfile && (
+          <Options
+            active={props.selected === "FOL" ? true : false}
+            onClick={() => props.selectSection("FOL")}
+          >
+            Followed
+          </Options>
+        )}
+        {props.otherPersonProfile && (
+          <Options
+            active={props.selected === "ANS" ? true : false}
+            onClick={() => props.selectSection("ANS")}
+          >
+            Answered
+          </Options>
+        )}
         <Options
           active={props.selected === "ASK" ? true : false}
           onClick={() => props.selectSection("ASK")}
         >
           Asked
         </Options>
-        <Options
-          active={props.selected === "BKM" ? true : false}
-          onClick={() => props.selectSection("BKM")}
-        >
-          Bookmarked
-        </Options>
+        {!props.otherPersonProfile && (
+          <Options
+            active={props.selected === "BKM" ? true : false}
+            onClick={() => props.selectSection("BKM")}
+          >
+            Bookmarked
+          </Options>
+        )}
       </OptionsBar>
     </Container>
   );

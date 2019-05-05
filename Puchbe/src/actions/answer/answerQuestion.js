@@ -38,6 +38,15 @@ export const answerQuestion = (obj, docid, finishLoading) => {
           downvotes: []
         });
 
+      const updateLabel = "answerer." + obj.uid;
+
+      firestore
+        .collection("questions")
+        .doc(docid)
+        .update({
+          [updateLabel]: Date.now()
+        });
+
       finishLoading();
     }
   };

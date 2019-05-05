@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as action from "../../actions/answer/answerQuestion";
+import * as action from "../../../actions/answer/answerQuestion";
 import styled from "styled-components";
-import Button from "../ui/button";
-import ImageButton from "../ask/addImageButton";
-import mixpanel from "../../config/mixpanel";
+import Button from "../../ui/button";
+import ImageButton from "../../filepicker/addImageButton";
+import mixpanel from "../../../config/mixpanel";
 
-import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import ErrorBoundary from "../../errorHandler/ErrorBoundary";
 
 const DescriptionInput = styled.textarea`
   border: 1px solid rgba(200, 200, 200, 0.8);

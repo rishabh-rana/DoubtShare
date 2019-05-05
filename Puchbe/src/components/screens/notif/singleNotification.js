@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import colorParser from "../ui/color/colorParser";
-import { firestore } from "../../config/firebase";
+import colorParser from "../../ui/color/colorParser";
+import { firestore } from "../../../config/firebase";
 
 const Container = styled.div`
   width: 100%;
@@ -24,7 +24,7 @@ const RedDot = styled.div`
   margin-right: 10px;
 `;
 
-class NotifDiv extends React.Component {
+class SingleNotification extends React.Component {
   handleClick = () => {
     firestore
       .collection("users")
@@ -46,4 +46,4 @@ class NotifDiv extends React.Component {
     );
   }
 }
-export default NotifDiv;
+export default SingleNotification;

@@ -1,14 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import Tagging from "../ask/tagging";
-import * as actions from "../../actions/feed/getFeedChron";
-import * as err from "../../actions/error/errorHandler";
+import Tagging from "../../tagging/tagging";
+import * as actions from "../../../actions/feed/getFeedChron";
+import * as err from "../../../actions/error/errorHandler";
 import FeedView from "../feed/feedView";
-import Loader from "../ui/loader/loader";
-import Button from "../ui/button";
+import Button from "../../ui/button";
 import styled from "styled-components";
-import mixpanel from "../../config/mixpanel";
-import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import mixpanel from "../../../config/mixpanel";
+import ErrorBoundary from "../../errorHandler/ErrorBoundary";
 import GhostUIFeedCard from "../feed/ghostUI";
 
 const Taglist = styled.div`

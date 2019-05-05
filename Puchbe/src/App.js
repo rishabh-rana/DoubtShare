@@ -9,22 +9,21 @@ import { connect } from "react-redux";
 import * as update from "./actions/updateApp/update";
 import * as notifs from "./actions/notifications/notif";
 
-import Feed from "./components/feed/feed";
+import Feed from "./components/screens/feed/feed";
 import BottomNavigator from "./components/ui/bottomNavigator";
 import Header from "./components/ui/header";
-import SearchScreen from "./components/search/search";
-import AskScreen from "./components/ask/ask";
-import NotificationScreen from "./components/notif/notif";
-import ProfileScreen from "./components/profile/profile";
+import SearchScreen from "./components/screens/search/search";
+import AskScreen from "./components/screens/ask/ask";
+import NotificationScreen from "./components/screens/notif/notif";
+import ProfileScreen from "./components/screens/profile/profile";
 import ErrorPopup from "./components/errorHandler/ErrorPopup";
-import SignIn from "./components/authScreens/signIn";
+import SignIn from "./components/screens/authScreens/signIn";
 import GoToFeed from "./components/ui/redirectToFeed";
 import PaddingBox from "./components/ui/paddingBox";
-
+import SingleQuesFeed from "./components/screens/feed/singleQuesFeed";
 import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
 
 import "./App.css";
-import SingleQuesFeed from "./components/feed/singleQuesFeed";
 
 class App extends Component {
   componentDidMount = async () => {
@@ -126,6 +125,10 @@ class App extends Component {
             <Route path="/profile" exact component={ProfileScreen} />
             <Route path="/" component={PaddingBox} />
             <Route path="/single_question" component={SingleQuesFeed} />
+            <Route
+              path="/view_profile"
+              component={() => <ProfileScreen otherPersonProfile />}
+            />
             <Route path="/" component={BottomNavigator} />
             <Route path="/" component={ErrorPopup} />
           </React.Fragment>

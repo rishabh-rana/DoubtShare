@@ -1,15 +1,15 @@
 import React from "react";
-import { firestore } from "../../config/firebase";
-import ImageButton from "../ask/addImageButton";
-import Button from "../ui/button";
-import Loader from "../ui/loader/loader";
+import { firestore } from "../../../config/firebase";
+import ImageButton from "../../filepicker/addImageButton";
+import Button from "../../ui/button";
+import Loader from "../../ui/loader/loader";
 import styled from "styled-components";
-import colorParser from "../ui/color/colorParser";
-import mixpanel from "../../config/mixpanel";
+import colorParser from "../../ui/color/colorParser";
+import mixpanel from "../../../config/mixpanel";
 
-import { admins } from "../../admins";
-import ErrorBoundary from "../errorHandler/ErrorBoundary";
-import AnswerDiv from "./answerDiv";
+import { admins } from "../../../admins";
+import ErrorBoundary from "../../errorHandler/ErrorBoundary";
+import AnswerDiv from "./displaySingleAnswer";
 
 const Ques = styled.h6`
   font-size: 14px;
@@ -83,7 +83,7 @@ const GhostUIOverlay = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 1000000;
+  z-index: 10000;
   background: transparent;
 `;
 
@@ -353,9 +353,14 @@ class FeedCard extends React.Component {
 
             <Row>
               <DisplayName
-                onClick={() =>
-                  mixpanel.track("pressedDisplayNameNonClickableArea")
-                }
+                onClick={() => {
+                  mixpanel.track("pressedDisplayNameNonClickableArea");
+                  if (dat.uploader.uid !== this.props.auth.uid) {
+                    this.props.history.push(
+                      "/view_profile/" + dat.uploader.uid
+                    );
+                  }
+                }}
               >
                 by {dat && dat.uploader && dat.uploader.displayName}{" "}
                 {this.props.ghostUI && "team Doubtshare"}
@@ -448,6 +453,7 @@ class FeedCard extends React.Component {
               return (
                 <AnswerDiv
                   key={i}
+                  history={this.props.history}
                   ans={ans}
                   handleVideoPlay={this.props.handleVideoPlay}
                   handleUpvote={this.handleUpvote}

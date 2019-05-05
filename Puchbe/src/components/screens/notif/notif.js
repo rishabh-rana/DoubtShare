@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { getSingleQuestion, flushFeed } from "../../actions/feed/getFeedChron";
-import Loader from "../../components/ui/loader/loader";
-import { firestore } from "../../config/firebase";
-import NotifDiv from "./notifDiv";
-import Fullmessage from "../profile/Fullmessage";
-import ErrorBoundary from "../errorHandler/ErrorBoundary";
-import Button from "../ui/button";
+import {
+  getSingleQuestion,
+  flushFeed
+} from "../../../actions/feed/getFeedChron";
+import Loader from "../../ui/loader/loader";
+import { firestore } from "../../../config/firebase";
+import SingleNotification from "./singleNotification";
+import Fullmessage from "../../ui/fullScreenMessage";
+import ErrorBoundary from "../../errorHandler/ErrorBoundary";
+import Button from "../../ui/button";
 
-import mixpanel from "../../config/mixpanel";
+import mixpanel from "../../../config/mixpanel";
 
 const Container = styled.div`
   padding: 10px;
@@ -89,7 +92,7 @@ class NotificationScreen extends React.Component {
           {this.state.notifs.length > 0 &&
             this.state.notifs.map(notif => {
               return (
-                <NotifDiv
+                <SingleNotification
                   auth={this.props.uid}
                   id={notif.docid}
                   active={notif.read || false}

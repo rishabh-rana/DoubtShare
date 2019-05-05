@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/ask/askQuestion";
-import * as throwerror from "../../actions/error/errorHandler";
-import Loader from "../../components/ui/loader/loader";
-import Tagging from "./tagging";
-import ImageButton from "./addImageButton";
-import Button from "../ui/button";
+import * as actions from "../../../actions/ask/askQuestion";
+import * as throwerror from "../../../actions/error/errorHandler";
+import Loader from "../../ui/loader/loader";
+import Tagging from "../../tagging/tagging";
+import ImageButton from "../../filepicker/addImageButton";
+import Button from "../../ui/button";
 import styled from "styled-components";
-import CropUI from "./cropper";
+import CropUI from "../../cropper/cropper";
 
-import { scaleImage } from "./resizeUpload";
-import ErrorBoundary from "../errorHandler/ErrorBoundary";
+import { scaleImage } from "../../../utils/resizeUpload";
+import ErrorBoundary from "../../errorHandler/ErrorBoundary";
 
 const Holder = styled.div`
   width: 100%;

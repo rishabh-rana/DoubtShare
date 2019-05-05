@@ -33,22 +33,6 @@ const CenterBox = styled.div`
   background: rgba(0, 0, 0, 0.6);
 `;
 
-// const AddNewHolder = styled.div`
-//   position: fixed;
-//   bottom: 150px;
-//   left: 15px;
-//   right: 15px;
-// `;
-
-// const Row1 = styled.div`
-//   display: flex;
-//   justify-content: space-around;
-//   position: fixed;
-//   bottom: 60px;
-//   left: 5px;
-//   right: 5px;
-// `;
-
 class WhiteBoard extends React.Component {
   state = {
     URLFINAL: null,
@@ -259,7 +243,7 @@ class WhiteBoard extends React.Component {
 
     return (
       <React.Fragment>
-        <ErrorBoundary type="whiteboard">
+        <ErrorBoundary message="Please Update your browser. Use Google Chrome for the best Experience">
           {!this.state.recording && (
             <HelpBanner
               message={
