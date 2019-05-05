@@ -5,8 +5,8 @@ import {
   getSingleQuestion,
   flushFeed
 } from "../../../actions/feed/getFeedChron";
+import { getNotifications } from "../../../actions/notifications/notif";
 import Loader from "../../ui/loader/loader";
-import { firestore } from "../../../config/firebase";
 import SingleNotification from "./singleNotification";
 import Fullmessage from "../../ui/fullScreenMessage";
 import ErrorBoundary from "../../errorHandler/ErrorBoundary";
@@ -29,59 +29,18 @@ const Header = styled.div`
 class NotificationScreen extends React.Component {
   state = {
     notifs: [],
-    loading: false,
     lastDoc: null,
     feedDone: false
   };
 
   getNotifs = async () => {
-    this.setState({ loading: true });
-    let newFeed = false;
-    let notifs = [];
-    let query = firestore
-      .collection("users")
-      .doc(this.props.uid)
-      .collection("notifications")
-      .orderBy("timestamp", "desc");
-
-    if (this.state.notifs.length !== 0) {
-      query = query.startAfter(this.state.lastDoc);
-    } else {
-      newFeed = true;
-    }
-
-    if (!this.state.feedDone) {
-      const snap = await query.limit(4).get();
-      let lastDoc = snap.docs[snap.docs.length - 1];
-
-      if (lastDoc) {
-        this.setState({ lastDoc: lastDoc });
-      } else {
-        this.setState({ feedDone: true });
-      }
-
-      if (snap.docs.length < 4) this.setState({ feedDone: true });
-
-      snap.forEach(doc => {
-        notifs.push({
-          ...doc.data(),
-          docid: doc.id
-        });
-      });
-
-      if (newFeed) {
-        this.setState({ notifs: notifs, loading: false });
-      } else {
-        this.setState({
-          notifs: [...this.state.notifs, ...notifs],
-          loading: false
-        });
-      }
-    }
+    this.props.getNotifications(this.props.uid, this.props.paginate);
   };
 
   componentDidMount() {
-    this.getNotifs();
+    if (this.props.data === null) {
+      this.getNotifs();
+    }
   }
 
   render() {
@@ -89,10 +48,11 @@ class NotificationScreen extends React.Component {
       <ErrorBoundary>
         <Container id="abcd">
           <Header>Notifications</Header>
-          {this.state.notifs.length > 0 &&
-            this.state.notifs.map(notif => {
+          {this.props.data &&
+            this.props.data.map((notif, index) => {
               return (
                 <SingleNotification
+                  key={index}
                   auth={this.props.uid}
                   id={notif.docid}
                   active={notif.read || false}
@@ -106,12 +66,12 @@ class NotificationScreen extends React.Component {
                 />
               );
             })}
-          {this.state.feedDone ? null : this.state.loading ? (
+          {this.props.paginate.feedDone ? null : this.props.data === null ? (
             <Loader />
           ) : (
             <Button label="load more" color="dark" onClick={this.getNotifs} />
           )}
-          {!this.state.loading && this.state.notifs.length === 0 && (
+          {this.props.data !== null && this.props.data.length === 0 && (
             <Fullmessage message="No notifications" />
           )}
           <div style={{ height: "80px" }} />
@@ -123,11 +83,13 @@ class NotificationScreen extends React.Component {
 
 const mapstate = state => {
   return {
-    uid: state.auth.uid
+    uid: state.auth.uid,
+    paginate: state.notifications.paginate,
+    data: state.notifications.data
   };
 };
 
 export default connect(
   mapstate,
-  { getSingleQuestion, flushFeed }
+  { getSingleQuestion, flushFeed, getNotifications }
 )(NotificationScreen);

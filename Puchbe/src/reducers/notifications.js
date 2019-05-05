@@ -1,13 +1,23 @@
 const reducer = (
   state = {
-    active: false,
-    data: null
+    data: null,
+    paginate: {
+      feedDone: false,
+      lastDoc: null
+    }
   },
   action
 ) => {
-  //do something
-  if (action.type === "handleForegroundNotif") {
-    return { ...state, active: true, data: action.payload };
+  if (action.type === "setPaginationToNotifications") {
+    return { ...state, paginate: action.payload };
+  }
+
+  if (action.type === "newNotificationFeed") {
+    return { ...state, data: action.payload };
+  }
+
+  if (action.type === "continueNotificationFeed") {
+    return { ...state, data: [...state.data, ...action.payload] };
   }
 
   return state;

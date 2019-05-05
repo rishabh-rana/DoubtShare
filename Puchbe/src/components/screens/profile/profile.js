@@ -144,7 +144,7 @@ class ProfileScreen extends React.Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.newuid = this.props.otherPersonProfile
       ? this.props.location.pathname.split("/")[2]
       : this.props.auth.uid;
@@ -153,7 +153,21 @@ class ProfileScreen extends React.Component {
       : this.selectSection("FOL");
 
     if (this.props.otherPersonProfile) {
-      this.props.getUserData(this.newuid, false);
+      await this.props.getUserData(this.newuid, false);
+      if (this.props.otherUserData !== null) {
+        let isFollower = false;
+        if (this.props.otherUserData.followers) {
+          if (
+            Object.keys(this.props.otherUserData.followers).indexOf(
+              this.props.auth.uid
+            ) !== -1
+          )
+            isFollower = true;
+        }
+        if (this.state.isFollower !== isFollower) {
+          this.setState({ isFollower: isFollower });
+        }
+      }
     } else {
       if (this.props.userData === null)
         this.props.getUserData(this.newuid, true);
@@ -161,21 +175,6 @@ class ProfileScreen extends React.Component {
   }
 
   render() {
-    if (this.props.otherUserData !== null) {
-      let isFollower = false;
-      if (this.props.otherUserData.followers) {
-        if (
-          Object.keys(this.props.otherUserData.followers).indexOf(
-            this.props.auth.uid
-          ) !== -1
-        )
-          isFollower = true;
-      }
-      if (this.state.isFollower !== isFollower) {
-        this.setState({ isFollower: isFollower });
-      }
-    }
-
     return (
       <ErrorBoundary>
         <div style={{ overflowY: "scroll", height: window.screen.height }}>
