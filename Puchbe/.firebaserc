@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "ed-v1-4c4db"
+    "default": "ed-v1-4c4db",
+    "staging": "ed-v1-staging"
   }
 }

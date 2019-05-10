@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "firebase/app";
 import { firestore } from "../../../config/firebase";
 import ImageButton from "../../filepicker/addImageButton";
 import Button from "../../ui/button";
@@ -43,6 +44,7 @@ const Row = styled.div`
 
 const DisplayName = styled.div`
   font-size: 14px;
+  text-decoration: underline;
   color: grey;
   opacity: 0.8;
   display: inline-block;
@@ -103,7 +105,7 @@ class FeedCard extends React.Component {
     upvote: null
   };
 
-  handlereask = (reasks, docid) => {
+  handlereask = (reasks, docid, dat) => {
     // check if a change has been made to state of reask
     // if yes, check using state otherwise check using data from server
     mixpanel.track("presedReaskedQuestionButton");
@@ -112,25 +114,47 @@ class FeedCard extends React.Component {
         delete reasks[this.props.auth.uid];
         this.props.reask(reasks, docid);
         this.setState({ reasked: false });
+        this.grantReaskPoints(dat, false);
       } else {
         reasks[this.props.auth.uid] = Date.now();
         this.props.reask(reasks, docid);
         this.setState({ reasked: true });
+        this.grantReaskPoints(dat, true);
       }
     } else {
       if (this.state.reasked) {
         delete reasks[this.props.auth.uid];
         this.props.reask(reasks, docid);
         this.setState({ reasked: false });
+        this.grantReaskPoints(dat, false);
       } else {
         reasks[this.props.auth.uid] = Date.now();
         this.props.reask(reasks, docid);
         this.setState({ reasked: true });
+        this.grantReaskPoints(dat, true);
       }
     }
   };
 
-  handleUpvote = (increment, upvotes, downvotes, questionId, ansId) => {
+  grantReaskPoints = async (ques, isAdd) => {
+    if (isAdd) {
+      firestore
+        .collection("users")
+        .doc(ques.uploader.uid)
+        .update({
+          points: firebase.firestore.FieldValue.increment(1)
+        });
+    } else {
+      firestore
+        .collection("users")
+        .doc(ques.uploader.uid)
+        .update({
+          points: firebase.firestore.FieldValue.increment(-1)
+        });
+    }
+  };
+
+  handleUpvote = (increment, upvotes, downvotes, questionId, ansId, ans) => {
     var voted = false;
 
     if (upvotes.indexOf(this.props.auth.uid) !== -1) voted = "upvoted";
@@ -146,6 +170,7 @@ class FeedCard extends React.Component {
       if (increment) {
         handleVoting(upvotes, null);
         this.setState({ upvote: true });
+        this.grantUpvotePoints(ans);
       } else {
         handleVoting(downvotes, null);
         this.setState({ upvote: false });
@@ -167,6 +192,15 @@ class FeedCard extends React.Component {
     }
 
     this.props.upvote(questionId, ansId, upvotes, downvotes);
+  };
+
+  grantUpvotePoints = async ans => {
+    firestore
+      .collection("users")
+      .doc(ans.uploader.uid)
+      .update({
+        points: firebase.firestore.FieldValue.increment(1)
+      });
   };
 
   handleBookmark = (bookmarks, docid) => {
@@ -412,7 +446,7 @@ class FeedCard extends React.Component {
                         this.props.auth && this.props.auth.uid
                       )
                 }
-                onClick={() => this.handlereask(dat.reAsks, dat.docid)}
+                onClick={() => this.handlereask(dat.reAsks, dat.docid, dat)}
               >
                 <i className="fas fa-sync-alt" />
                 <VerySmallText>Reask</VerySmallText>

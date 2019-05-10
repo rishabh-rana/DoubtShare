@@ -127,6 +127,12 @@ const ProfileHeader = props => {
           </DisplayFollowerNumber>
           <DisplayFollowerLabel>Followers</DisplayFollowerLabel>
         </div>
+        <div>
+          <DisplayFollowerNumber>
+            {(props.data && props.data.points) || 0}
+          </DisplayFollowerNumber>
+          <DisplayFollowerLabel>Points</DisplayFollowerLabel>
+        </div>
         <div onClick={() => props.changeDisplay("followed")}>
           <DisplayFollowerNumber>
             {props.data && props.data.followed
@@ -135,15 +141,25 @@ const ProfileHeader = props => {
           </DisplayFollowerNumber>
           <DisplayFollowerLabel>Followed</DisplayFollowerLabel>
         </div>
-        {props.otherPersonProfile && (
+      </FollowBar>
+
+      {!props.otherPersonProfile && props.displayFoll !== null && (
+        <ShowFoll
+          history={props.history}
+          data={props.data}
+          type={props.displayFoll}
+        />
+      )}
+
+      {props.otherPersonProfile && (
+        <div style={{ padding: "10px" }}>
           <Button
             label={props.isFollower ? "UnFollow" : "Follow"}
             color="dark"
             onClick={props.handleFollow}
-            width="35%"
           />
-        )}
-      </FollowBar>
+        </div>
+      )}
 
       <OptionsBar>
         {!props.otherPersonProfile && (
@@ -151,7 +167,7 @@ const ProfileHeader = props => {
             active={props.selected === "FOL" ? true : false}
             onClick={() => props.selectSection("FOL")}
           >
-            Followed
+            Reasked
           </Options>
         )}
         {props.otherPersonProfile && (
@@ -218,5 +234,70 @@ class OptionDropDown extends React.Component {
     );
   }
 }
+
+const ScrollHorizontal = styled.div`
+  width: 100%;
+  height: 30px;
+  background: ${colorParser("primary")};
+  overflow-x: scroll;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  display: ${props => (props.hide ? "none" : "block")};
+`;
+const SingleFoll = styled.div`
+  width: 150px;
+  text-align: center;
+  overflow: hidden;
+  display: inline-block;
+  text-decoration: underline;
+`;
+
+const Triangle = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid ${colorParser("primary")};
+  position: absolute;
+  top: -8px;
+  left: ${props => (props.left ? "15%" : "80%")};
+  display: ${props => (props.hide ? "none" : "block")};
+`;
+
+const ShowFoll = props => {
+  let items, data;
+  if (props.type === "followers") {
+    items = Object.keys(props.data.followers);
+    data = props.data.followers;
+  } else if (props.type === "followed") {
+    items = Object.keys(props.data.followed);
+    data = props.data.followed;
+  }
+
+  return (
+    <div style={{ position: "relative" }}>
+      <Triangle
+        hide={items.length === 0 ? true : false}
+        left={props.type === "followers" ? true : false}
+      />
+      <ScrollHorizontal hide={items.length === 0 ? true : false}>
+        <div style={{ width: items.length * 150 + "px" }}>
+          {items.map(foll => {
+            return (
+              <SingleFoll
+                onClick={() => {
+                  props.history.push("/view_profile/" + foll);
+                }}
+              >
+                {data[foll]}
+              </SingleFoll>
+            );
+          })}
+        </div>
+      </ScrollHorizontal>
+    </div>
+  );
+};
 
 export default ProfileHeader;

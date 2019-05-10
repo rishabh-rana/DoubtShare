@@ -1,6 +1,8 @@
 const reducer = (
   state = {
-    data: null,
+    data: {
+      points: 0
+    },
     newProfile: null
   },
   action

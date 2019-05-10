@@ -3,6 +3,8 @@ import "firebase/storage";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/messaging";
+
+// production
 import { FirebaseConfig } from "./keys.js";
 
 firebase.initializeApp(FirebaseConfig);

@@ -10,6 +10,7 @@ const DisplayName = styled.div`
   color: grey;
   opacity: 0.8;
   display: inline-block;
+  text-decoration: underline;
 `;
 
 const Row = styled.div`
@@ -98,7 +99,8 @@ class AnswerDiv extends React.Component {
                   ans.upvotes,
                   ans.downvotes,
                   dat.docid,
-                  ans.docid
+                  ans.docid,
+                  ans
                 )
               }
             >
@@ -111,7 +113,8 @@ class AnswerDiv extends React.Component {
                   ans.upvotes,
                   ans.downvotes,
                   dat.docid,
-                  ans.docid
+                  ans.docid,
+                  ans
                 )
               }
             >

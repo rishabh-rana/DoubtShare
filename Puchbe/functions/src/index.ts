@@ -125,14 +125,10 @@ exports.onChangeNotify = functions.firestore
     console.log("Exited from function onChangeNotify");
   });
 
-exports.handleFollowerAddition = functions.https.onRequest(async (req, res) => {
-  const uidToAdd = req.body.uidTobeAdded;
-  const auth = req.body.follwedUid;
-  await db
-    .collection("users")
-    .doc(auth)
-    .update({
-      ["followers." + uidToAdd]: req.body.nameTobeAdded
-    });
-  res.send({ status: 200 });
-});
+// exports.gamificationAnsweredQuestion = functions.firestore.document("/questions/{questionId}/answers/{answerId}").onCreate(async (snap, context) => {
+//   const answeredPoints = 2;
+//   const ansData = snap.data();
+
+//   const rewardee = ansData.uploader.uid;
+
+// })

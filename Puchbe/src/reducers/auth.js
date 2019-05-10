@@ -8,7 +8,7 @@ const reducer = (
     displayName:
       localStorage.getItem("name") === null ||
       localStorage.getItem("name") === "null"
-        ? "User"
+        ? "Username_Undefined"
         : localStorage.getItem("name"),
     phoneNumber: null
   },

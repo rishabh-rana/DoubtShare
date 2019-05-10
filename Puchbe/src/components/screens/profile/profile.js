@@ -17,7 +17,8 @@ class ProfileScreen extends React.Component {
     selected: this.props.otherPersonProfile ? "ANS" : "FOL",
     loading: false,
     showMessage: false,
-    display: "main"
+    display: "main",
+    displayFoll: null
   };
 
   newuid = null;
@@ -179,7 +180,9 @@ class ProfileScreen extends React.Component {
       <ErrorBoundary>
         <div style={{ overflowY: "scroll", height: window.screen.height }}>
           <ProfileHeader
-            changeDisplay={type => this.setState({ display: type })}
+            changeDisplay={type => this.setState({ displayFoll: type })}
+            history={this.props.history}
+            displayFoll={this.state.displayFoll}
             isFollower={this.state.isFollower}
             followUser={this.props.followUser}
             otherPersonProfile={this.props.otherPersonProfile || false}

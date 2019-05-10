@@ -1,5 +1,6 @@
 import { firestore } from "../../config/firebase";
 import { storage } from "../../config/firebase";
+import firebase from "firebase/app";
 
 export const answerQuestion = (obj, docid, finishLoading) => {
   return async dispatch => {
@@ -10,6 +11,13 @@ export const answerQuestion = (obj, docid, finishLoading) => {
       const url = await storage.child("answers/" + name).getDownloadURL();
 
       console.log(url);
+
+      firestore
+        .collection("users")
+        .doc(obj.uid)
+        .update({
+          points: firebase.firestore.FieldValue.increment(5)
+        });
 
       let ref = firestore
         .collection("questions")

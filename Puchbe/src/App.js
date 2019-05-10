@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 import * as update from "./actions/updateApp/update";
 import * as notifs from "./actions/notifications/notif";
+import { getUserData } from "./actions/profile/getProfile";
 
 import Feed from "./components/screens/feed/feed";
 import BottomNavigator from "./components/ui/bottomNavigator";
@@ -24,19 +25,20 @@ import SingleQuesFeed from "./components/screens/feed/singleQuesFeed";
 import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
 
 import "./App.css";
+import AskName from "./components/screens/authScreens/askName";
 
 class App extends Component {
   componentDidMount = async () => {
     console.log(this.props.auth);
     if (this.props.auth) {
       mixpanel.identify(this.props.auth);
+      // setup push notifications
+      this.setupPushNotifications();
+      this.props.getUserData(this.props.auth, true);
     }
 
     // check for app updates
     this.props.checkUpdates();
-
-    // setup push notifications
-    this.setupPushNotifications();
   };
 
   requestPermissionForPush = async () => {
@@ -112,6 +114,9 @@ class App extends Component {
     if (this.props.auth === null) {
       return <SignIn />;
     }
+    if (this.props.authentication.displayName === "Username_Undefined") {
+      return <AskName />;
+    }
     return (
       <ErrorBoundary>
         <BrowserRouter>
@@ -147,5 +152,5 @@ const mapstate = state => {
 
 export default connect(
   mapstate,
-  { ...update, ...notifs }
+  { ...update, ...notifs, getUserData }
 )(App);

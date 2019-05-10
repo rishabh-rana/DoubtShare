@@ -48,7 +48,9 @@ export const signin = () => {
           name: result.user.displayName,
           email: result.user.email,
           lastSignin: Date.now(),
-          signedUpon: Date.now()
+          signedUpon: Date.now(),
+          followers: {},
+          followed: {}
         });
     }
 

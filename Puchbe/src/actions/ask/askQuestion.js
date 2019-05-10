@@ -1,5 +1,6 @@
 import { firestore } from "../../config/firebase";
 import { storage } from "../../config/firebase";
+import firebase from "firebase/app";
 
 export const askQuestion = obj => {
   return async dispatch => {
@@ -13,6 +14,13 @@ export const askQuestion = obj => {
 
       let ref = firestore.collection("questions").doc();
       const docid = ref.id;
+
+      firestore
+        .collection("users")
+        .doc(obj.uid)
+        .update({
+          points: firebase.firestore.FieldValue.increment(2)
+        });
 
       firestore
         .collection("questions")
