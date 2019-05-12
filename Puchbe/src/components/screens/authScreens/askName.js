@@ -34,12 +34,36 @@ const Container = styled.div`
   background: #ffffff;
 `;
 
+const ErrorValidation = styled.div`
+  margin-top: 10px;
+  color: red;
+  font-size: 16px;
+  text-align: center;
+`;
+
 class AskName extends React.Component {
   state = {
-    displayName: ""
+    displayName: "",
+    acceptedPrivatePolicy: false,
+    error: false,
+    errormessage: null
   };
 
   handleUpdate = () => {
+    if (this.state.acceptedPrivatePolicy === false) {
+      this.setState({
+        error: true,
+        errormessage: "Please accept the Privacy Policy to continue"
+      });
+      return;
+    }
+    if (this.state.displayName.length < 4) {
+      this.setState({
+        error: true,
+        errormessage: "Please enter a username of 5 characters or more"
+      });
+      return;
+    }
     let auth = firebase.auth().currentUser;
 
     let result = {
@@ -69,6 +93,33 @@ class AskName extends React.Component {
           onChange={e => this.setState({ displayName: e.target.value })}
           placeholder="Enter name"
         />
+        <div style={{ textAlign: "left", marginTop: "30px" }}>
+          <a target="_blank" href="./privacy_policy.html">
+            Privacy Policy
+          </a>
+        </div>
+        <div style={{ textAlign: "left" }}>
+          <input
+            style={{ display: "inline-block", textAlign: "left" }}
+            type="checkbox"
+            value={this.state.acceptedPrivatePolicy}
+            onChange={() =>
+              this.setState({
+                acceptedPrivatePolicy: !this.state.acceptedPrivatePolicy
+              })
+            }
+          />
+          <span sty>I Accept the Privacy Policy</span>
+        </div>
+
+        {this.state.error && (
+          <ErrorValidation>
+            {this.state.errormessage
+              ? this.state.errormessage
+              : "Something went wrong. Please try again"}
+          </ErrorValidation>
+        )}
+
         <Button onClick={this.handleUpdate} label="Submit" marginTop="30px" />
       </Container>
     );

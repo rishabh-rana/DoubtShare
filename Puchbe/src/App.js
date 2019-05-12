@@ -114,7 +114,10 @@ class App extends Component {
     if (this.props.auth === null) {
       return <SignIn />;
     }
-    if (this.props.authentication.displayName === "Username_Undefined") {
+    if (
+      this.props.authentication.displayName === "Username_Undefined" ||
+      !this.props.authentication.displayName
+    ) {
       return <AskName />;
     }
     return (

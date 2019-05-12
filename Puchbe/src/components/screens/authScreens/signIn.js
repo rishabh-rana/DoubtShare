@@ -83,7 +83,8 @@ class SignIn extends React.Component {
     error: false,
     loading: false,
     display: "main",
-    displayName: ""
+    displayName: "",
+    acceptedPrivatePolicy: false
   };
 
   handleValidation = () => {
@@ -166,6 +167,20 @@ class SignIn extends React.Component {
         break;
 
       case "enterinfoscreen":
+        if (this.state.acceptedPrivatePolicy === false) {
+          this.setState({
+            error: true,
+            errormessage: "Please accept the Privacy Policy to continue"
+          });
+          return;
+        }
+        if (this.state.displayName.length < 4) {
+          this.setState({
+            error: true,
+            errormessage: "Please enter a username of 5 characters or more"
+          });
+          return;
+        }
         let result = this.state.result;
         result.name = this.state.displayName;
         firebase.auth().currentUser.updateProfile({
@@ -196,6 +211,34 @@ class SignIn extends React.Component {
             onChange={e => this.setState({ displayName: e.target.value })}
             placeholder="Enter name"
           />
+
+          <div style={{ textAlign: "left", marginTop: "30px" }}>
+            <a target="_blank" href="./privacy_policy.html">
+              Privacy Policy
+            </a>
+          </div>
+          <div style={{ textAlign: "left" }}>
+            <input
+              style={{ display: "inline-block", textAlign: "left" }}
+              type="checkbox"
+              value={this.state.acceptedPrivatePolicy}
+              onChange={() =>
+                this.setState({
+                  acceptedPrivatePolicy: !this.state.acceptedPrivatePolicy
+                })
+              }
+            />
+            <span sty>I Accept the Privacy Policy</span>
+          </div>
+
+          {this.state.error && (
+            <ErrorValidation>
+              {this.state.errormessage
+                ? this.state.errormessage
+                : "Something went wrong. Please try again"}
+            </ErrorValidation>
+          )}
+
           <Button onClick={this.handleSignin} label="Submit" marginTop="30px" />
         </Container>
       );
