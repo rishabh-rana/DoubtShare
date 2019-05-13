@@ -171,7 +171,6 @@ class WhiteBoard extends React.Component {
   // };
 
   componentDidMount() {
-    throw Error;
     const firstTime = localStorage.getItem("help2");
     if (firstTime !== "shown") {
       localStorage.setItem("help2", "shown");

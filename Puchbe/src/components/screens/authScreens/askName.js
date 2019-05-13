@@ -84,6 +84,7 @@ class AskName extends React.Component {
     this.props.completeSignin(result);
   };
   render() {
+    console.log("RENDERING ASKNAME SCREEN");
     return (
       <Container>
         <Logo />

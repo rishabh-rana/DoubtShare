@@ -16,6 +16,7 @@ const reducer = (
 ) => {
   if (action.type === "syncusers") {
     if (action.payload) {
+      console.log("SYNCING USERS", action.payload);
       localStorage.setItem("uid", action.payload.uid);
       localStorage.setItem("name", action.payload.displayName);
       return {

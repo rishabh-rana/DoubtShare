@@ -34,6 +34,7 @@ class App extends Component {
       mixpanel.identify(this.props.auth);
       // setup push notifications
       this.setupPushNotifications();
+      console.log("Sending Request for data");
       this.props.getUserData(this.props.auth, true);
     }
 
@@ -114,10 +115,7 @@ class App extends Component {
     if (this.props.auth === null) {
       return <SignIn />;
     }
-    if (
-      this.props.authentication.displayName === "Username_Undefined" ||
-      !this.props.authentication.displayName
-    ) {
+    if (this.props.authentication.displayName === "Username_Undefined") {
       return <AskName />;
     }
     return (

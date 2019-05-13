@@ -65,7 +65,7 @@ export const completeSignin = result => {
           phone: result.user.phoneNumber,
           lastSignin: Date.now(),
           signedUpon: Date.now(),
-          name: result.name,
+          displayName: result.name,
           followers: {},
           followed: {},
           points: 0
