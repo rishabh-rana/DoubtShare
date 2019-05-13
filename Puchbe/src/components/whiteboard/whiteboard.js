@@ -171,6 +171,7 @@ class WhiteBoard extends React.Component {
   // };
 
   componentDidMount() {
+    throw Error;
     const firstTime = localStorage.getItem("help2");
     if (firstTime !== "shown") {
       localStorage.setItem("help2", "shown");
@@ -243,7 +244,12 @@ class WhiteBoard extends React.Component {
 
     return (
       <React.Fragment>
-        <ErrorBoundary message="Please Update your browser. Use Google Chrome for the best Experience">
+        <ErrorBoundary
+          message={
+            "Looks like your browser is incompatible. Use Google Chrome for the best Experience"
+          }
+          trial="Hello"
+        >
           {!this.state.recording && (
             <HelpBanner
               message={

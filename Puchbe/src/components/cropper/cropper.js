@@ -101,7 +101,7 @@ class CropUI extends React.Component {
           {!this.state.cropLoading && (
             <PositionButtons>
               <Button
-                label={<i class="fas fa-sync-alt" />}
+                label={<i className="fas fa-sync-alt" />}
                 width="45%"
                 color="secondary"
                 onClick={this.handleRotate}

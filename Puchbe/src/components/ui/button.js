@@ -72,7 +72,7 @@ const Button = props => {
 
 Button.propTypes = {
   color: propTypes.string,
-  label: propTypes.string,
+  label: propTypes.string || propTypes.object,
   width: propTypes.string,
   inverted: propTypes.bool,
   marginTop: propTypes.string,

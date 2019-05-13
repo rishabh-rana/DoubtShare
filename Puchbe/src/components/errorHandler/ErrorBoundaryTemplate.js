@@ -12,7 +12,11 @@ const Error = styled.div`
 
 const ErrorBoundaryTemplate = props => {
   // make a grapic and put it here, it should be fluid as it will be used at many points
-  let message = props.message || "Something went wrong, please Reload the page";
+  console.log(props.message);
+  let message = props.message;
+  if (!message)
+    message =
+      "Something went wrong, please Reload the page. Use Google Chrome for the best experience.";
 
   return (
     <React.Fragment>
@@ -20,6 +24,7 @@ const ErrorBoundaryTemplate = props => {
         {message}
         <div onClick={() => window.location.reload()}>
           <i className="fas fa-sync-alt" />
+          <div>Tap to Reload Page</div>
         </div>
       </Error>
     </React.Fragment>

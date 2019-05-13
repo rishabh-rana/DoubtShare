@@ -16,7 +16,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       //return a template for the error page if error [make a graphic for this]
-
+      console.log(this.props.message, this.props.trial);
       return <ErrorBoundaryTemplate message={this.props.message} />;
     } else {
       // return children if no error

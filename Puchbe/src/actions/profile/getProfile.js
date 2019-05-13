@@ -12,7 +12,8 @@ export const getUserData = (uid, myProfile) => {
 
       let data = doc.data();
 
-      if (!data.points) data.points = 0;
+      if (data && !data.points) data.points = 0;
+      if (!data) data = { points: 0 };
 
       dispatch({
         type: myProfile ? "syncUserData" : "syncOtherUserData",
