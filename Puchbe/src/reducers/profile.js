@@ -9,6 +9,7 @@ const reducer = (
 ) => {
   //do something
   if (action.type === "syncUserData") {
+    console.log("SYNCING PROFILE", action.payload);
     return { ...state, data: action.payload };
   }
   if (action.type === "syncOtherUserData") {

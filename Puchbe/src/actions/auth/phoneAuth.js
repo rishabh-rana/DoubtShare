@@ -43,6 +43,7 @@ export const completeSignin = result => {
         .update({
           lastSignin: Date.now()
         });
+      console.log(result.user);
       dispatch({ type: "syncusers", payload: result.user });
     } else {
       // fresh signup

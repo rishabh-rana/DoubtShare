@@ -14,21 +14,6 @@ class Feed extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.authentication && this.props.authentication.phoneNumber) {
-      console.log("kjhgfdfghj");
-      firestore
-        .collection("users")
-        .doc(this.props.authentication.uid)
-        .update({
-          phone: this.props.authentication.phoneNumber
-        });
-      mixpanel.identify(this.props.authentication.uid);
-      mixpanel.people.set({
-        $phone: this.props.authentication.phoneNumber
-      });
-      this.props.setPhoneNumber(null);
-    }
-
     const firstTime = localStorage.getItem("help1");
     if (firstTime !== "shown") {
       localStorage.setItem("help1", "shown");

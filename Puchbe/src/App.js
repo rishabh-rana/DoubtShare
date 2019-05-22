@@ -26,6 +26,7 @@ import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
 
 import "./App.css";
 import AskName from "./components/screens/authScreens/askName";
+import EditPicture from "./components/screens/admin/editPicture";
 
 class App extends Component {
   componentDidMount = async () => {
@@ -137,6 +138,7 @@ class App extends Component {
             />
             <Route path="/" component={BottomNavigator} />
             <Route path="/" component={ErrorPopup} />
+            <Route path="/editPictureAdmin" component={EditPicture} />
           </React.Fragment>
         </BrowserRouter>
       </ErrorBoundary>

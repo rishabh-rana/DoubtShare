@@ -182,6 +182,7 @@ class SignIn extends React.Component {
           return;
         }
         let result = this.state.result;
+        console.log(this.state.displayName);
         result.name = this.state.displayName;
         firebase.auth().currentUser.updateProfile({
           displayName: this.state.displayName

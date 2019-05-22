@@ -19,6 +19,7 @@ const reducer = (
       console.log("SYNCING USERS", action.payload);
       localStorage.setItem("uid", action.payload.uid);
       localStorage.setItem("name", action.payload.displayName);
+
       return {
         ...state,
         uid: action.payload.uid,

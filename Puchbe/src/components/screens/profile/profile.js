@@ -117,8 +117,9 @@ class ProfileScreen extends React.Component {
   };
 
   handleFollow = () => {
+    console.log("handling follow");
     if (this.props.auth.uid === this.newuid) return;
-
+    console.log("not current user");
     this.setState({
       isFollower: !this.state.isFollower
     });
@@ -128,7 +129,7 @@ class ProfileScreen extends React.Component {
         this.props.auth.uid,
         this.newuid,
         this.props.auth.displayName,
-        this.props.otherUserData.name
+        this.props.otherUserData.displayName
       );
       if (this.props.otherUserData.followers) {
         this.props.otherUserData.followers[
@@ -153,9 +154,12 @@ class ProfileScreen extends React.Component {
       ? this.selectSection("ANS")
       : this.selectSection("FOL");
 
+    console.log(this.newuid);
+
     if (this.props.otherPersonProfile) {
       await this.props.getUserData(this.newuid, false);
       if (this.props.otherUserData !== null) {
+        console.log(this.props.otherUserData);
         let isFollower = false;
         if (this.props.otherUserData.followers) {
           if (

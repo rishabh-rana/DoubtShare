@@ -454,13 +454,24 @@ class FeedCard extends React.Component {
             </Row>
 
             {admins.indexOf(this.props.auth && this.props.auth.uid) !== -1 && (
-              <Row>
-                <Button
-                  label="Delete Question"
-                  onClick={() => this.props.deleteQuestion(dat, dat.docid)}
-                  color="red"
-                />
-              </Row>
+              <React.Fragment>
+                <Row>
+                  <Button
+                    label="Edit Picture"
+                    onClick={() =>
+                      this.props.history.push("/editPictureAdmin/" + dat.docid)
+                    }
+                    color="red"
+                  />
+                </Row>
+                <Row>
+                  <Button
+                    label="Delete Question"
+                    onClick={() => this.props.deleteQuestion(dat, dat.docid)}
+                    color="red"
+                  />
+                </Row>
+              </React.Fragment>
             )}
             <div
               onClick={() => {
@@ -491,6 +502,7 @@ class FeedCard extends React.Component {
                   ans={ans}
                   handleVideoPlay={this.props.handleVideoPlay}
                   handleUpvote={this.handleUpvote}
+                  deleteAnswer={this.props.deleteAnswer}
                   admins={admins}
                   auth={this.props.auth}
                   dat={dat}

@@ -98,6 +98,8 @@ const DisplayFollowerLabel = styled.div`
 // <i className="fas fa-user" />
 
 const ProfileHeader = props => {
+  console.log(props.data);
+
   return (
     <Container>
       <OptionDropDown
@@ -111,11 +113,7 @@ const ProfileHeader = props => {
       </ProfilePic>
 
       <NameLabel>
-        {props.otherPersonProfile
-          ? props.data
-            ? props.data.name
-            : "User"
-          : props.auth.displayName}
+        {props.data ? props.data.displayName || "User" : "User"}
       </NameLabel>
 
       <FollowBar>
