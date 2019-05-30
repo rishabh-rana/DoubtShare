@@ -23,6 +23,7 @@ import GoToFeed from "./components/ui/redirectToFeed";
 import PaddingBox from "./components/ui/paddingBox";
 import SingleQuesFeed from "./components/screens/feed/singleQuesFeed";
 import ErrorBoundary from "./components/errorHandler/ErrorBoundary";
+import { getNotifications } from "./actions/notifications/notif";
 
 import "./App.css";
 import AskName from "./components/screens/authScreens/askName";
@@ -37,6 +38,7 @@ class App extends Component {
       this.setupPushNotifications();
       console.log("Sending Request for data");
       this.props.getUserData(this.props.auth, true);
+      this.props.getNotifications(this.props.auth);
     }
 
     // check for app updates
@@ -125,6 +127,7 @@ class App extends Component {
           <React.Fragment>
             <Route path="/" component={Header} />
             <Route path="/" exact component={GoToFeed} />
+
             <Route path="/feed" exact component={Feed} />
             <Route path="/search" exact component={SearchScreen} />
             <Route path="/ask" exact component={AskScreen} />
@@ -155,5 +158,5 @@ const mapstate = state => {
 
 export default connect(
   mapstate,
-  { ...update, ...notifs, getUserData }
+  { ...update, ...notifs, getUserData, getNotifications }
 )(App);

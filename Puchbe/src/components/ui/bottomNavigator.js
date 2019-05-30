@@ -35,17 +35,36 @@ const NameText = styled.h6`
 const Navigator = styled.div`
   height: 24px;
   width: auto;
+  position: relative;
   min-width: 15%;
   text-align: center;
   font-size: 20px;
   color: ${colorParser("lessdark")};
   ${props =>
+    props.glow &&
+    css`
+      color: ${colorParser("salmon")};
+    `};
+  ${props =>
     props.active &&
     css`
       color: ${colorParser("primary")};
     `};
+
   display: flex;
   flex-direction: column;
+`;
+
+const NumberDot = styled.div`
+  position: absolute;
+  top: -7px;
+  right: 7px;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: salmon;
+  color: white;
+  font-size: 12px;
 `;
 
 class BottomNavigator extends React.Component {
@@ -113,10 +132,14 @@ class BottomNavigator extends React.Component {
           <NameText>Ask</NameText>
         </Navigator>
         <Navigator
+          glow={this.props.unreadNotifs > 0 ? true : false}
           active={this.state.active === "notifications" ? true : false}
           onClick={() => this.handleClick("notifications")}
         >
           <i className="fas fa-bell" />
+          {this.props.unreadNotifs > 0 && (
+            <NumberDot>{this.props.unreadNotifs}</NumberDot>
+          )}
           <NameText>Notify</NameText>
         </Navigator>
         <Navigator
@@ -124,6 +147,7 @@ class BottomNavigator extends React.Component {
           onClick={() => this.handleClick("profile")}
         >
           <i className="fas fa-user" />
+
           <NameText>Profile</NameText>
         </Navigator>
       </Bar>
@@ -133,7 +157,8 @@ class BottomNavigator extends React.Component {
 
 const mapstate = state => {
   return {
-    uploadingImage: state.ask.uploading
+    uploadingImage: state.ask.uploading,
+    unreadNotifs: state.notifications.unread
   };
 };
 

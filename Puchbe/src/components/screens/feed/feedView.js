@@ -8,6 +8,7 @@ import { deleteQuestion } from "../../../actions/ask/askQuestion";
 import Fullmessage from "../../ui/fullScreenMessage";
 import AnswerScreen from "../answer/answerScreen";
 import GhostUIFeedCard from "./ghostUI";
+import GotoAskCard from "../../ui/gotoAskCard";
 
 class FeedView extends React.Component {
   state = {
@@ -76,6 +77,9 @@ class FeedView extends React.Component {
       >
         {<GhostUIFeedCard />}
         {this.props.feed.map((dat, index) => {
+          if (dat === "askCard") {
+            return <GotoAskCard />;
+          }
           return (
             <FeedCard
               deleteAnswer={this.props.deleteAnswer}

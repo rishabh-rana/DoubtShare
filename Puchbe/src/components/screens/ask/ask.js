@@ -8,6 +8,7 @@ import ImageButton from "../../filepicker/addImageButton";
 import Button from "../../ui/button";
 import styled from "styled-components";
 import CropUI from "../../cropper/cropper";
+import PlusPointsCard from "../../ui/plusPointsCard";
 
 import { scaleImage } from "../../../utils/resizeUpload";
 import ErrorBoundary from "../../errorHandler/ErrorBoundary";
@@ -158,6 +159,10 @@ class AskQuestion extends React.Component {
   };
 
   render() {
+    if (this.props.loading) {
+      return <PlusPointsCard points="1" />;
+    }
+
     let loaderSetup = <Loader />;
     if (this.props.loading === false) {
       loaderSetup = (

@@ -1,9 +1,9 @@
 import React from "react";
 import WhiteBoard from "../../whiteboard/whiteboard";
-import FullMessage from "../../ui/fullScreenMessage";
 import FinalScreen from "./finalAnswerScreen";
 import CropUI from "../../cropper/cropper";
 import mixpanel from "../../../config/mixpanel";
+import PointsPLusCard from "../../ui/plusPointsCard";
 
 class AnswerBox extends React.Component {
   state = {
@@ -80,7 +80,7 @@ class AnswerBox extends React.Component {
           />
         );
       case "loading":
-        return <FullMessage message="Uploading Answer ..." />;
+        return <PointsPLusCard points="5" />;
     }
   }
 }

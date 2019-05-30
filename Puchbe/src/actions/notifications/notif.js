@@ -33,7 +33,7 @@ export const getNotifications = (uid, paginate) => {
       newFeed = true;
     }
 
-    if (!paginate.feedDone) {
+    if (!paginate || !paginate.feedDone) {
       const snap = await query.limit(4).get();
       let lastDoc = snap.docs[snap.docs.length - 1];
 
